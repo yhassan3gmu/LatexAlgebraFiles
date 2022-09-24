@@ -1,0 +1,33 @@
+\documentclass{article}
+%---------------packages--------------------
+\usepackage[utf8]{inputenc}
+\usepackage{subfiles}
+%can't overwrite existing commands
+\newcommand{\intinf}[2]{\int_{#1}^{#2}} %one argument [1] #1st arg #2nd arg
+\newcommand{\eg}{e.g.\ }
+%---------------title-----------------------
+\title{Further Topics}
+\author{Yasin Hassan}
+\date{\today}
+
+%---------------document--------------------
+\begin{document}
+\maketitle
+
+\section{Introduction}
+To write a fraction, you would type \verb+\frac{}{}+ % you can use + or | or ?
+write a f-roloop in Python, you would write
+\begin{verbatim}
+for num in range(1,40):
+    print(num**2)
+\end{verbatim}
+
+\subfile{Section1}%folder:Section/Section1
+
+\subfile{Section2}
+
+\section{Custom}
+We have \[\intinf{2}{3} \frac{1}{x^2} \, dx\].
+%spacing betweeen sentences and words diff, so watch out for . and use \.(\eg)
+Fruits I like are \eg apples, oranges, bananas.
+\end{document}

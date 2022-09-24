@@ -1,0 +1,83 @@
+\documentclass{article}
+%---------------Packages----------------------------------
+\usepackage{csquotes}
+\usepackage{blindtext}
+\usepackage{comment}
+\usepackage{enumerate}
+
+\title{Skeleton of Latex}
+\author{Yasin Hassan}
+\date{\today}
+
+%---------------Beginning of Document----------------------
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+% comment
+\section{Example of Section}
+\textbf{Document of Text.} \par \textit{jaepifpeifnaefnaepnve}
+
+\blindtext \newline \underline{The shoes are 25\% off}
+\subsection*{Our first Subsection}
+New Text
+
+He said \textquote{I love Latex}
+
+\section*{A New Section}
+
+\begin{comment}
+acqecqeqeqecqe
+\end{comment}
+
+\begin{abstract}
+    This is an abstract.
+\end{abstract}
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+    \hline
+    cell1 & cell2 & cell3 \\
+    \hline
+    cell4 & cell5 & cell6 \\
+    \hline
+    cell7 & cell8 & cell9 \\
+    \hline
+\end{tabular}
+\end{center}
+
+\begin{comment}
+\begin{table}[b!]
+    \centering
+    \begin{tabular}{c|c}
+        c & t \\
+        e & d
+    \end{tabular}
+    \caption{Letter Table}
+    \label{tab:my_label}
+\end{table}
+\end{comment}
+
+\section{A Third Section}
+\blindtext
+
+\section{Lists}
+\begin{enumerate}[I.] 
+    \item Apples
+    \item Oranges
+    \begin {enumerate} 
+        \item Seeds
+        \item Juice
+    \end{enumerate}
+    \item [-]Cake
+    \begin{itemize}
+    \item eggs
+    \item flour
+    \item sugar
+    \item butter
+    \end{itemize}
+\end{enumerate}
+
+\end{document}
+%---------------End of Document-----------------------------

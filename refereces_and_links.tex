@@ -1,0 +1,37 @@
+\documentclass{article}
+%---------------packages--------------------
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{{./Fig/}}
+\usepackage{blindtext}
+\usepackage{wrapfig}
+\usepackage{amsmath}
+\usepackage{hyperref}
+%---------------title-----------------------
+\title{References and Links}
+\author{Yasin Hassan}
+\date{\today}
+
+%---------------document--------------------
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{LaTeX}\label{Latex-section}
+Latex is amazing for typesetting. A second degree polynomial is no the form 
+\begin{equation}\label{polynomial_equation}
+ax^{2} + bx + c
+\end{equation}
+You can find more information on \href{www.overleaf.com}{overleaf}.
+
+\section{Writing By Hand}
+This is self-explanatory.
+\newpage
+\section{Microsoft Word}
+Unlike Section \ref{Latex-section}, Word is more user friendly. You can learn more about LaTeX on Page \pageref{Latex-section}. Equations such as \eqref{polynomial_equation} is not that nice in word.
+
+
+
+\end{document}

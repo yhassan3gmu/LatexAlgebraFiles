@@ -1,0 +1,36 @@
+\documentclass[12pt, fleqn, leqno, twocolumn, landscape]{article} %fleqn-equations on left, leqno- left equation number, twocl
+%---------------packages--------------------
+\usepackage[utf8]{inputenc}
+\usepackage{calligra}
+\usepackage{uncial}
+\usepackage[scaled]{beramono} %resets monospace font in document
+\usepackage[dvipsnames]{xcolor}
+\usepackage[T1]{fontenc}
+
+\definecolor{mynewcolor}{RGB}{187,42,97}
+%\definecolor{mynextcolor}{rgb}{188/255,42/255,97/255}
+\definecolor{nextcolor}{HTML}{665544}
+%{number of red, number of green, number of blue}
+%rgb is not the same as RGB
+%---------------title-----------------------
+\title{{\calligra \Huge Text Styles}}
+\author{{\unclfamily Yasin Hassan}}
+\date{\today}
+
+%---------------document--------------------
+\begin{document}
+
+\maketitle
+
+\section*{{\color{nextcolor} \ttfamily Manipulating Text}}
+
+{\tiny Here} is \textbf{{\color{OliveGreen} text}} that can be {\sffamily manipulated}.\\%take out serifs at letters
+\textcolor{nextcolor}{Here} is \textit{text} that can be {\ttfamily manipulated}.\\
+\textcolor{mynewcolor}{{\Huge Here}} is \underline{text}.
+
+\section*{{\color{nextcolor} \ttfamily Manipulating Text}}
+Here is some text. Here is some text. Here is some text. Here is some text. Here is some text. Here is some text.
+\begin{equation}
+    2 + 2 = 4
+\end{equation}
+\end{document}

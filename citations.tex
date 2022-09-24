@@ -1,0 +1,27 @@
+\documentclass{article}
+%---------------packages--------------------
+\usepackage[utf8]{inputenc}
+
+%---------------title-----------------------
+\title{ Text Styles}
+\author{Yasin Hassan}
+\date{\today}
+
+%---------------document--------------------
+\begin{document}
+
+\maketitle
+
+A good fairy tail can be found in \cite{Anderson}. A good book is the following \cite{Shelley}.
+
+%\cite[p.~37]{Shelley,Anderson}
+\cite{Shelley,Anderson}
+\vspace{1cm}
+\begin{thebibliography}{2}
+\bibitem{Anderson}
+H. C. Anderson. \textit{The Little Mermaid}. 1837.
+\bibitem{Shelley}
+M. Shelley. \textit{Frankenstein}. Oxford University Press. 1818.
+\end{thebibliography}
+
+\end{document}

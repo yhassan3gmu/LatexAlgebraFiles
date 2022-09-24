@@ -1,0 +1,78 @@
+\documentclass{article}
+%---------------packages--------------------
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{{./Fig/}}
+\usepackage{blindtext}
+\usepackage{wrapfig}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+%---------------title-----------------------
+\title{References and Links}
+\author{Yasin Hassan}
+\date{\today}
+
+%---------------document--------------------
+\begin{document}
+
+\maketitle
+
+\begin{multline}
+    f(x)=(5x+6x^5+\cos(x)+\sin(8x)+\tan(3x+7)+e^x)\Bigg(\int_{0}^{1}(3x+8)\cos(x)\,dx\\+\frac{4x-8}{2}+\lim_{x\to 3}\frac{x-3}{\sqrt{x}-\sqrt{3}}\Bigg).
+\end{multline}
+
+$\mathbf{a}$
+
+$\mathcal{T}, \mathcal{C}, C$
+
+$\mathbb{R}, \mathbb{a}, \mathcal{a}$
+
+$\bar{ab}, \overline{ab}$
+
+$\dot f, f''''$
+
+\[
+A =
+\begin{vmatrix} %bmatrix brackets, p matrix parentheses, vmatrix vertical bars, matrix no bars
+1 & 2 & 3 & 4\\
+5 & 6 & 7 & 8
+\end{vmatrix}
+\]
+
+\[
+|x| = 
+\begin{cases}
+x & \text{ for } x>0\\
+0 & \text{ for } x=0\\
+-x & \text{ for } x<0
+\end{cases}
+\]
+
+\section{Theorems}
+\begin{theorem}[Name of Theorem]
+This is a theorem.
+\end{theorem}
+\begin{definition}\label{def: this is a def}
+This is a definition.
+\end{definition}
+\begin{definition}
+
+\end{definition}
+\begin{remark}[Name of Remark]
+This is a remark.
+\end{remark}
+
+Definition \ref{def: this is a def}
+\section{section 2}
+\begin{theorem}
+\begin{proof}
+This is a proof
+\end{proof}
+\end{theorem}
+\end{document}

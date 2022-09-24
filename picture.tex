@@ -1,0 +1,30 @@
+\documentclass{article}
+%---------------packages--------------------
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{{./Fig/}}
+\usepackage{blindtext}
+\usepackage{wrapfig}
+%---------------title-----------------------
+\title{Basic Mathematics}
+\author{Erick and Stine}
+\date{September 2020}
+
+%---------------document--------------------
+\begin{document}
+
+\maketitle
+\listoffigures
+\listoftables
+\blindtext
+
+\begin{wrapfigure}{l}{0.5\textwidth}%left and how much of page
+\includegraphics[width = 0.5\textwidth]{Fig/fig1.PNG}
+\caption{Here is a caption}
+\end{wrapfigure}
+
+\begin{figure}[b]
+\raggedright
+\includegraphics[width = 0.5\textwidth]{Fig/fig2.PNG}
+\end{figure}
+\end{document}

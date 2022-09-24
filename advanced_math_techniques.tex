@@ -1,0 +1,47 @@
+\documentclass{article}
+%---------------packages--------------------
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{{./Fig/}}
+\usepackage{blindtext}
+\usepackage{wrapfig}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+%---------------title-----------------------
+\title{References and Links}
+\author{Yasin Hassan}
+\date{\today}
+
+%---------------document--------------------
+\begin{document}
+
+\maketitle
+
+$\sum_{n=0}^{\infty}\frac{1}{n^{2}+1}$ some text. some text. some text.
+\[\sum_{n=0}^{\infty}\frac{1}{n^{2}+1}\]
+
+$\iiint_sx^2+ydxdydz$ %triple integral triple i
+\[\int_{0}^1x^2dx\] %why is there no curly braces around 1, because of \[\]?
+
+$\lim_{x\to 1}x$
+\[\lim_{x\to 1}x\]
+
+$\max_{n\in \{1,2,3\}}n, \min, \sup, \inf, \limsup, \liminf$
+\[\max_{n\in \{1,2,3\}}n\]
+
+\begin{multline}\label{multline env}%add star to end of multiline word in both begin and end to get rid of number
+    f(x)=x+x^2+3x^3+x+x^2+3x^3+x+x^2+3x^3+x+x^2+3x^3+x+x^2+3x^3+x+x^2+3x^3+x+x^2+3x^3\\+x+x^2+3x^3+x+x^2+3x^3
+\end{multline}
+
+\begin{align}\label{align env} %align with =2 vertically
+    2x+3y+3z+w&=2 &3x+4y+2z+w&=2\\
+    x+4y+z+w&=2 & -x-4y-4z-4w&=2\notag
+\end{align}
+\begin{align*}
+    f(x)&=2x+3y-2x\\
+    &= 3y
+\end{align*}
+\eqref{align env} and \eqref{multline env}
+
+
+\end{document}

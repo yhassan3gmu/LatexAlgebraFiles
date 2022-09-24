@@ -1,0 +1,41 @@
+\documentclass{beamer}
+%---------------packages--------------------
+\usepackage[utf8]{inputenc}
+%\usetheme{Hannover}
+\usetheme{Bergen}%name after cities
+\usecolortheme{fly}%named after birds
+%---------------title-----------------------
+\title{Beamer Basics}
+\author{Yasin Hassan}
+\date{\today}
+\institute{George Mason University}
+
+%---------------document--------------------
+\begin{document}
+
+\maketitle
+%\frame{\titlepage}
+
+\section{Introduction}
+\begin{frame}{Table of Contents}
+    \tableofcontents
+\end{frame}
+
+\begin{frame}{Frame Title}
+    \begin{block}{Theme}
+    Here are different things \alert{related}.
+    \end{block}\pause
+    \begin{alertblock}{Important Information}
+    Here are the important stuff.
+    \end{alertblock}\pause
+    \begin{example}[First Example]
+    Here is an example.
+    \end{example}\pause
+    Some more text.
+\end{frame}
+
+\section{Second Section}
+\begin{frame}{Frame Title}
+    Some more text
+\end{frame}
+\end{document}

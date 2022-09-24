@@ -1,0 +1,4986 @@
+% ==== Document Class & Packages =====
+\documentclass[12pt,hidelinks]{article}
+	\usepackage[explicit]{titlesec}
+	\usepackage{titletoc}
+	\usepackage{tocloft}
+	\usepackage{charter}
+	\usepackage[many]{tcolorbox}
+	\usepackage{amsmath}
+	\usepackage{graphicx}
+	\usepackage{xcolor}
+	\usepackage{tikz,lipsum,lmodern}
+	\usetikzlibrary{calc}
+	\usepackage[english]{babel}
+	\usepackage{fancyhdr}
+	\usepackage{mathrsfs}
+	\usepackage{empheq}
+	\usepackage{fourier}% change to lmodern if fourier is no available
+	\usepackage{wrapfig}
+	\usepackage{fancyref}
+	\usepackage{hyperref}
+	\usepackage{cleveref}
+	\usepackage{listings}
+	\usepackage{varwidth}
+	\usepackage{longfbox}
+	\usepackage{geometry}
+	\usepackage{marginnote}
+	\tcbuselibrary{theorems}
+	\tcbuselibrary{breakable, skins}
+	\tcbuselibrary{listings, documentation}
+	\geometry{
+		a4paper,
+		left=33mm,
+		right=33mm,
+		top=20mm}
+% ========= Path to images ============
+%   - Direct the computer on the path
+% 	  to the folder containg the images
+% =====================================
+\graphicspath{{./images/}}
+% ============= Macros ================
+\newcommand{\fillin}{\underline{\hspace{.75in}}{\;}}
+\newcommand{\solution}{\textcolor{mordantred19}{Solution:}}
+\setlength{\parindent}{0pt}
+\addto{\captionsenglish}{\renewcommand*{\contentsname}{Table of Contents}}
+\linespread{1.2}
+% ======== Footers & Headers ==========
+\cfoot{\thepage}
+\chead{}\rhead{}\lhead{}
+% =====================================
+\renewcommand{\thesection}{\arabic{section}}
+\newcommand\sectionnumfont{% font specification for the number
+	\fontsize{380}{130}\color{myblueii}\selectfont}
+\newcommand\sectionnamefont{% font specification for the name "PART"
+	\normalfont\color{white}\scshape\small\bfseries }
+% ============= Colors ================
+% ----- Red -----
+\definecolor{mordantred19}{rgb}{0.68, 0.05, 0.0}
+% ----- Blue -----
+\definecolor{st.patrick\'sblue}{rgb}{0.14, 0.16, 0.48}
+\definecolor{teal}{rgb}{0.0, 0.5, 0.5}
+\definecolor{beaublue}{rgb}{0.74, 0.83, 0.9}
+\definecolor{mybluei}{RGB}{0,173,239}
+\definecolor{myblueii}{RGB}{63,200,244}
+\definecolor{myblueiii}{RGB}{199,234,253}
+% ---- Yellow ----
+\definecolor{blond}{rgb}{0.98, 0.94, 0.75}
+\definecolor{cream}{rgb}{1.0, 0.99, 0.82}
+% ----- Green ------
+\definecolor{emerald}{rgb}{0.31, 0.78, 0.47}
+\definecolor{darkspringgreen}{rgb}{0.09, 0.45, 0.27}
+% ---- White -----
+\definecolor{ghostwhite}{rgb}{0.97, 0.97, 1.0}
+\definecolor{splashedwhite}{rgb}{1.0, 0.99, 1.0}
+% ---- Grey -----
+\definecolor{whitesmoke}{rgb}{0.96, 0.96, 0.96}
+\definecolor{lightgray}{rgb}{0.92, 0.92, 0.92}
+\definecolor{floralwhite}{rgb}{1.0, 0.98, 0.94}
+% ========= Part Format ==========
+\titleformat{\section}
+{\normalfont\huge\filleft}
+{}
+{20pt}
+{\begin{tikzpicture}[remember picture,overlay]
+	\fill[myblueiii]
+	(current page.north west) rectangle ([yshift=-13cm]current page.north east);
+\node[
+	fill=mybluei,
+	text width=2\paperwidth,
+	rounded corners=6cm,
+	text depth=18cm,
+	anchor=center,
+	inner sep=0pt] at (current page.north east) (parttop)
+	{\thepart};%
+\node[
+	anchor=south east,
+	inner sep=0pt,
+	outer sep=0pt] (partnum) at ([xshift=-20pt]parttop.south)
+	{\sectionnumfont\thesection};
+\node[
+	anchor=south,
+	inner sep=0pt] (partname) at ([yshift=2pt]partnum.south)
+	{\sectionnamefont CHAPTER};
+\node[
+	anchor=north east,
+	align=right,
+	inner xsep=0pt] at ([yshift=-0.5cm]partname.east|-partnum.south)
+	{\parbox{.7\textwidth}{\raggedleft#1}};
+\end{tikzpicture}%
+}
+% ========= Hyper Ref ===========
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+% ========= Example Boxes =============
+\tcbset{
+	defstyle/.style={
+		fonttitle=\bfseries\upshape,
+		fontupper=\slshape,
+		arc=0mm,
+		beamer,
+		colback=blue!5!white,
+		colframe=blue!75!black},
+	theostyle/.style={
+		fonttitle=\bfseries\upshape,
+		fontupper=\slshape,
+		colback=red!10!white,
+		colframe=red!75!black},
+	visualstyle/.style={
+		height=6.5cm,
+		breakable,
+		enhanced,
+		leftrule=0pt,
+		rightrule=0pt,
+		bottomrule=0pt,
+		outer arc=0pt,
+		arc=0pt,
+		colframe=mordantred19,
+		colback=lightgray,
+		attach boxed title to top left,
+		boxed title style={
+			colback=mordantred19,
+			outer arc=0pt,
+			arc=0pt,
+			top=3pt,
+			bottom=3pt,
+		},
+		fonttitle=\sffamily,},
+	discussionstyle/.style={
+		height=6.5cm,
+		breakable,
+		enhanced,
+		rightrule=0pt,
+		toprule=0pt,
+		outer arc=0pt,
+		arc=0pt,
+		colframe=mordantred19,
+		colback=lightgray,
+		attach boxed title to top left,
+		boxed title style={
+			colback=mordantred19,
+			outer arc=0pt,
+			arc=0pt,
+			top=3pt,
+			bottom=3pt,
+		},
+		fonttitle=\sffamily},
+	mystyle/.style={
+		height=6.5cm,
+		breakable,
+		enhanced,
+		rightrule=0pt,
+		leftrule=0pt,
+		bottomrule=0pt,
+		outer arc=0pt,
+		arc=0pt,
+		colframe=mordantred19,
+		colback=lightgray,
+		attach boxed title to top left,
+		boxed title style={
+			colback=mordantred19,
+			outer arc=0pt,
+			arc=0pt,
+			top=3pt,
+			bottom=3pt,
+		},
+		fonttitle=\sffamily},
+	aastyle/.style={
+			height=3.5cm,
+			enhanced,
+			colframe=teal,
+			colback=lightgray,
+			colbacktitle=floralwhite,
+			fonttitle=\bfseries,
+			coltitle=black,
+		attach boxed title to top center={
+	  		yshift=-0.25mm-\tcboxedtitleheight/2,
+	   		yshifttext=2mm-\tcboxedtitleheight/2},
+		boxed title style={boxrule=0.5mm,
+			frame code={ \path[tcb fill frame] ([xshift=-4mm]frame.west)
+				-- (frame.north west) -- (frame.north east) -- ([xshift=4mm]frame.east)
+				-- (frame.south east) -- (frame.south west) -- cycle; },
+			interior code={
+				\path[tcb fill interior] ([xshift=-2mm]interior.west)
+				-- (interior.north west) -- (interior.north east)
+				-- ([xshift=2mm]interior.east) -- (interior.south east) -- (interior.south west)
+				-- cycle;} }
+				},
+	examstyle/.style={
+		height=9.5cm,
+		breakable,
+		enhanced,
+		rightrule=0pt,
+		leftrule=0pt,
+		bottomrule=0pt,
+		outer arc=0pt,
+		arc=0pt,
+		colframe=mordantred19,
+		colback=lightgray,
+		attach boxed title to top left,
+		boxed title style={
+			colback=mordantred19,
+			outer arc=0pt,
+			arc=0pt,
+			top=3pt,
+			bottom=3pt,
+		},
+		fonttitle=\sffamily},
+	doc head command={
+		interior style={
+			fill,
+			left color=yellow!20!white,
+			right color=white}},
+	doc head environment={
+		boxsep=4pt,
+		arc=2pt,
+		colback=yellow!30!white,
+		},
+	doclang/environment content=text
+}
+% ============= Boxes ================
+\newtcolorbox[auto counter,number within=section]{example}[1][]{
+	mystyle,
+	title=Example~\thetcbcounter,
+	overlay unbroken and first={
+		\path
+		let
+		\p1=(title.north east),
+		\p2=(frame.north east)
+		in
+		node[anchor=
+			west,
+			font=\sffamily,
+			color=st.patrick\'sblue,
+			text width=\x2-\x1]
+		at (title.east) {#1};
+	}
+}
+\newtcolorbox[auto counter,number within=section]{longexample}[1][]{
+	examstyle,
+	title=Example~\thetcbcounter,
+	overlay unbroken and first={
+		\path
+		let
+		\p1=(title.north east),
+		\p2=(frame.north east)
+		in
+		node[anchor=
+		west,
+		font=\sffamily,
+		color=st.patrick\'sblue,
+		text width=\x2-\x1]
+		at (title.east) {#1};
+	}
+}
+\newtcolorbox[auto counter,number within=section]{example2}[1][]{
+	aastyle,
+	title=Example~\thetcbcounter,{}
+}
+\newtcolorbox[auto counter,number within=section]{discussion}[1][]{
+	discussionstyle,
+	title=Discussion~\thetcbcounter,
+	overlay unbroken and first={
+		\path
+		let
+		\p1=(title.north east),
+		\p2=(frame.north east)
+		in
+		node[anchor=
+		west,
+		font=\sffamily,
+		color=st.patrick\'sblue,
+		text width=\x2-\x1]
+		at (title.east) {#1};
+	}
+}
+\newtcolorbox[auto counter,number within=section]{visualization}[1][]{
+	visualstyle,
+	title=Visualization~\thetcbcounter,
+	overlay unbroken and first={
+		\path
+		let
+		\p1=(title.north east),
+		\p2=(frame.north east)
+		in
+		node[anchor=
+		west,
+		font=\sffamily,
+		color=st.patrick\'sblue,
+		text width=\x2-\x1]
+		at (title.east) {#1};
+	}
+}
+% --------- Theorems ---------
+\newtcbtheorem[number within=subsection,crefname={definition}{definitions}]%
+	{Definition}{Definition}{defstyle}{def}%
+\newtcbtheorem[use counter from=Definition,crefname={theorem}{theorems}]%
+	{Theorem}{Theorem}{theostyle}{theo}
+	%
+\newtcbtheorem[use counter from=Definition]{theo}{Theorem}%
+{
+	theorem style=plain,
+	enhanced,
+	colframe=blue!50!black,
+	colback=yellow!20!white,
+	coltitle=red!50!black,
+	fonttitle=\upshape\bfseries,
+	fontupper=\itshape,
+	drop fuzzy shadow=blue!50!black!50!white,
+	boxrule=0.4pt}{theo}
+\newtcbtheorem[use counter from=Definition]{DashedDefinition}{Definition}%
+ {
+ 	enhanced,
+ 	frame empty,
+ 	interior empty,
+ 	colframe=darkspringgreen!50!white,
+	coltitle=darkspringgreen!50!black,
+	fonttitle=\bfseries,
+	colbacktitle=darkspringgreen!15!white,
+	borderline={0.5mm}{0mm}{darkspringgreen!15!white},
+	borderline={0.5mm}{0mm}{darkspringgreen!50!white,dashed},
+	attach boxed title to top center={yshift=-2mm},
+	boxed title style={boxrule=0.4pt},
+	varwidth boxed title}{theo}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcblisting[auto counter,number within=section]{disexam}{
+	skin=bicolor,
+	colback=white!30!beaublue,
+	colbacklower=white,
+	colframe=black,
+	before skip=\medskipamount,
+	after skip=\medskipamount,
+	fontlower=\footnotesize,
+	listing options={style=tcblatex,texcsstyle=*\color{red!70!black}},}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{titlepage}
+	\centering % Center everything on the title page
+	\scshape % Use small caps for all text on the title page
+	\vspace*{1.5\baselineskip} % White space at the top of the page
+% ===================
+%	Title Section 	
+% ===================
+
+	\rule{13cm}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} % Thick horizontal rule
+	\rule{13cm}{0.4pt} % Thin horizontal rule
+	
+		\vspace{0.75\baselineskip} % Whitespace above the title
+% ========== Title ===============	
+	{	\Huge Review of \\
+			\vspace{4mm}
+		Elementary Algebra\\	}
+% ======================================
+		\vspace{0.75\baselineskip} % Whitespace below the title
+	\rule{13cm}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} % Thin horizontal rule
+	\rule{13cm}{1.6pt} % Thick horizontal rule
+	
+		\vspace{1.75\baselineskip} % Whitespace after the title block
+% =================
+%	Information	
+% =================
+	{\large Denny Burzynski }
+	\vfill
+\vspace{1mm}
+\end{titlepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tableofcontents
+
+\newpage
+\newgeometry{
+	left=29mm,
+	right=29mm,
+	top=20mm,
+	bottom=15mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Reviewing the Rules of Exponents}
+
+In this chapter you review the standard rules of exponents.
+
+\noindent \textbf{Multiplying Powers} $x^{n} \cdot x^{m}=x^{n-m}$
+
+\noindent \textbf{Zero as an Exponent} $x^{0}=1, x \neq 0$
+
+\noindent \textbf{Negative Exponents} $x^{-n}=\frac{1}{x^{n}}$
+
+\noindent \textbf{Dividing Powers} $\frac{x^{n}}{x^{m}}=x^{n-m}$
+
+\noindent \textbf{Powers as Bases of Powers} $\left(x^{n}\right)^{m}=x^{n-m}$
+
+\noindent \textbf{Products as Bases of Powers} $(x \cdot y)^{n}=x^{n} y^{n}$
+
+\noindent \textbf{Quotients as Bases of Powers} $\left(\frac{x}{y}\right)^{n}=\frac{x^{n}}{y^{n}}$
+
+\subsection{Powers, Bases, and Exponents}
+
+The algebraic expression $x^{r}$ is called a power. Powers are composed of a base and an exponent.
+
+\noindent\textbf{Base} The letter $x$ is called the base of the power. It represents a variable, some number.
+
+\noindent\textbf{Exponent} The letter $r$ is called the exponent of the power. It represents a constant, also some number.
+
+\begin{example}
+\begin{enumerate}
+\item[1.] The expression $a^{4}$ is read as ``$a$ to the $4^{\textrm{th}}$ power.''
+
+\item[2.] The expression $\left(x^{2} y^{7}\right)^{3}$ can be thought of as raising the base, $x^{2} y^{7}$, to the 3rd power. It is read as ``$x^{2} y^{7}$ to the 3rd power.''
+\end{enumerate}
+\end{example}
+
+\stop
+
+Powers can be multiplied together, divided by one another, and used as bases of powers.
+
+\subsection{Multiplying Powers}
+
+Multiply powers with the same base by adding the exponents together and placing that sum on the base. Use the rule
+
+$$
+x^{n} \cdot x^{m}=x^{n+m}
+$$
+
+To use this rule, each of the powers must have exactly the same base. For example, you could use this rule to multiply $x^{4}$ and $x^{7}$ together because they have exactly the same base, $x$. You could not use this rule to multiply $x^{4}$ and $y^{7}$ together because they have different bases, one is $x$ and the other is $y$. The most you could do is to indicate the multiplication as $x^{4} y^{7}$.
+
+Example 2 Simplify, if possible, each product.
+
+1. $x^{2} \cdot x^{3}=x^{2+3}=x^{5}$
+
+You can see this is true by writing $x^{2} \cdot x^{3}$ as $x x \cdot x x x=x x x x x=x^{5}$
+
+The fact that the base, $x$, appears 5 times in a multiplication can be recorded as $x^{5} .$
+
+2. $y^{1 / 5} \cdot y^{3 / 5}=y^{1 / 5+3 / 5}=y^{4 / 5}$
+
+3. $a \cdot a^{9}=a^{1} \cdot a^{9}=a^{1+9}=a^{10}$
+
+4. $(x-6)^{3}(x-6)^{5}=(x-6)^{3+5}=(x-6)^{8}$
+
+5. $x^{4} y^{5} x^{3} y^{10} y^{2}=x^{4+3} y^{5+10+2}=x^{7} y^{17}$
+
+6. $x^{3} y^{6}$ cannot be simplified further because the bases are not the same. One base is $x$ and the other is $y$. The product of $x^{3}$ and $y^{6}$ can only be indicated as $x^{3} y^{6}$. Try These 1 Simplify, if possible, each expression.
+
+1. $x^{4} x^{5}$
+
+2. $a^{3} a$
+
+3. $a^{2 / 3} a^{5 / 3}$
+
+4. $(7 x+2)^{3}(7 x+2)^{9}$
+
+5. $x^{3} y^{2} x^{4}$
+
+6. $a^{3} b^{2}$
+
+7. $a a^{2} b^{4} a^{5} b^{6}$
+
+8. $5 x^{3} x(2 y-3)^{4}(2 y+3)^{8}$
+
+\subsection{Zero as an Exponent}
+
+Any nonzero number having zero as an exponent is $1 .$
+
+$$
+x^{0}=1, \quad x \neq 0
+$$
+
+This rule states that using zero as an exponent on any number is another way of writing the number 1 . The number 0 raised to the 0 does not name a number. That is $0^{\circ}$ is simply a collection of symbols. It does not name a number in the way the symbols $3+4$ names the number 7 .
+
+Example 3 In each expression, assume no variables or bases represent 0 .
+
+1. $y^{0}=1$
+
+2. $a^{4} y^{0}=a^{4} \cdot 1=a^{4}$
+
+3. $(x+4)^{0}=1$ Notice that for this statement to be true, the base, $x+4$, cannot be 0 . The expression $x+4$ is zero when $x=-4$. So, when rewriting $(x+4)^{0}$, you should say 1, on the condition that $x \neq-4 .$ Symbolically, $(x+4)^{0}=1, x \neq-4$
+
+Try These 2 Simplify each expression. Assume no variables or bases represent $0 .$
+
+1. $z^{0}$
+
+2. $s^{4} t^{3} r^{0}$
+
+3. $(x-7)^{0}(x-7)^{2}(x-7)^{4}$
+
+4. What can you say about $(x-9)^{0}$ if you know that $x=9$ ?
+
+\subsection{Negative Exponents}
+
+A negative exponent on a variable is an indicator for the reciprocal of the variable. (For example, 4 and $1 / 4$ as well as $x$ and $1 / x$ are reciprocals of each other.) Although negative exponents are sometimes useful (mostly in calculus), it is common practice to eliminate them.
+
+Eliminate negative exponents using the rule
+
+$$
+x^{-n}=\frac{1}{x^{n}}, \quad x \neq 0
+$$
+
+Do you believe that any number can be expressed as a fraction? Its true. The number 8 , for example, can be expressed as $8 / 1$. The numerator is 8 and the denominator is 1. This rule says that you can change the sign of an exponent by changing the position of the base. If a negative exponent appears in the numerator of a fraction, change its sign to positive, and move the base to the denominator. If a negative exponent appears in the denominator of a fraction, change its sign to positive, and move the base to the numerator.
+
+Change the sign of an exponent by changing the position of the base.
+
+Change the position of a base by changing the sign of its exponent.
+
+Example 4 Write each expression so only positive exponents appear. Assume no variables or bases represent $0 .$
+
+1. $x^{-5}=\frac{1}{x^{5}}$
+
+Change the exponent $-5$ to 5 by changing the position of the base $x$ from the numerator to the denominator (from the top to the bottom).
+
+2. $\frac{5}{a^{-2}}=5 a^{2}$
+
+Change the exponent $-2$ to 2 by changing the position of the base from the denominator to the numerator (from the bottom to the top).
+
+3. $x^{7} y^{-3}=x^{7} \cdot \frac{1}{y^{3}}=\frac{x^{7}}{y^{3}}$
+
+Change the $-3$ to 3 by changing the position of the base from the top to the bottom.
+
+4. $a^{-7} a^{4}=a^{-7+4}=a^{-3}=\frac{1}{a^{3}}$
+
+$5 .(x+3)^{5}(x+2)^{-4}=\frac{(x+3)^{5}}{(x+2)^{4}}$ 6. Write $\frac{x^{4} y^{2}}{z^{5}}$ so that no denominator appears.
+
+You can get $z^{5}$ out of the denominator and into the numerator by writing it there and changing the sign of the exponent from 5 to $-5 .$ So,
+
+$$
+\frac{x^{4} y^{2}}{z^{5}}=x^{4} y^{2} z^{-5}
+$$
+
+7. $y^{-6} y^{6}=y^{-6+6}=y^{0}=1, y \neq 0$.
+
+Try These 3 Write each expression so only positive exponents appear. Assume no variables or bases represent $0 .$
+
+1. $x^{-7}$
+
+2. $\frac{4}{m^{-3}}$
+
+3. $a^{-4} b^{8}$
+
+4. $k^{6} j^{-2}$
+
+5. $(x-7)^{-1}(x+7)^{2}$
+
+6. Write $\frac{4 x^{5} y^{3}}{z^{4}}$ so no demonimator appears.
+
+7. $a^{-3} a^{3}$
+
+\subsection{Dividing Powers}
+
+Divide powers with the same base by subtracting the exponents, the exponent in the denominator from the exponent in the numerator. Place the difference on the common base. Use the rule
+
+$$
+\frac{x^{n}}{x^{m}}=x^{n-m}
+$$
+
+To use this rule, each of the powers must have exactly the same base. For example, you could use this rule to divide $x^{7}$ by $x^{4}$ because they have exactly the same base, $x$. You could not use this rule to divide $x^{7}$ by $y^{4}$ because they have different bases, one is $x$ and the other is $y$. The most you could do is to indicate the division as $\frac{x^{7}}{y^{7}}$. Example 5 Simplify, if possible, each quotient. (A quotient is the result of a division.) Assume no variables or bases represent $0 .$
+
+1. $\frac{x^{5}}{x^{3}}=x^{5-3}=x^{2}$.
+
+You can see this is true by writing $\frac{x^{5}}{x^{3}}$ as $\frac{x \cdot x \cdot x \cdot x \cdot x}{x \cdot x \cdot x}$ and dividing out (cancelling) common factors of $x$ getting
+
+$\frac{x^{2} \cdot x^{3} \cdot x^{6} \cdot x \cdot x}{x^{4} \cdot x^{4} \cdot x^{2}}=x^{2}$
+
+2. $\frac{x^{9 / 11}}{x^{4 / 11}}=x^{9 / 11-4 / 11}=x^{5 / 11}$
+
+3. $\frac{x^{4}}{x}=\frac{x^{4}}{x^{1}}=x^{4-1}=x^{3}$
+
+4. $\frac{(3 a+4)^{7}}{(3 a+4)^{2}}=(3 a+4)^{7-2}=(3 a+4)^{5}$
+
+5. $\frac{x^{6} y^{4}}{x y^{2}}=x^{6-1} y^{4-2}=x^{5} y^{2}$
+
+6. $\frac{a^{7}}{b^{4}}$ cannot be simplified further because the bases are not the same. One base is $a$ and the other is $b$. The quotient of $a^{7}$ and $b^{4}$ can only be indicated as $\frac{a^{7}}{b^{4}}$.
+
+Try These 4 Simplify, if possible, each quotient. Assume no variables or bases represent $0 .$
+
+1. $\frac{a^{8}}{a^{5}}$
+
+2. $\frac{y^{5 / 12}}{y^{1 / 12}}$
+
+3. $\frac{x^{10}}{x}$
+
+4. $\frac{(2 y-5)^{6}}{(2 y-5)^{2}}$
+
+5. $\frac{x^{5} y^{4}}{x^{2} y}$
+
+6. $\frac{x^{8}}{y^{2}}$ Sometimes when dividing powers, the exponent in the numerator is smaller than the exponent in the denominator and the result of the substitution is a negative number. When this happens, use the rule $x^{-n}=\frac{1}{x^{n}}$ to eliminate negative exponents.
+
+Example 6 Simplify, if possible, each quotient. Assume no variables or bases represent 0 .
+
+1. $\frac{x^{5}}{x^{8}}=x^{5-8}=x^{-3}=\frac{1}{x^{3}}$
+
+2. $\frac{(2 x+1)^{3}}{(2 x+1)^{7}}=(2 x+1)^{3-7}=(2 x+1)^{-4}=\frac{1}{(2 x+1)^{4}}$
+
+3. $\frac{x^{6} y^{4}}{x^{7} y^{9}}=x^{6-7} y^{4-9}=x^{-1} y^{-5}=\frac{1}{x y^{5}}$
+
+Try These 5 Simplify, if possible, each quotient. Assume no variables or bases represent $0 .$
+
+1. $\frac{a^{2}}{a^{8}}$
+
+2. $\frac{(5 y-3)^{4}}{(5 y-3)^{5}}$
+
+3. $\frac{x y^{4}}{x^{5} y}$
+
+\subsection{Powers as Bases of Powers}
+
+When a power is used as the base of a power, multiply the exponents together and place that product on the base. Use the rule
+
+$$
+\left(x^{m}\right)^{n}=x^{m \cdot n}
+$$
+
+To use this rule the base must itself be a power. You could use this rule to raise $x^{4}$ to the 2 nd power since the base, $x^{4}$ is a power.
+
+Pay close attention to these three notes:
+
+1. If the base of a power is itself a power, $\left(x^{m}\right)^{n}$, multiply the exponents together.
+
+2. To multiply two powers with same base, $x^{n} \cdot x^{m}, a d d$ the exponents together.
+
+3. None of the rules we have reviewed indicates raising an exponent to an exponent For example, $\left(a^{3}\right)^{2} \neq a^{3^{2}}=a^{9} .$
+
+There is not rule that results in the expression $x^{n^{m}}$. Example 7 Simplify each power expression
+
+1. $\left(x^{3}\right)^{2}=x^{3 \cdot 2}=x^{6} \quad$ You can see this is true by writing
+
+$\left(x^{3}\right)^{2}$ as $x^{3} \cdot x^{3}$ and then use the multiplication rule to get $x^{3+3}=x^{6} .$
+
+2. $\left(x^{\frac{4}{5}}\right)^{\frac{2}{3}}=x^{\frac{4}{5} \cdot \frac{2}{3}}=x^{\frac{8}{15}}$
+
+3. $\left(x^{-3}\right)^{4}=x^{-3 \cdot 4}=x^{-12}=\frac{1}{x^{12}}$
+
+4. $\left[(x-6)^{5}\right]^{2}=(x-6)^{5 \cdot 2}=(x-6)^{10} .$ The base here is the entire quantity $x-$ 6. Remember, quantities enclosed within parentheses are considered as one single quantity. That single quantity, $x-6$ is raised to the 5 th power. Therefore, $\left[(x-6)^{5}\right]^{2}$ represents a power raised to a power.
+
+5. $[(x-6)]^{2}=(x-6)^{2}$, and we are done. You know you cannot simplify $(x-6)^{2}$ as $x^{2}-6^{2}$ or $x^{2}-36$. We will make this clear again in the next, and last, exponent rule.
+
+Try These 6 Simplify, if possible, each expression.
+
+1. $\left(y^{6}\right)^{3}$
+
+2. $\left(a^{-2}\right)^{4}$
+
+3. $\left(a^{2 / 3}\right)^{5 / 3}$
+
+4. $(7 x+2)^{3}(7 x+2)^{9}$
+
+5. $\left(x^{3}\right)^{4}\left(y^{-2}\right)^{6}$
+
+\subsection{Products as Bases} of Powers
+
+To simplify a product that is used as the base of a power, distribute the exponent to each factor that appears in the product. Use the rule
+
+$$
+(x y)^{n}=x^{n} y^{n}
+$$
+
+To use this rule, the base must be a product (multiplication). For example, you could use this rule to raise $x^{4} \cdot y^{2}$ to a 5 th power because the base $x^{4} \cdot y^{2}$ is a product.
+
+- This rule applies only for bases that are products (.). The rule does not apply for bases that are sums and differences $(+$ and $-)$.
+
+- You could not use this rule to raise $x+5$ to a 2 nd power because the base is not a product. It is a sum. $(x+5)^{2} \neq x^{2}+25$. - The multiplication rule does not apply to $(x+5)^{2}$. Sums and differences have their own rules.
+
+Example $8 \quad$ Simplify each power.
+
+1. $(x y)^{3}=x^{3} y^{3}$. You can see this is true by writing $(x y)^{3}$ as $x y \cdot x y \cdot x y$, which by the commutative property of multiplication is equivalent to $x x x y y y$, which is the same as $x^{3} y^{3}$.
+
+2. $\left(a^{3} b^{5}\right)^{4}=\left(a^{3}\right)^{4}\left(b^{5}\right)^{4}=a^{3 \cdot 4} b^{5 \cdot 4}=a^{12} b^{20}$.
+
+3. $\left(x^{-3} y^{2} z\right)^{-3}=x^{(-3) \cdot(-3)} y^{(2) \cdot(-3)} z^{-3}$
+
+$=x^{9} y^{-6} z^{-3}=\frac{x^{9}}{y^{6} z^{3}} .$
+
+4. $\left[a(a-4)^{7}\right]^{2}=a^{2}(a-4)^{7 \cdot 2}=a^{2}(a-4)^{14}$
+
+5. $(x+3)^{2}$ cannot be simplified using this rule. $(x+3)^{2} \neq x^{2}+9$.
+
+Try These 7 Simplify each power.
+
+1. $(a b)^{6}$
+
+2. $\left(a^{2} b^{8}\right)^{4}$
+
+3. $\left(x^{5} y^{-3}\right)^{-4}$
+
+4. $\left[x(x+7)^{3}\right]^{6}$
+
+\subsection{Quotients as Bases of Powers}
+
+To simplify a quotient that is used as the base of a power, distribute the exponent to each factor that appears in the quotient. Use the rule
+
+$$
+\left(\frac{x}{y}\right)^{n}=\frac{x^{n}}{y^{n}}
+$$
+
+To use this rule, the base must be a quotient (division). For example, you could use this rule to raise $\frac{x^{4}}{y^{2}}$ to a 5 th power because the base $\frac{x^{4}}{y^{2}}$ is a quotient.
+
+\section{Example 9}
+
+1. $\left(\frac{x}{y}\right)^{2}=\frac{x^{2}}{y^{2}}$ You can see this is true by writing $\left(\frac{x}{y}\right)^{2}$ as $\frac{x}{y} \cdot \frac{x}{y}$, which is equivalent to $\frac{x^{2}}{y^{2}}$.
+
+2. $\left(\frac{a^{4}}{b^{2}}\right)^{5}=\frac{\left(a^{4}\right)^{5}}{\left(b^{2}\right)^{5}}=\frac{a^{4 \cdot 5}}{b^{2 \cdot 5}}=\frac{a^{20}}{b^{10}}$
+
+Now that you know how to distribute the exponents, you can do so directly, bypassing the step $\frac{\left(a^{4}\right)^{5}}{\left(b^{2}\right)^{5}}$ and proceeding directly to multiplying all the exponents by $5 .$
+
+3. $\left[\frac{(x+5)^{2}}{(x-5)^{3}}\right]^{4}=\frac{(x+5)^{2 \cdot 4}}{(x-5)^{3 \cdot 4}}=\frac{(x+5)^{8}}{(x-5)^{12}}$
+
+4. $\left(\frac{a^{6}}{b^{5}}\right)^{-3}=\frac{a^{-18}}{b^{-15}}=\frac{b^{15}}{a^{18}}$
+
+5. $\left(\frac{x^{4} y^{6}}{x^{3} y^{2}}\right)^{3}=\left(x^{4-3} y^{6-2}\right)^{3}=\left(x y^{4}\right)^{3}$
+
+$=x^{3} y^{4 \cdot 3}=x^{3} y^{12}$
+
+Try These $8 \quad$ Simplify each power.
+
+1. $\left(\frac{a}{b}\right)^{5}$
+
+2. $\left(\frac{a^{2}}{b^{9}}\right)^{6}$
+
+3. $\left[\frac{(x-8)^{3}}{(x+4)^{5}}\right]^{4}$
+
+4. $\left(\frac{x^{7}}{y^{2}}\right)^{-2}$
+
+5. $\left(\frac{a^{9} b^{5}}{a^{3} b^{3}}\right)^{4}$ Exercises 1 Simplify, if possible, each expression. Write each result so that only positive exponents appear. Assume all variables are not zero.
+
+1. $a^{2} a^{6}$
+
+2. $x^{5} x^{3} x^{8}$
+
+3. $x^{4} y^{3} y^{5} x^{7}$
+
+4. $x^{1 / 5} y^{3} x^{3 / 5} y$
+
+5. $(x-8)^{3}(x+2)^{2}(x+2)^{5}$
+
+6. $a^{4} b^{3}$
+
+7. $a^{3} a a^{4} b^{6} b^{-1}$
+
+8. $\left(x^{3} y^{6}\right)^{4}$
+
+9. $\frac{x^{4}}{x^{7}}$
+
+10. $\left(\frac{a^{8} b}{a^{5} b^{4}}\right)^{2}$
+
+11. $x^{6} b^{-8} b^{-3}$
+
+12. $\frac{a^{6}}{b^{-4}}$
+
+13. $\left(a^{-3} b^{4}\right)^{-2}$
+
+14. $(4 x+3)^{2}(4 x+3)^{6}$
+
+15. $\left[x^{2} y^{-5}(7 x+9)^{-3}\right]^{-4}$
+
+16. $\frac{\left(x^{-5} y^{3}\right)^{-3}}{\left(x^{4} y^{-6}\right)^{4}}$
+
+17. $\frac{a^{6} a^{2} b^{5}}{a^{3} b^{6} b b^{3}}$
+
+18. $\left[\frac{x^{-6} y^{8}}{x^{-2} y^{-1}}\right]^{-3}$
+
+19. $\frac{(x-1)^{4}(x+1)^{-6}}{(x+1)^{10}(x-1)^{2}}$
+
+20. $\frac{\left(a^{-2} b^{-3} b^{10} a\right)^{-3}}{\left(a^{4} b^{4}\right)^{4}}$
+
+21. $\left(5^{0} a^{4} a^{-4} b^{-7} b^{7}\right)^{3}$
+
+22. $[(x+4)(x-4)]^{3}$
+
+23. $\left(a^{-5} b^{3}\right)^{2}$
+
+24. $\left[x^{2}(y-6)^{3}\right]^{5}$
+
+25. $\left(y^{5 / 2}\right)^{2 / 5}$
+
+26. $\frac{x^{-4} y^{5}}{x^{4} y^{-5}}$
+
+27. Express $x^{4} y^{4}$ as a 4 th power having base $x y$. 28. When multiplying two powers with the same base, such as $x^{4} \cdot x^{8}$, what do you do with the exponents? Do you add, subtract, multiply, or divide them?
+
+29. (True of False) $(x+4)^{2}=x^{2}+16$ and $(4 x)^{2}=16 x^{2}$.
+
+30. (True or False) $\frac{a^{7}}{a^{7}}=1$ for any number $a$.
+
+\section{Answers to Try These 1}
+
+1. $x^{9}$
+
+2. $a^{4}$
+
+3. $a^{2 / 3+5 / 3}=a^{7 / 3}$
+
+4. $(7 x+2)^{12}$
+
+5. $x^{7} y^{2}$
+
+6. $a^{3} b^{2}$ is the best that can be done. This multiplication has to left indicated.
+
+7. $a^{8} b^{10}$
+
+8. $5 x^{4}(2 y-3)^{4}(2 y+3)^{8}$. Notice that one base is $2 y-3$ and one is $2 y+3$. Since the bases of these powers are different, the exponents cannot be added together.
+
+\section{Answers to Try These 2}
+
+1. 1
+
+2. $s^{4} t^{3}$
+
+3. $(x-7)^{6}$
+
+4. It does not name a number.
+
+\section{Answers to Try These 3}
+
+1. $\frac{1}{x^{7}}$
+
+2. $4 m^{3}$
+
+3. $\frac{b^{8}}{a^{4}}$
+
+4. $\frac{k^{6}}{j^{2}}$
+
+5. $\frac{(x+7)^{2}}{(x-7)^{1}}=\frac{(x+7)^{2}}{x-7}$
+
+6. $4 x^{5} y^{3} z^{-4}$
+
+7. $a^{-3+3}=a^{0}=1$ Answers to Try These 4
+
+1. $a^{8-5}=a^{3}$
+
+2. $y^{4 / 12}=y^{1 / 3}$
+
+3. $x^{10-1}=x^{9}$
+
+4. $(2 y-5)^{4}$
+
+5. $x^{5-2} y^{4-1}=x^{3} y^{3}$
+
+6. $\frac{x^{8}}{y^{2}}$ is the best that can be done. This division has to be left indicated since the bases are not the same.
+
+\section{Answers to Try These 5}
+
+1. $a^{2-8}=a^{-6}=\frac{1}{a^{6}}$
+
+2. $(5 y-3)^{4-5}=(5 y-3)^{-1}$
+
+$=\frac{1}{(5 y-3)^{1}}=\frac{1}{5 y-3}$
+
+3. $x^{1-5} y^{4-1}=x^{-4} y^{3}=\frac{y^{3}}{x^{4}}$
+
+\section{Answers to Try These 6}
+
+1. $\left(y^{6}\right)^{3}=y^{6 \cdot 3}=y^{18}$
+
+2. $\left(a^{-2}\right)^{4}=a^{-2 \cdot 4}=a^{-8}=\frac{1}{a^{8}}$
+
+3. $a^{2 / 3 \cdot 5 / 3}=a^{10 / 9}$
+
+4. $(7 x+2)^{12}$
+
+5. $x^{12} y^{-12}=\frac{x^{12}}{y^{12}}$
+
+\section{Answers to Try These 7}
+
+1. $(a b)^{6}=a^{6} b^{6}$
+
+2. $\left(a^{2} b^{8}\right)^{4}=a^{2 \cdot 4} b^{8 \cdot 4}=a^{8} b^{32}$
+
+3. $\left(x^{5} y^{-3}\right)^{-4}=x^{5 \cdot(-4)} y^{(-3) \cdot(-4)}=x^{-20} y^{12}=\frac{y^{12}}{x^{20}}$
+
+4. $\left[x(x+7)^{3}\right]^{6}=x^{6}(x+7)^{3 \cdot 6}=x^{6}(x+7)^{18}$
+
+\section{Answers to Try These 8}
+
+1. $\left(\frac{a}{b}\right)^{5}=\frac{a^{5}}{b^{5}}$
+
+2. $\left(\frac{a^{2}}{b^{9}}\right)^{6}=\frac{\left(a^{2}\right)^{6}}{\left(b^{9}\right)^{6}}=\frac{a^{2 \cdot 6}}{b^{9 \cdot 6}}=\frac{a^{12}}{b^{54}}$ 3. $\left[\frac{(x-8)^{3}}{(x+4)^{5}}\right]^{4}=\frac{(x-8)^{3 \cdot 4}}{(x+4)^{5 \cdot 4}}=\frac{(x-8)^{12}}{(x+4)^{20}}$.
+
+4. $\left(\frac{x^{7}}{y^{2}}\right)^{-2}=\frac{x^{-14}}{y^{-4}}=\frac{y^{4}}{x^{14}}$
+
+5. $\left(\frac{a^{9} b^{5}}{a^{3} b^{3}}\right)^{4}=\left(a^{9-3} b^{5-3}\right)^{4}$
+
+$=\left(a^{6} b^{2}\right)^{4}=a^{6 \cdot 4} b^{2 \cdot 4}=x^{24} y^{8}$
+
+\section{Chapter 2}
+
+\section{Reviewing Operations on Polynomials}
+
+In this chapter you review the standard operations on polynomials.
+
+1. Monomials, Terms, and Polynomial Expressions
+
+2. Adding and Subtracting Polynomials
+
+3. Multiplying Polynomials
+
+4. Special Polynomial Products
+
+\subsection{Monomials, Terms, and Polynomial Expressions}
+
+A monomial term is a simple expression of the form
+
+$$
+\text { constant variable whole number }
+$$
+
+Symbolically, if we let the letter a represent a constant (any number), the letter $x$ represent a variable (some unknown number), and the letter $n$ represent a whole number $(0,1,2,3,4, \cdots)$, then a monomial term (or more simply, a monomial) has the form
+
+$$
+a x^{n}
+$$
+
+In a monomial, the exponent can be only a whole number. If the exponent is a fraction or a negative number, then the expression $a x^{n}$ is not a monomial. The constant can be any type of number, but the exponent is restricted to being a whole number $(0,1,2,3,4, \cdots)$.
+
+\section{Example 1}
+
+1. $5 x^{3}$ is a monomial. The constant is 5, the variable is $x$, and the exponent is the whole number 3 .
+
+2. $\frac{3}{5} y^{8}$ is a monomial. The constant is $3 / 5$, the variable is $y$, and the exponent is the whole number 8 . The fraction $3 / 5$ is an acceptable number for the constant since the constant is not restricted to any particular type of numbers. Only the exponent is restricted to being a whole number.
+
+3. $6 x^{1 / 2}$ is not a monomial since the exponent is not a whole number. (You may remember that an exponent of $1 / 2$ means square root.)
+
+4. The variable $x$ is itself a monomial. The constant is 1 and the exponent is 1 . $x=1 x^{1}$.
+
+5. The number 7 is a monomial. You could write 7 as $7 \cdot 1=7 x^{0} .$ Since the $x^{0}=1, x \neq$ 0, and the exponent is a whole number (remember, 0 is a whole number), 7 qualifies as a monomial.
+
+6. All numbers (constants) are monomials.
+
+Try These 1 Determine if each expression is or is not a monomial.
+
+1. $5 x^{3}$
+
+2. $-10 y^{2}$
+
+3. $4 x^{2 / 3}$
+
+4. $6 a^{2}-5 a$
+
+\subsubsection{Polynomials, Monomials, Binomials, Trinomials}
+
+A monomial and the sum of any number of monomials is called a polynomial. A polynomial composed of exactly two monomials is often called a binomial and a polynomia containing exactly three monomials is often called a trinomial.
+
+\section{Example 2}
+
+1. The polynomial $5 x^{2}+3 x+7$ is specifically a trinomial. It is a the sum of the three monomials, $5 x^{2}, 3 x$, and 7 .
+
+2. The polynomial $6 x^{2}-8 x$ is specifically a bimonial. It is the sum of the two terms $6 x^{2}$ and $-8 x .$ You can write $6 x^{2}-8 x$ as $6 x^{2}+(-8 x)$, making it clear that it is the sum of two terms. 3. The polynomial $10 x^{3}-6 x^{2}-3 x+6$ has more than three terms. It is referred to simply as a polynomial.
+
+\subsubsection{Classifying polynomials}
+
+Polynomials can be classified according to their degree. The degree of a monomial composed of only one variable is simply the value of the exponent on that variable. The degree of $5 x^{2}$ is two. The degree of a polynomial composed of only one variable is the degree of the highest degreed monomial that composes the polynomial. The degree of $3 x^{5}-8 x^{4}+3 x-1$ is 5 since the highest degreed monomial (which is $3 x^{5}$ ) composing $3 x^{5}-8 x^{4}+3 x-1$ is 5 . Since constants are themselves polynomials, they have degrees associated with them as well. Constants are polynomials of degree 0 . For example the constant 7 can be expressed as $7 \cdot 1$ which, in turn, can be expressed as $7 x^{0}$. The whole number exponent on this term is 0 , making the degree of 7 zero.
+
+Try These 2 Specify the degree of each polynomial. Also classify each polynomial as a monomial, binomial, or trinomial if it is appropriate.
+
+1. $6 x^{4}+2 x^{3}$
+
+2. $-8 y^{3}$
+
+3. $5 y^{8}+2 y^{3}-3$
+
+4. $2 x^{4}+9 x^{3}-x^{2}+3 x-10$
+
+5. 12
+
+6. $4 a^{5 / 4}$
+
+Like terms are monomial terms that differ only in their constants. Remember, a monomial term is of the form
+
+$$
+\text { constant variable whole number }
+$$
+
+For terms to be like terms, their variable parts must be identical and the exponents on those variables must be identical. Only the constants may differ. The terms $5 x^{3}$ and $2 x^{3}$ are like terms. The terms $5 y^{3}$ and $2 x^{3}$ are not like terms. The terms $5 x^{4}$ and $2 x^{3}$ are not like terms.
+
+The constant in a monomial is called a coefficient and has a very specific function. It is a recorder of quantity. In the monomial $7 x^{3}$, the constant 7 records the fact that seven $x^{3}$ 's are being considered. The constant 7 is the coefficient of $x^{3}$. In the monomial $-3 y^{5}$, the constant $-3$ records the fact that negative three $y^{5}$ 's are being considered. The constant $-3$ is the coefficient of $y^{5}$.
+
+Try These 3
+
+1. How many $x^{4}$ 's are being considered in the monomial $8 x^{4}$ ?
+
+2. How many $y^{3}$ 's are being considered in the monomial $-5 y^{3}$ ?
+
+3. What is the coefficent of $a^{7}$ in the monomial $-6 a^{7} ?$
+
+\section{$2.2$ Adding and Subtracting Polynomials}
+
+Add and subtract polynomials by combining like terms together. Use the rules
+
+$$
+a x^{n}+b x^{n}=(a+b) x^{n} \quad \text { and } \quad a x^{n}-b x^{n}=(a-b) x^{n}
+$$
+
+These rules states that to add two monomial terms together, they must be like terms and the addition is done by adding the coefficients together.
+
+Example 3 Simplify each polynomial by combining like terms.
+
+1. $5 x^{3}+2 x^{3}$ can be simplified to $7 x^{3}$. We are adding $5 x^{3}$ and $2 x^{3}$. Think of it this way. If you have five $x^{3}$ 's and then you add two more $x^{3}$ 's, you will have seven $x^{3}$ 's. $5 x^{3}+2 x^{3}=(5+2) x^{3}=7 x^{3}$ 's.
+
+2. $8 y^{4}+7 y-3 y^{4}+20 y$ can be simplified by combing the $y^{4}$ 's together and the $y$ 's together.
+
+$8 y^{4}-3 y^{4}=(8-3) y^{4}=5 y^{4}$
+
+$7 y+20 y=(7+20) y=27 y .$ Then,
+
+$8 y^{4}+7 y-3 y^{4}+20 y=5 y^{4}+27 y$. There are five $y^{4}$ 's and twenty-seven $y$ 's.
+
+3. $6 x^{2}+2 x-4-2 x+4-6 x^{2}$
+
+$=(6-6) x^{2}+(2-2) x+(-4+4)$
+
+$=0 x^{2}+0 x+0$
+
+$=0$.
+
+So, $6 x^{2}+2 x-4-2 x+4-6 x^{2}$ is another way of writing $0 .$
+
+Try These 4 Simplify each polynomial by combining like terms.
+
+1. $7 a^{3}+10 a^{2}+6 a^{3}-3 a^{2}$
+
+2. $2 x^{5}-4 x^{4}+7 x+5-10 x^{5}-2 x^{4}+4 x^{2}+3 x-7$
+
+3. $20 y^{3}+14 y^{2}-8 y+8 y-14 y^{2}-19 y^{3}$
+
+\subsubsection{Removing Parentheses}
+
+Sometimes, you must remove parentheses in order to add polynomial expressions. When parentheses occur, use the distributive property of multiplication to remove them. If the set of parentheses is preceded by a "+" sign or no sign at all, there is an assumed 1 immediately in front of the set, indicating a multiplication of each term by 1. Multiplication by 1 does not change in any way the term being multiplied. If the parentheses are preceded immediately by $a$ "+" sign or no sign at all, just remove them.
+
+If the set of paretntheses is preceded immediately by a "-" sign, there is a assumed $-1$ immediately in front of the set, indicating a multiplication of each term by $-1 .$ Multiplication by $-1$ changes the sign of the multiplied term to its opposite.
+
+If the parentheses are preceded by a "-" sign, remove them but change the sign of each term inside to its opposite.
+
+\section{Example 4}
+
+1. In the polynomial expression $6\left(3 x^{2}-5 x+4\right)$, use multiplication to distribute the leading 6 to each term inside the parentheses. $6\left(3 x^{2}-5 x+4\right)$
+
+$=6 \cdot 3 x^{2}-6 \cdot 5 x+6 \cdot 4$
+
+$=18 x^{2}-30 x+24$
+
+2. In the binomial $(7 x+5)$, the set of parentheses is preceded immediately by no sign. Remove the parentheses leaving all the terms inside the parentheses unchanged.
+
+$(7 x+5)=7 x+5 .$
+
+$(7 x+5)=1 \cdot(7 x+5)=1 \cdot 7 x+1 \cdot 5=7 x+5$
+
+3. In the binomial $-\left(4 x^{2}-8 x-5\right)$, the set of parentheses is preceded immediately by a "-" sign. Remove the parentheses changing all the signs of the terms inside the parentheses to their opposites.
+
+$-\left(4 x^{2}-8 x-5\right)=-4 x^{2}+8 x+5$
+
+4. $3 x^{2}\left(6 x^{3}-8 x^{2}+x+5\right)$
+
+$=3 x^{2} \cdot 6 x^{3}-3 x^{2} \cdot 8 x^{2}+3 x^{2} \cdot x+3 x^{2} \cdot 5$
+
+$=18 x^{2+3}-24 x^{2+2}+3 x^{2+1}+15 x^{2}$
+
+$=18 x^{5}-24 x^{4}+3 x^{3}+15 x^{2}$
+
+Try These 5 Simplify each polynomial by removing parentheses.
+
+1. $4\left(5 x^{3}-7 x^{2}-2 x+1\right)$
+
+2. $-3\left(5 x^{4}-6 x-2\right)$
+
+3. $\left(4 x^{2}-10 x+6\right)$
+
+4. $-\left(5 x^{2}-9 x-4\right)$
+
+5. $7 x^{3}\left(2 x^{2}+5 x-8\right)$ Example 5 Simplify each polynomial by removing parentheses and combining like terms.
+
+$$
+\text { 1. } \begin{aligned}
+&5(3 x-4)+8(2 x-1) \\
+&=15 x-20+16 x-8 \\
+&=31 x-28 \\
+&\text { 2. } 2 x^{3}\left(x^{3}+5 x^{2}-7 x\right)-x\left(x^{4}+x^{3}\right) \\
+&=2 x^{6}+10 x^{5}-14 x^{4}-x^{5}-x^{4} \\
+&=2 x^{6}+9 x^{5}-15 x^{4} \\
+&\text { 3. } 8\left(x^{2}-6 x+4\right)-2\left(x^{2}+5 x\right) \\
+&=8 x^{2}-48 x+32-2 x^{2}-10 x \\
+&=6 x^{2}-58 x+32 \\
+&\text { 4. } 5 x(x-7)-\left(3 x^{2}-2 x+15\right) \\
+&=5 x^{2}-35 x-3 x^{2}+2 x-15 \\
+&=2 x^{2}-33 x-15
+\end{aligned}
+$$
+
+5. Sometimes grouping symbols occur within other grouping symbols. When you encounter this, work within the innermost set of grouping symbols first and work your way outward.
+
+Simplify
+
+$3\left[8 x(2 x-1)-4\left(3 x^{2}-2 x+5\right)\right]-\left(3 x^{2}+7 x-5\right)$
+
+There are two sets of ( ) inside the [ ]. Begin work with them.
+
+$3\left[8 x(2 x-1)-4\left(3 x^{2}-2 x+5\right)\right]-\left(3 x^{2}+7 x-5\right)$
+
+$=3\left[16 x^{2}-8 x-12 x^{2}+8 x-20\right]-3 x^{2}-7 x+5$
+
+$=3\left[4 x^{2}+0 x-20\right]-3 x^{2}-7 x+5$
+
+$=12 x^{2}-60-3 x^{2}-7 x+5$
+
+$=9 x^{2}-7 x-55$
+
+Try These 6 Simplify each polynomial by removing parentheses and combing like terms.
+
+1. $7(3 x-5)+3(4 x-2)$
+
+2. $4 x\left(6 x^{3}-x^{2}-x-1\right)-x^{2}(x+4)$
+
+3. $-2\left(-2 x^{2}-3 x+1\right)+8\left(-x^{2}-x\right)$
+
+4. $2 x^{2}(x-3)-\left(x^{3}+3 x-8\right)$
+
+5. $2\left[2 x(4 x+3)-5\left(5 x^{2}+3 x-2\right)\right]-\left(x^{2}+3 x\right)+35 x^{2}-20$
+
+\subsection{Multiplying Polynomial Expressions}
+
+Polynomials are multiplied together two at a time. Multiply polynomials together by multiplying every term in one by every term in the other.
+
+Example 6 Perform the indicated multiplications.
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-026.jpg?height=351&width=496&top_left_y=421&top_left_x=161)
+
+Try These $7 \quad$ Perform the indicated multiplications.
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-026.jpg?height=91&width=234&top_left_y=865&top_left_x=161)
+
+\subsection{Special Product Multiplications}
+
+Some multiplication forms occur frequently. They are called special products and are worth memorizing.
+
+\subsubsection{Conjugate Pairs}
+
+Two binomials are called conjugate pairs if they differ in only one sign. For example, $x+6$ and $x-6$ are conjugate pairs but $x+6$ and $-x-6$ are not, they differ in two signs. Multiply conjugate pairs using the rule
+
+$$
+(a+b)(a-b)=a^{2}-b^{2}
+$$
+
+Notice that there are two factors, $a+b$ and $a-b$. Each factor is composed of two terms, a first term, $a$, and a second term, $b$. This rule states that to multiply conjugate pairs, you square the first term, write a - sign, then square the second term.
+
+To multiply conjugate pairs, square the first term, write $a$ "-" sign, then square the second term.
+
+You can see this rule works if you multiply as usual, every term in one factor by every term in the other.
+
+$$
+\begin{aligned}
+(a+b)(a-b) &=a \cdot a-a \cdot b+b \cdot a-b \cdot b \\
+&=a^{2}-a b+b a-b^{2} \\
+&=a^{2}-a b+a b-b^{2} \\
+&=a^{2}+0 a b-b^{2} \\
+&=a^{2}-b^{2}
+\end{aligned}
+$$
+
+Example 7 Perform the indicated multiplications.
+
+1. $(2 x+5)(2 x-5)$. These factors are conjugate pairs.
+
+In each factor, the first term is $2 x$ and the second term is 5 .
+
+Square the first term, write a $-\operatorname{sign}$, square the second term.
+
+$(2 x)^{2}-5^{2}$
+
+So, $(2 x+5)(2 x-5)=4 x^{2}-25$
+
+2. $(5 a+6)(5 a-6)$. These factors are conjugate pairs.
+
+In each factor, the first term is $5 a$ and the second term is 6 .
+
+Square the first term, write a $-\operatorname{sign}$, square the second term.
+
+$(5 a)^{2}-6^{2}$
+
+So, $(5 a+6)(5 a-6)=25 a^{2}-36$
+
+3. $(3 x-7 y)(3 x+7 y)$. These factors are conjugate pairs.
+
+In each factor, the first term is $3 x$ and the second term is $7 y$.
+
+Square the first term, write a - sign, square the second term.
+
+$(3 x)^{2}-(7 y)^{2}$
+
+So, $(3 x-7 y)(3 x+7 y)=9 x^{2}-49 y^{2}$
+
+Try These 8 Perform the indicated multiplications.
+
+1. $(5 x+8)(5 x-8)$.
+
+2. $(3 a+10)(3 a-10)$.
+
+3. $(4 x-5 y)(4 x+5 y)$.
+
+\subsubsection{Squaring a Binomial}
+
+Square a binomial using the rules
+
+$$
+(a+b)^{2}=a^{2}+2 a b+b^{2} \quad \text { and } \quad(a-b)^{2}=a^{2}-2 a b+b^{2}
+$$
+
+You know that a binomial is composed of two terms. To square a binomial, that is, to raise a binomial to a second power,
+
+- Square the first term
+
+- Multiply the two terms together and double the result
+
+- Square the last term
+
+- Add these three terms together
+
+You can see this rule works if you multiply as usual, every term in one factor by every term in the other.
+
+$$
+\begin{aligned}
+(a+b)^{2} &=(a+b)(a+b) \\
+&=a \cdot a+a \cdot b+b \cdot a+b \cdot b \\
+&=a^{2}+a b+b a+b^{2} \\
+&=a^{2}+a b+a b+b^{2} \\
+&=a^{2}+2 a b+b^{2}
+\end{aligned}
+$$
+
+Example 8 Perform the indicated multiplications.
+
+1. $(x+6)^{2}$.
+
+The first term is $x$
+
+The second term is 6
+
+Square the first term: $x^{2}$
+
+Multiply the two terms together: $x \cdot 6=6 x$
+
+Double this result: $2 \cdot 6 x=12 x$
+
+Square the last term: $6^{2}=36$.
+
+So, $(x+6)^{2}=x^{2}+12 x+36$
+
+2. $(3 a-4 b)^{2}$.
+
+Square the first term: $(3 a)^{2}=9 a^{2}$
+
+Multiply the two terms together:
+
+$3 a \cdot(-4 b)=-12 a b$.
+
+Double this result: $2 \cdot-12 a b=-24 a b$
+
+Square the last term: $(-4 b)^{2}=16 b^{2}$.
+
+So, $(3 a-4 b)^{2}=9 a^{2}-24 a b+16 b^{2}$ Try These 9 Perform the indicated multiplications.
+
+1. $(y+7)^{2}$
+
+2. $(5 x+6 y)^{2}$
+
+3. $(8 a-5 b)^{2}$
+
+\subsubsection{CAUTIONS}
+
+When squaring a binomial, note the following two facts
+
+There are always three terms in the result.
+
+$$
+(a+b)^{2} \neq a^{2}+b^{2}
+$$
+
+Remember that when squaring a binomial, you
+
+- Square the first term
+
+- Multiply the two terms together and double the result, then
+
+- Square the last term.
+
+There are 3 things to do!
+
+The first and last terms are always positive.
+
+Try These 10 Perform the indicated multiplications.
+
+1. $(a+9)^{2}$
+
+2. $(3 x-4)^{2}$
+
+3. $(6 a-2 b)^{2}$
+
+Exercises 2 Perform each multiplication.
+
+1. $3 x\left(x^{2}-4\right)$
+
+2. $(x-4)(x-7)$
+
+3. $(y+5)(y+6)$
+
+4. $(a+3)(a+2)$
+
+5. $(2 x+3)(4 x+3)$
+
+6. $(5 x+2)(3 x+7)$
+
+7. $(6 x+1)(6 x+5)$
+
+8. $(x+4)(3 x+4)$
+
+9. $(x+3)(x-5)$
+
+10. $(y+9)(y-4)$
+
+11. $(a+4)(a-8)$
+
+12. $(a+6)(a-5)$
+
+13. $(3 x+2 y)(4 x-7 y)$
+
+14. $(5 a-3 b)(4 a+b)$
+
+15. $(7 x-2 y)(4 x-2 y)$ 16. $\left(3 a^{2}+7\right)\left(2 a^{2}-5\right)$
+
+17. $\left(5 x^{2} y+3 z\right)\left(4 x^{2} y-2 z\right)$
+
+18. $\left(3 a^{3} b^{4}-5\right)\left(a b^{2}-2\right)$
+
+19. $(a-4)\left(a^{2}+2 a-1\right)$
+
+20. $(y-6)\left(y^{2}+4 y+5\right)$
+
+21. $(x-3)\left(x^{2}+3 x+9\right)$
+
+22. $(z+8)\left(z^{2}-8 z+64\right)$
+
+23. $(y+6)^{2}$
+
+24. $(x+9)^{2}$
+
+25. $(a-4)^{2}$
+
+26. $(m-10)^{2}$
+
+27. $(3 a+6 b)^{2}$
+
+28. $(2 r-7 s)^{2}$
+
+29. $\left(a^{2}+4 b^{3}\right)^{2}$
+
+30. $\left(7 x^{4}-5 y^{5}\right)^{2}$
+
+31. $\left(x^{3} y^{5}+3 r^{2} s^{4}\right)^{2}$
+
+32. $\left(a^{5} b-m^{6} n^{2}\right)^{2}$
+
+33. $(r+s)(r-s)$
+
+34. $(h+k)(h-k)$
+
+35. $(3 x+4)(3 x-4)$
+
+36. $(5 x-2 y)(5 x+2 y)$
+
+$37 .(7 a-3 b)(7 a+3 b)$
+
+38. $\left(3 x^{2}-4 y\right)\left(3 x^{2}+4 y\right)$
+
+39. $\left(5 x^{3}+3 y^{4}\right)\left(5 x^{3}-3 y^{4}\right)$
+
+40. Fill in the missing phrase so that the statement is true. $(x+a)^{2}$ will equal $x^{2}+a^{2}$ only if $x=0$ and $a=0$, or if $x$ and $a$ are (fill this in).
+
+\section{Answers to Try These 1}
+
+1. $5 x^{3}$ is a monomial since it is composed of only one term, the constant is any number and the exponent is a whole number.
+
+2. $-10 y^{2}$ is a monomial since it is composed of only one term, the constant is any number and the exponent is a whole number.
+
+3. $4 x^{2 / 3}$ is a not monomial since although it is composed of only one term and the constant is any number, the exponent is not a whole number.
+
+4. $6 a^{2}-5 a$ is not a monomial since it is composed of more than one term.
+
+\section{Answers to Try These 2}
+
+1. $6 x^{4}+2 x^{3}$ is a 4 th degree binomial.
+
+2. $-8 y^{3}$ is a 3 rd degree monomial.
+
+3. $5 y^{8}+2 y^{3}-3$ is an 8 th degree trinomial. 4. $2 x^{4}+9 x^{3}-x^{2}+3 x-10$ is a 4 th degree polynomial.
+
+5. 12 is a 0th degree monomial.
+
+6. $4 a^{5 / 4}$ is not a polynomial since the exponent is not a whole number, and therefore, has no degree.
+
+\section{Answers to Try These 3}
+
+1. 8
+
+2. $-5$
+
+3. $-6$
+
+\section{Answers to Try These 4}
+
+1. $7 a^{3}+10 a^{2}+6 a^{3}-3 a^{2}$
+
+$$
+=(7+6) a^{3}+(10-3) a^{2}
+$$
+
+$$
+=13 a^{3}+7 a^{2}
+$$
+
+2. $2 x^{5}-4 x^{4}+7 x+5-10 x^{5}-2 x^{4}+4 x^{2}+3 x-7$
+
+$$
+=(2-10) x^{5}+(-4-2) x^{4}+4 x^{2}+(7+3) x+(5-7)
+$$
+
+$$
+=-8 x^{5}-6 x^{4}+4 x^{2}+10 x-2
+$$
+
+$$
+\text { 3. } 20 y^{3}+14 y^{2}-8 y+8 y-14 y^{2}-19 y^{3}
+$$
+
+$$
+=(20-19) y^{3}+(14-14) y+(-8+8) y
+$$
+
+$$
+=1 y^{3}+0 y^{2}+0 y
+$$
+
+$$
+=1 y^{3}=y^{3}
+$$
+
+\section{Answers to Try These 5}
+
+1. $4\left(5 x^{3}-7 x^{2}-2 x+1\right)=4 \cdot 5 x^{3}-4 \cdot 7 x^{2}-4 \cdot 2 x+4 \cdot 1=20 x^{3}-28 x^{2}-8 x+4$
+
+2. $-3\left(5 x^{4}-6 x-2\right)=-15 x^{4}+18 x+6$
+
+3. $\left(4 x^{2}-10 x+6\right)=4 x^{2}-10 x+6$
+
+4. $-\left(5 x^{2}-9 x-4\right)=-5 x^{2}+9 x+4$
+
+5. $7 x^{3}\left(2 x^{2}+5 x-8\right)$
+
+$=7 x^{3} \cdot 2 x^{2}+7 x^{3} \cdot 5 x-7 x^{3} \cdot 8$
+
+$=14 x^{3+2}+35 x^{3+1}-56 x^{3}$
+
+$=14 x^{5}+35 x^{4}-56 x^{3}$
+
+\section{Answers to Try These 6}
+
+1. $7(3 x-5)+3(4 x-2)$
+
+$$
+=21 x-35+12 x-6
+$$
+
+$$
+=33 x-41
+$$
+
+2. $4 x\left(6 x^{3}-x^{2}-x-1\right)-x^{2}(x+4)$
+
+$$
+=24 x^{4}-4 x^{3}-4 x^{2}-4 x-x^{3}-4 x^{2}
+$$
+
+$$
+=24 x^{4}-5 x^{3}-8 x^{2}-4 x
+$$
+
+$$
+\text { 3. }-2\left(-2 x^{2}-3 x+1\right)+8\left(-x^{2}-x\right)
+$$
+
+$$
+=4 x^{2}+6 x-2-8 x^{2}-8 x
+$$
+
+$$
+=-4 x^{2}-2 x-2
+$$
+
+
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-032.jpg?height=236&width=548&top_left_y=200&top_left_x=161)
+
+\section{Answers to Try These 7}
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-032.jpg?height=339&width=470&top_left_y=499&top_left_x=161)
+
+\section{Answers to Try These 8}
+
+1. $(5 x+8)(5 x-8)$. These factors are conjugate pairs
+
+Square the first term, write a "-" sign, square the second term.
+
+$(5 x)^{2}-8^{2}$
+
+So, $(5 x+8)(5 x-8)=25 x^{2}-64$
+
+2. $(3 a+10)(3 a-10)$. These factors are conjugate pairs.
+
+Square the first term, write a "-" sign, square the second term.
+
+$(3 a)^{2}-10^{2}$
+
+So, $(3 a+10)(3 a-10)=9 a^{2}-100$
+
+3. $(4 x-5 y)(4 x+5 y)$. These factors are conjugate pairs.
+
+Square the first term, write a "-" sign, square the second term.
+
+$(4 x)^{2}-(5 y)^{2}$
+
+So, $(4 x-5 y)(4 x+5 y)=16 x^{2}-25 y^{2}$
+
+\section{Answers to Try These 9}
+
+1. $(y+7)^{2}$
+
+The first term is $y$
+
+The second term is 7
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-033.jpg?height=675&width=531&top_left_y=189&top_left_x=228)
+
+
+
+\section{Chapter 3}
+
+\section{Reviewing Factoring Polynomials}
+
+In this chapter you review techniques for factoring trinomials and special product polynomials.
+
+1. Factoring Trinomials with Leading Coefficient 1
+
+2. Factoring Trinomials with Leading Coefficient Different from 1
+
+3. Factoring Special Products
+
+\subsection{Factoring Trinomials with Leading Coefficient 1}
+
+The process of factoring is the opposite of the process of multiplying.
+
+Consider the product.
+
+$$
+\begin{aligned}
+(x+4)(x+2) &=x^{2}+\underbrace{4 x+2 x}_{6 x}+8 \\
+&=x^{2}+6 x+8
+\end{aligned}
+$$
+
+Notice the following features:
+
+1. The first term in the resulting trinomial, the product, comes from the first terms in the binomials. $x \cdot x=x^{2}$.
+
+2. The last term in the trinomial product comes from the product of the last terms in the binomials. $4 \cdot 2=8$.
+
+3. The middle term comes from the addition of the outer and inner products. $4 x+2 x=$ $6 x$. Also, notice that the coefficient of the middle term is exactly the sum of the last terms of the binomials. $4+2=6$.
+
+When the leading coefficient (the coefficient of the squared term), the leading term, is 1 , factor a quadratic (second degree) polynomial using the following guide: 1. Write two sets of parentheses ()() anticipating you will be able to factor the trinomial.
+
+2. Into each set of parentheses you will place a binomial. The first term of each binomial is a factor of the first term of the trinomial.
+
+3. To determine the second terms of the binomials, determine the factors of the last term of the trinomial that, when added together, produce the coefficeint of the middle term.
+
+Example 1 Factor each trinomial.
+
+1. $x^{2}+8 x+12$.
+
+Write two sets of parentheses ( ) ( )
+
+Into the first position of each set of parentheses place the factors of $x^{2}$.
+
+$(x)(x)$
+
+The third term of the trinomial is $+12$ and the middle coefficient is $+8$. We seek two numbers whose
+
+- product is $+12$, and
+
+- sum is $+8$
+
+The required numbers are $+6$ and $+2$. Place $+6$ and $+2$ into the second positions in the parentheses. $(x+6)(x+2)$. So,
+
+$$
+x^{2}+8 x+12=(x+6)(x+2)
+$$
+
+You can check this factorization by performing the multiplication
+
+$$
+\begin{aligned}
+(x+6)(x+2) &=x^{2}+2 x+6 x+12 \\
+&=x^{2}+8 x+12
+\end{aligned}
+$$
+
+and the factorization is correct.
+
+2. $a^{2}-6 a-16$.
+
+Write two sets of parentheses ( ) ( )
+
+Into the first position of each set of parentheses place the factors of $a^{2}$.
+
+$(a)(a)$
+
+The third term of the trinomial is $-16$ and the middle coefficient is $-6 .$ We seek two numbers whose
+
+- product is $-16$, and
+
+- sum is $-6$
+
+The required numbers are $-8$ and $+2$. Place $-8$ and $+2$ into the second positions in the parentheses. $(x-8)(x+2)$. So,
+
+$$
+a^{2}-6 a-16=(x-8)(x+2)
+$$
+
+You can check this factorization by performing the multiplication
+
+$$
+\begin{aligned}
+(x-8)(x+2) &=x^{2}+2 x-8 x-16 \\
+&=x^{2}-6 x-16
+\end{aligned}
+$$
+
+and the factorization is correct. 3. $y^{2}-10 y+9$.
+
+Write two sets of parentheses ( ) ( )
+
+Into the first position of each set of parentheses place the factors of $y^{2}$.
+
+$(y)(y)$
+
+The third term of the trinomial is $+9$ and the middle coefficient is $-10$. We seek two numbers whose
+
+- product is $+9$, and
+
+- sum is $-10$
+
+The required numbers are $-9$ and $-1$. Place $-9$ and $-1$ into the second positions in the parentheses. $(y-9)(y-1)$. So,
+
+$$
+y^{2}-10 y+9=(y-9)(y-1)
+$$
+
+4. $x^{2}-4 x y-21 y^{2}$.
+
+Write two sets of parentheses ( ) ( )
+
+Into the first position of each set of parentheses place the factors of $x^{2}$.
+
+$(x)(x)$
+
+The third term of the trinomial is $-21 y^{2}$. We concern ourselves with only the coefficient, $-21$. The middle coefficient is $-4$. We seek two numbers whose
+
+- product is $-21$, and
+
+- sum is $-4$
+
+The required numbers are $-7$ and $+3$. The required factors that will produce the last term of the trinomial are, then $-7 y$ and $+3 y$. Place $-7 y$ and $+3 y$ into the second positions in the parentheses. $(x-7 y)(x+3 y)$. So,
+
+$$
+x^{2}-4 x y-21 y^{2}=(x-7 y)(x+3 y)
+$$
+
+5. $a^{2}-5 a+2$.
+
+Write two sets of parentheses ( ) ( )
+
+Into the first position of each set of parentheses place the factors of $a^{2}$.
+
+$(a)(a)$
+
+The third term of the trinomial is $+2$ and the middle coefficient is $-5$. We seek two numbers whose
+
+- product is $+2$, and
+
+- sum is $-5$
+
+There are no such integers. We leave this trinomial unfactored and say that it is not factorable using integers.
+
+Try These 1 Factor each trinomial
+
+1. $x^{2}+12 x+35$
+
+2. $a^{2}-10 a+24$.
+
+3. $x^{2}-x-12$.
+
+4. $y^{2}-5 y+4$. 5. $s^{2}-5 s r-36 r^{2}$
+
+6. $y^{2}-3 y z-40 z^{2}$.
+
+7. $x^{2}+5 x+3$
+
+\section{$3.2$ Factoring Trinomials with Leading Coefficients Dif-} ferent from 1
+
+Consider the product
+
+$$
+\begin{aligned}
+(3 x&+2)(2 x+5) \\
+&=3 x \cdot 2 x+3 x \cdot 5+2 \cdot 2 x+2 \cdot 5 \\
+&=6 x^{2}+\underbrace{15 x+4 x}_{19 x}+10 \\
+&=6 x^{2}+19 x+10
+\end{aligned}
+$$
+
+To factor trinomials with coefficients different from 1, you need to guess the combination of factors of the first and last terms that when multiplied then added produce the middle term. You can see some of the factors of the first and last terms.
+
+$$
+\begin{aligned}
+6 x^{2} &=6 x \cdot x \quad \text { and } \quad 10 \quad=10 \cdot 1 \\
+&=3 x \cdot 2 x
+\end{aligned}
+$$
+
+Notice that you need only the positive factors of 10 since 10 is positive and the coefficient of the middle term is positive.
+
+The proper combination is $3 x$ and 5 , along with $2 x$ and 2 , since the multiplications produce
+
+$3 x \cdot 5=15 x$ and $2 x \cdot 2=4 x$
+
+and the addition produces
+
+$15 x+4 x=19 x$, the middle term.
+
+Since $3 x$ and 5 are to be multiplied, they must be located in different sets of parentheses.
+
+Since $2 x$ and 2 are to be multiplied, they must be located in different sets of parentheses. So,
+
+$$
+6 x^{2}+19 x+10=(3 x+2)(2 x+5)
+$$
+
+Example 2 Factor each trinomial.
+
+1. $12 x^{2}+20 x+3$. Factor the first and last terms.
+
+$$
+\begin{aligned}
+12 x^{2} &=12 x \cdot x \quad \text { and } \quad 3=3 \cdot 1 \\
+&=6 x \cdot 2 x \\
+&=4 x \cdot 3 x
+\end{aligned}
+$$
+
+The proper combination is $6 x$ and 3 , along with $2 x$ and 1 , since the multiplications produce
+
+$6 x \cdot 3=18 x$ and $2 x \cdot 1=2 x$
+
+and the addition produces
+
+$18 x+2 x=20 x$, the middle term.
+
+Since $6 x$ and 3 are to be multiplied, they must be located in different sets of parentheses.
+
+Since $2 x$ and 1 are to be multiplied, they must be located in different sets of parentheses.
+
+So, $12 x^{2}+20 x+3=(6 x+1)(2 x+3)$
+
+2. $8 a^{2}+14 a b-15 b^{2}$.
+
+Factor the first and last terms.
+
+$8 a^{2}=8 a \cdot a$ or $4 a \cdot 2 a$
+
+$-15 b^{2}=-15 b \cdot b$ or $15 b \cdot-b$ or $-5 b \cdot 3 b$ or $5 b \cdot-3 b$
+
+The proper combination is $4 a$ and $5 b$, along with $2 a$ and $-3 b$, since the multiplications produce
+
+$4 a \cdot 5 b=20 a b$ and $2 a \cdot-3 b=-6 a b$
+
+and the addition produces
+
+$20 a b-6 a b=14 a b$, the middle term.
+
+Since $4 a$ and $5 b$ are to be multiplied, they must be located in different sets of parentheses.
+
+Since $2 a$ and $-3 b$ are to be multiplied, they must be located in different sets of parentheses.
+
+So, $8 a^{2}+14 a b-15 b^{2}=(4 a-3 b)(2 a+5 b)$
+
+Try These 2 Factor each trinomial.
+
+1. $12 x^{2}+19 x+4$.
+
+2. $15 x^{2}+22 x-48$.
+
+3. $56 a^{2}-31 a b+3 b^{2}$.
+
+\subsection{Factoring Special} Products
+
+\subsubsection{Factoring the Difference of Two Squares}
+
+The binomial $a^{2}-b^{2}$ is called the difference of two squares because it is the difference $"$ " of two squared terms, the square of the term $a, a^{2}$ and square of the term $b, b^{2}$. To factor a difference of two squares, use the rule
+
+$$
+a^{2}-b^{2}=(a+b)(a-b)
+$$
+
+Notice that the factors of a difference of two squares are conjugate pairs. The first term, $a$, in each factor is the square root of the first term of the product $a^{2}$, and the second term in each factor is the square root of the second term of the product $b^{2}$.
+
+Example 3 Factor each binomial.
+
+1. $x^{2}-16 .$ Both $x^{2}$ and 16 are perfect squares.
+
+$x^{2}$ is the square of $x$.
+
+16 is the square of $4 .$
+
+$x^{2}-16=(x+4)(x-4)$
+
+You can check your factorization by multiplying.
+
+$(x+4)(x-4)=x^{2}-4 x+4 x-16=x^{2}-16$
+
+2. $81 a^{2}-25 b^{2}$. Both $81 a^{2}$ and $25 b^{2}$ are perfect squares.
+
+$81 a^{2}$ is the square of $9 a$.
+
+$25 b^{2}$ is the square of $5 b$.
+
+$81 a^{2}-25 b^{2}=(9 a+5 b)(9 a-5 b)$
+
+3. $100 a^{2}+81$ cannot be factored using conjugates with integers since it is not the difference of two squares, but rather the sum of two squares.
+
+Try These 3 Factor each binomial if possible.
+
+1. $z^{2}-25$
+
+2. $y^{2}-121$
+
+3. $49 x^{2}-4$
+
+4. $36 a^{2} b^{2}-25 c^{2}$
+
+5. $k^{4}-16 h^{4}$
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-040.jpg?height=1027&width=444&top_left_y=241&top_left_x=148)
+
+
+
+\section{Answers to Try These 1}
+
+1. $x^{2}+12 x+35=(x+7)(x+5)$.
+
+2. $a^{2}-10 a+24=(a-6)(a-4)$.
+
+3. $x^{2}-x-12=(x-4)(x+3)$.
+
+4. $y^{2}-5 y+4=(y-4)(y-1)$
+
+5. $s^{2}-5 s r-36 r^{2}=(s-9 r)(s+4 r)$.
+
+6. $y^{2}-3 y z-40 z^{2}=(y-8 z)(y+5 z)$.
+
+7. Not factorable
+
+\section{Answers to Try These 2}
+
+1. $12 x^{2}+19 x+4=(4 x+1)(3 x+4)$.
+
+2. $15 x^{2}+22 x-48=(5 x-6)(3 x+8)$.
+
+3. $56 a^{2}-31 a b+3 b^{2}=(7 a-3 b)(8 a-b)$.
+
+\section{Answers to Try These 3}
+
+1. $z^{2}-25=(z+5)(z-5)$
+
+2. $y^{2}-121=(y+11)(y-11)$
+
+3. $49 x^{2}-4=(7 x+2)(7 x-2)$
+
+4. $36 a^{2} b^{2}-25 c^{2}=(6 a b+5 c)(6 a b-5 c)$
+
+5. This factors twice.
+
+$$
+\begin{aligned}
+k^{4}-16 h^{4} &=\left(k^{2}+4 h^{2}\right) \underbrace{\left(k^{2}-4 h^{2}\right)}_{\text {factor again }} \\
+&=\left(k^{2}+4 h^{2}\right)(k+2 h)(k-2 h)
+\end{aligned}
+$$
+
+
+
+\section{Chapter 4}
+
+\section{Reviewing Rational Expressions}
+
+In this chapter you review techniques for reducing, multiplying, adding, and subtracting rational expressions.
+
+1. Rational Expressions
+
+2. Domains of Rational Expressions
+
+3. Reducing Rational Expressions
+
+4. Multiplying Rational Expressions
+
+5. Adding and Subtracting Rational Expressions
+
+\subsection{Rational Expressions}
+
+A rational expression is the quotient of two polynomial expressions. The domain of a rational expression is the set of all numbers except those that make the denominator zero. It is the set of numbers that make the expression computable. Symbolically, if $P(x)$ and $Q(x)$ are two polynomials then the quotient
+
+$$
+\frac{P(x)}{Q(x)}, \quad Q(x) \neq 0
+$$
+
+is a rational expression.
+
+For example, the expressions $\frac{x-5}{x+4}, \frac{y^{2}-9}{y^{2}-4 y+3}$,
+
+and $3 x+8$ are rational expressions. The last expression is rational since it can be expressed as the quotient $\frac{3 x+8}{1}$. The numerators and denomiators of each of these expressions are polynomials. The expression $\frac{7 \sqrt{x}+1}{x+6}$ is not a rational expression because the numerator is not a polynomial.
+
+\subsection{Domains of Rational Expressions}
+
+The domain of a rational expression is the set of numbers that make the expression computable.
+
+For this review, you need be concerned only with numbers that produce 0 in the denominator. These numbers produce division by 0 making the expression undefined and therefore not computable. To find such numbers, set the denominator equal to zero and solve for the variable. The zero-factor property is often used. The zero-factor property states that if two or more numbers are multiplied together and the result is 0, then at least one of the numbers must be zero. Symbolically, if $a \cdot b=0$, then $a=0$ or $b=0$ or both $a$ and $b$ are zero.
+
+Example 1 Specify the domain of each rational expression.
+
+1. $\frac{6}{3 x-5}$
+
+Set the denominator equal to zero and solve for $x$.
+
+$$
+\begin{aligned}
+3 x-5 &=0 \\
+3 x &=5 \\
+x &=5 / 3
+\end{aligned}
+$$
+
+So, the domain is all values of $x$ except $5 / 3$. The number $5 / 3$ makes the denominator 0, making the expression undefined.
+
+2. $\frac{3 y+7}{(y+4)(y-3)}$
+
+Set the denominator equal to zero and solve for $x$.
+
+$$
+\begin{array}{ccccc}
+y+4 & =0 & \text { and } & y-3 & =0 \\
+y & =-4 & y & =3
+\end{array}
+$$
+
+So, the domain is all values of $y$ except $-4$ and $3 .$ The numbers $-4$ and 3 make the denominator 0, making the expression undefined.
+
+3. $\frac{y+2}{y^{2}+8 y+15}$
+
+Set the denominator equal to zero and solve for $y$.
+
+$$
+y^{2}+8 y+15=0
+$$
+
+You can solve this equation by factoring it and using the zero-factor property.
+
+$$
+\begin{array}{cc}
+y^{2}+8 y+15 & =0 \\
+(y+3)(y+5) & =0
+\end{array}
+$$
+
+Now either $y+3=0$ or $y+5=0$. Solve each of these equations.
+
+$y+3=0$ gives $y=-3$, and
+
+$y+5=0$ gives $y=-5$.
+
+Because $-3$ and $-5$ make the denominator 0, they must be excluded.
+
+So, the domain of this expression is all numbers $y$ except $-3$ and $-5$.
+
+Try These 1 Specify the domain of each rational expression.
+
+1. $\frac{5}{x+7}$
+
+2. $\frac{4 x}{5 x-2}$
+
+3. $\frac{a-1}{(a+6)(a-11)}$
+
+4. $\frac{3 x+4}{x^{2}-5 x-24}$
+
+\subsection{Reducing Rational Expressions}
+
+A rational expression is reduced to lowest terms when the numerator and denominator have no factors in common. Remember, factors are quantities that are parts of multiplications. A reduced rational expression could not have, for example, the factor $x+4$ appearing in both the numerator and denominator.
+
+For example, the expression $\frac{(x+4)(x-3)}{(x+4)(x+5)}$ is not reduced to lowest terms since the factor $x+4$ is common to both the numerator and denominator.
+
+The expression $\frac{x-3}{x+5}$ is reduced to lowest terms since there is no factor common to both the numerator and denominator.
+
+Caution: Although $x$ in this expression appears in both the numerator and denominator, it is not a factor. It is a term. Factors are parts of products (multiplications). Terms are parts of sums (additions). Since $x$ is part of a sum, it is a term. Only common factors can be cancelled. Terms cannot be cancelled.
+
+\subsubsection{Reducing a Rational Expression}
+
+To reduce a rational expression,
+
+1. Factor the numerator and denominator as much as possible.
+
+2. Determine the domain of the expression.
+
+3. Divide out (a process commonly called cancelling) factors that are common to both the numerator and denominator.
+
+4. With the same domain as the original expression the new expression is equivalent to the original.
+
+Example 2 Reduce each rational expression.
+
+1. $\frac{(x+6)(x-3)}{(x+6)(x+5)}$
+
+The domain is all numbers except $-6$ and $-5$.
+
+The factor $x+6$ is common to both the numerator and denominator. Cancel it.
+
+$$
+\begin{aligned}
+\frac{(x+6)(x-3)}{(x+6)(x+5)} &=\frac{(x+6)(x-3)}{(x+6)(x+5)} \\
+&=\frac{x-3}{x+5}
+\end{aligned}
+$$
+
+So, $\frac{(x+6)(x-3)}{(x+6)(x+5)}=\frac{x-3}{x+5}, \quad x \neq-6,-5$
+
+2. $\frac{x^{2}-3 x-28}{x^{2}-4 x-32}$
+
+Factor both the numerator and denominator.
+
+$$
+\frac{(x+4)(x-7)}{(x+4)(x-8)}
+$$
+
+The domain is all numbers except $-4$ and 8 .
+
+The factor $x+4$ is common to both the numerator and denominator. Cancel it.
+
+$$
+\begin{aligned}
+\frac{(x+4)(x-7)}{(x+4)(x-8)} &=\frac{(x+4)(x-7)}{(x+4)(x-8)} \\
+&=\frac{x-7}{x-8}
+\end{aligned}
+$$
+
+So, $\frac{x^{2}-3 x-28}{x^{2}-4 x-32}=\frac{x-7}{x-8}, \quad x \neq-4,8$ Try These 2 Reduce each rational expression.
+
+1. $\frac{(x-5)(x-2)}{(x+3)(x-2)}$
+
+2. $\frac{x^{2}+5 x-36}{x^{2}+7 x-18}$
+
+3. $\frac{14 x^{2}-15 x-9}{7 x^{2}+10 x+3}$
+
+When reducing a rational expression by cancelling common factors, be careful to cancel only common factors and not common terms. Factors are parts of multiplications. Terms are parts of sums and differences. You might think: If you can't factor, you can't cancel."
+
+Example $3 \quad$ Reduce $\frac{x^{2}-5 x-36}{x^{2}+7 x-18}$
+
+The proper method is to factor the numerator and denominator.
+
+$\frac{x^{2}-5 x-36}{x^{2}-7 x-18}=\frac{(x+4)(x-9)}{(x+2)(x-9)}$
+
+Now you can see the common factor $x-9$. Cancel it.
+
+$\frac{x^{2}-5 x-36}{x^{2}-7 x-18}=\frac{(x+4)(x-9)}{(x+2)(x-9)}$
+
+The reduced expression is $\frac{x+4}{x+2}$
+
+An improper approach is to cancel the common terms. The common term is $x^{2}$. Cancelling that gives the incorrect reduced expression
+
+$\frac{x^{2}-5 x-36}{x^{2}-7 x-18}=\frac{5 x-36}{7 x-18}$ Don't do this.
+
+Think about the fraction $\frac{3+2}{3+7}=\frac{5}{10}=\frac{1}{2}$
+
+Cancelling the common term 3 gives the fraction $\frac{2}{7}$ and, of course, $\frac{1}{2} \neq \frac{2}{7}$
+
+\subsection{Multiplying Rational Expressions}
+
+The product of one rational expression and another is the product of the numerators divided by the product of the denominators.
+
+If $P(x), Q(x), R(x)$, and $S(x)$ are all rational expressions, then
+
+$$
+\frac{P(x)}{Q(x)} \cdot \frac{R(x)}{S(x)}=\frac{P(x) \cdot R(x)}{Q(x) \cdot S(x)}
+$$
+
+For example,
+
+$$
+\begin{aligned}
+\frac{x-6}{x-1} \cdot \frac{x+4}{x-6} &=\frac{(x-6)(x+4)}{(x-1)(x-6)} \\
+&=\frac{(x-6)(x+4)}{(x-1)(x-6)} \\
+&=\frac{x+4}{x-1} \quad x \neq 1,6
+\end{aligned}
+$$
+
+Notice that the need for writing the indicated product of the numerators $(x+6)(x+4)$ over the indicated product of the denominators is not really necessary. You can divide out the common factors before writing the indicated product or actually performing the multiplication. Notice also that if the domain of the original expression is determined from the reduced expression, the restriction $x \neq 6$ is lost.
+
+\subsubsection{The Method for Multiplying Rational Expressions}
+
+1. Factor, completely, all the numerators and denominators. Make a note of any values that must be excluded.
+
+2. Divide out (cancel) factors.
+
+3. Write the numerators as a product.
+
+4. Write the denominators as a product.
+
+For practical reasons, the product in the numerator is mutliplied out but the product in the denominator is usually left indicated (not multiplied out).
+
+Example 4 Perform the multiplication.
+
+1. $\frac{x^{2}-x-12}{x^{2}+2 x-3} \cdot \frac{x^{2}-9 x+8}{x^{2}-10 x+16}$
+
+Factor each numerator and denominator to check for common factors.
+
+$$
+\frac{(x+3)(x-4)}{(x+3)(x-1)} \cdot \frac{(x-1)(x-8)}{(x-8)(x-2)}, \quad x \neq-3,1,2,8
+$$
+
+The factors $x+3, x-1$, and $x-8$ are common to both the numerators and denominators. Cancel them.
+
+$$
+\frac{(x+3)(x-4)}{(x+3)(x-1)} \cdot \frac{(x-1)(x-8)}{(x-8)(x-2)}
+$$
+
+The remaining factors form the product.
+
+$$
+\frac{x-4}{x-2}, \quad x \neq-3,1,2,8
+$$
+
+It is important to note the restrictions on the variable, $x$, in this case. The statement that
+
+$$
+\frac{x^{2}-x-12}{x^{2}+2 x-3} \cdot \frac{x^{2}-9 x+8}{x^{2}-10 x+16}
+$$
+
+is the same as
+
+$$
+\frac{x-4}{x-2}
+$$
+
+is true only when $x \neq-3,1,2,8$. If the restrictions are not noted, a user could mistakenly substitute 8 into the reduced expression getting
+
+$$
+\frac{8-4}{8-2}=\frac{4}{6}=\frac{2}{3}
+$$
+
+When 8 is substituted into the original expression, the indeterminant expression $0 / 0$ results rather than the actual value $2 / 3$ results.
+
+2. $\frac{9 x^{2}+6 x-8}{12 x^{2}+19 x+4} \cdot \frac{16 x^{2}-9}{20 x^{2}-39 x+18}$
+
+Factor each numerator and denominator to check for common factors.
+
+$$
+\begin{aligned}
+&\frac{(3 x+4)(3 x-2)}{(3 x+4)(4 x+1)} \cdot \frac{(4 x+3)(4 x-3)}{(4 x-3)(5 x-6)} \\
+&x \neq-4 / 3,-1 / 4,3 / 4,6 / 5
+\end{aligned}
+$$
+
+The factors $3 x+4$, and $4 x-3$ are common to both the numerators and denominators. Cancel them.
+
+$$
+\begin{aligned}
+&\frac{(3 x+4)(3 x-2)}{(3 x+4)(4 x+1)} \cdot \frac{(4 x+3)(4 x-3)}{(4 x-3)(5 x-6)} \\
+&x \neq-4 / 3,-1 / 4,3 / 4,6 / 5
+\end{aligned}
+$$
+
+The remaining factors form the product.
+
+$$
+\frac{(3 x-2)(4 x+3)}{(4 x+1)(5 x-6)}, \quad x \neq-4 / 3,-1 / 4,3 / 4,6 / 5
+$$
+
+Multiply the numerator out, but leave the denominator factored.
+
+$$
+\frac{12 x^{2}+x-6}{(4 x+1)(5 x-6)}, \quad x \neq-4 / 3,-1 / 4,3 / 4,6 / 5
+$$
+
+Try These 3 Perform the multiplications.
+
+1. $\frac{x+3}{x+10} \cdot \frac{x+10}{x-8}$
+
+2. $\frac{x^{2}+6 x+8}{x^{2}+7 x+10} \cdot \frac{x^{2}+8 x+7}{x^{2}+11 x+28}$
+
+3. $\frac{x^{2}-16}{x^{2}-25} \cdot \frac{x^{2}+6 x+5}{x^{2}+7 x+12}$
+
+4. $\frac{x^{2}+10 x+16}{x^{2}+11 x+24} \cdot \frac{x^{2}+4 x+3}{x^{2}+3 x+2}$
+
+5. $\frac{6 x^{2}-13 x-28}{3 x^{2}+22 x+24} \cdot \frac{x^{2}+14 x+48}{5 x^{2}+38 x-16}$
+
+\subsection{Dividing Rational Expressions}
+
+The quotient of one rational expression and another is the product of the first expression and the reciprocal of the second. The reciprocal of
+
+$\frac{R(x)}{S(x)}$ is $\frac{S(x)}{R(x)}$
+
+If $P(x), Q(x), R(x)$, and $S(x)$ are all polynomials, then
+
+$$
+\begin{aligned}
+\frac{P(x)}{Q(x)} \div \frac{R(x)}{S(x)} &=\frac{P(x)}{Q(x)} \cdot \frac{S(x)}{R(x)} \\
+&=\frac{P(x) \cdot S(x)}{Q(x) \cdot R(x)}
+\end{aligned}
+$$
+
+For example,
+
+$$
+\begin{aligned}
+\frac{x-6}{x-1} \div \frac{x+5}{x-7} &=\frac{x-6}{x-1} \cdot \frac{x-7}{x+5} \\
+&=\frac{(x-6)(x-7)}{(x-1)(x+5)} \\
+&=\frac{x^{2}-13 x+42}{(x-1)(x+5)}, \\
+x & \neq 1,-5,7
+\end{aligned}
+$$
+
+
+
+\subsubsection{The Method for Dividing Rational Expressions}
+
+1. Change the division to a multiplication and convert the divisor to its reciprocal. (This is sometimes called the invert and multiply rule.)
+
+2. Factor, completely, all the numerators and denominators. Make a note of any values that must be excluded.
+
+3. Divide out (cancel) common factors.
+
+4. Write the numerators as a product.
+
+5. Write the denominators as a product.
+
+For practical reasons, the product in the denominator is usually left indicated (not multiplied out).
+
+Example $5 \quad$ Perform the division.
+
+$$
+\frac{x^{2}+13 x+42}{x^{2}+8 x+12} \div \frac{x^{2}-5 x-36}{x^{2}-7 x-18}
+$$
+
+Convert the division to a multiplication and convert the divisor to its reciprocal. Invert and multiply.
+
+$$
+\frac{x^{2}+13 x+42}{x^{2}+8 x+12} \cdot \frac{x^{2}-7 x-18}{x^{2}-5 x-36}
+$$
+
+Factor each numerator and denominator to check for common factors.
+
+$$
+\frac{(x+6)(x+7)}{(x+2)(x+6)} \cdot \frac{(x+2)(x-9)}{(x+4)(x-9)}, \quad x \neq-2,-6,9,-4
+$$
+
+The factors $x+6, x+2$, and $x-9$ are common to both the numerators and denominators Cancel them.
+
+$$
+\frac{(x+6)(x+7)}{(x+2)(x+6)} \cdot \frac{(x+2)(x-9)}{(x+4)(x-9)}, \quad x \neq-2,-6,9,-4
+$$
+
+The remaining factors form the quotient.
+
+$$
+\frac{x+7}{x+4}, \quad x \neq-2,-6,9,-4
+$$
+
+Try These 4 Perform the divisions.
+
+$$
+\begin{aligned}
+&\text { 1. } \frac{x^{2}+11 x+28}{x^{2}+4 x-21} \div \frac{x^{2}-4 x-32}{x^{2}-9 x+18} \\
+&\text { 2. } \frac{6 x^{2}-7 x-20}{12 x^{2}+25 x+12} \div \frac{4 x^{2}-25}{8 x^{2}+26 x+15}
+\end{aligned}
+$$
+
+\subsection{Adding and Subtracting Rational Expressions having the Same Denominators}
+
+The sum or difference of two rational expressions having the same denominators is formed by adding or subtracting the numerators and placing that sum or difference over the common denominator.
+
+If $P(x) / Q(x)$ and $R(x) / S(x)$ are all rational expressions, then
+
+$$
+\begin{aligned}
+&\frac{P(x)}{Q(x)}+\frac{R(x)}{Q(x)}=\frac{P(x)+R(x)}{Q(x)} \text { and } \\
+&\frac{P(x)}{Q(x)}-\frac{R(x)}{Q(x)}=\frac{P(x)-R(x)}{Q(x)}
+\end{aligned}
+$$
+
+After you add or subtract, you may have to reduce the resulting sum or difference.
+
+\section{Example 6}
+
+1. Perform the addition. $\frac{4 x+5}{x-6}+\frac{2 x+2}{x-6}$
+
+$$
+\begin{aligned}
+&\frac{4 x+5}{x-6}+\frac{2 x+2}{x-6} \\
+&\frac{4 x+5+2 x+2}{x-6} \\
+&\frac{6 x+7}{x-6}, \quad x \neq 6
+\end{aligned}
+$$
+
+2. Perform the addition. $\frac{x^{2}+4 x+8}{x^{2}-x-6}+\frac{5 x+6}{x^{2}-x-6}$
+
+$$
+\begin{aligned}
+&\frac{x^{2}+4 x+8}{x^{2}-x-6}+\frac{5 x+6}{x^{2}-x-6} \\
+&\frac{x^{2}+4 x+8+5 x+6}{x^{2}-x-6}
+\end{aligned}
+$$
+
+
+
+$$
+\begin{aligned}
+&\frac{x^{2}+9 x+14}{x^{2}-x-6} \quad \text { Factor } \\
+&\frac{(x+7)(x+2)}{(x-3)(x+2)} \\
+&\frac{(x+7)(x+2)}{(x-3)(x+2)} \\
+&\frac{x+7}{x-3}, \quad x \neq-2,3
+\end{aligned}
+$$
+
+Try These 5 Perform the additions.
+
+1. $\frac{2 x+1}{x+5}+\frac{7 x+4}{x+5}$
+
+2. $\frac{x^{2}-8 x-20}{x^{2}+9 x+18}+\frac{3 x-4}{x^{2}+9 x+18}$
+
+Subtractions take a little more care than do additions. When subtracting a rational expression that contains more than one term in its numerator from another rational expression you must enclose that numerator in parentheses. The parentheses ensure that you capture the entire numerator and not just its first term.
+
+\section{Example 7}
+
+1. Perform the subtraction. $\frac{5 x+7}{x+4}-\frac{2 x-3}{x+4}$
+
+$$
+\begin{aligned}
+&\frac{5 x+7}{x+4}-\frac{2 x-3}{x+4} \\
+&\frac{5 x+7}{x+4}-\frac{2 x-3}{x+4} \\
+&\frac{5 x+7-(2 x-3)}{x+4} \\
+&\frac{5 x+7-2 x+3}{x+4} \\
+&\frac{3 x+10}{x+4}, \quad x \neq-4
+\end{aligned}
+$$
+
+Had we not used the parentheses to capture the entire second numerator we would have erroneously gotten
+
+$$
+\begin{aligned}
+\frac{5 x+7}{x+4}-\frac{2 x-3}{x+4} &=\frac{5 x+7-2 x-3}{x+4} \\
+&=\frac{3 x+4}{x+4}, \quad x \neq-4
+\end{aligned}
+$$
+
+2. Perform the subtraction $\frac{x^{2}+2 x-10}{x^{2}+8 x+12}-\frac{7 x+4}{x^{2}+8 x+12}$
+
+$$
+\begin{aligned}
+&\frac{x^{2}+2 x-10}{x^{2}+8 x+12}-\frac{7 x+4}{x^{2}+8 x+12} \\
+&\frac{x^{2}+2 x-10-(7 x+4)}{x^{2}+8 x+12} \\
+&\frac{x^{2}-5 x-14}{x^{2}+8 x+12} \\
+&\frac{(x+2)(x-7)}{(x+2)(x+6)} \\
+&\frac{x-7}{x+6}, \quad x \neq-2,-6
+\end{aligned}
+$$
+
+Try These 6 Perform the subtractions.
+
+1. $\frac{8 x+5}{x+6}-\frac{2 x+7}{x+6}$
+
+2. $\frac{4 x^{2}+2 x-3}{x^{2}-6 x-27}-\frac{3 x^{2}+10 x+6}{x^{2}-6 x-27}$
+
+\subsection{Adding and Subtracting Rational Expressions having Unlike Denominators}
+
+The method we use to add or subtract rational expressions requires that they have a common denominator. The most efficient denominator is the least common denominator the LCD.
+
+\section{Finding the Least Common Denominator}
+
+To find the least common denominator (the LCD) of two or more rational expressions:
+
+1. Factor each denominator.
+
+- If in an individual denominator a factor appears more than once, express it using exponents.
+
+- For example, $(x+7)(x+7)$ should be expressed as $(x+7)^{2} .$
+
+2. List all the different factors that appear in the denominators. - When the same factor appears in more than one denominator, use the factor with the highest power.
+
+3. The $\mathrm{LCD}$ is the product of all the factors listed in step 2 .
+
+\section{Example 8}
+
+1. Find the LCD of the rational expressions.
+
+$$
+\frac{3}{x^{2}+6 x+8}+\frac{5}{x^{2}-5 x-36}
+$$
+
+- Factor each denominator.
+
+$$
+\frac{3}{(x+4)(x+2)}+\frac{5}{(x+4)(x-9)}
+$$
+
+- List all the factors that appear in the factored denominators $x+4, x+2$, and $x-9$
+
+- All factors appear to only the first power
+
+- Form the product of all the factors.
+
+$$
+\text { The LCD is }(x+4)(x+2)(x-9)
+$$
+
+2. Find the $\mathrm{LCD}$ of the rational expressions.
+
+$$
+\frac{x+1}{x^{2}+12 x+36}+\frac{x-2}{x^{2}+8 x+12}+\frac{x+3}{(x+2)^{3}}
+$$
+
+- Factor each denominator.
+
+$$
+\frac{x+1}{(x+6)^{2}}+\frac{x-2}{(x+6)(x+2)}+\frac{x+3}{(x+2)^{3}}
+$$
+
+- List all the factors that appear in the factored denominators. $x+6$, and $x+2$
+
+- The highest power $x+6$ appears to is 2 .
+
+$$
+\text { Use }(x+6)^{2} \text {. }
+$$
+
+- The highest power $x+2$ appears to is 3 .
+
+Use $(x+2)^{3}$.
+
+- Form the product of all the factors.
+
+$$
+\text { The LCD is }(x+6)^{2}(x+2)^{3}
+$$
+
+Try These 7 Find each LCD.
+
+$$
+\begin{aligned}
+&\text { 1. } \frac{2}{x^{2}-x-30}-\frac{4}{x^{2}-9 x+18} \\
+&\text { 2. } \frac{1}{x^{2}-8 x+16}+\frac{2}{(x+1)^{3}}-\frac{3}{x^{2}-3 x-4}
+\end{aligned}
+$$
+
+\section{Adding and Subtracting Using the LCD}
+
+To add or subtract rational expressions having unlike denominators:
+
+1. Determine the LCD
+
+2. Rewrite each of the fractions as an equivalent fraction having the least common denominator
+
+- Do this by multiplying both the numerator and denominator of each rational expression by any factors needed to obtain the least common denominator
+
+- Multiply out the numerators but leave the denominators in factored form
+
+3. Add or subtract these new rational expressions using the method you used for rational expressions having the same denominators.
+
+\section{Example 9}
+
+1. Perform the addition. $\frac{2}{x+4}+\frac{3}{x-3}$
+
+The LCD is $(x+4)(x-3) .$ Rewrite each of the original expressions using $(x+4)(x-3)$ as the denominator.
+
+$$
+\begin{aligned}
+\frac{2}{x+4}+\frac{3}{x-3} &=\frac{2 \cdot(x-3)}{(x+4) \cdot(x-3)}+\frac{3 \cdot(x+4)}{(x+4) \cdot(x-3)} \\
+&=\frac{2 x-6+3 x+12}{(x+4)(x-3)} \\
+&=\frac{5 x+6}{(x+4)(x-3)}
+\end{aligned}
+$$
+
+2. Perform the addition.
+
+$$
+\frac{3}{x+1}+\frac{x}{x-2}-\frac{3 x}{x^{2}-x-2}
+$$
+
+Factor the denominators to determine the LCD.
+
+$$
+x^{2}-x-2=(x+1)(x-2)
+$$
+
+The LCD is $(x+1)(x-2)$. Rewrite each of the original expressions using $(x+1)(x-2)$ as the denominator.
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-056.jpg?height=680&width=355&top_left_y=252&top_left_x=185)
+
+3. Perform the subtraction.
+
+$$
+\frac{4 x+5}{(x+1)^{2}(x+2)}-\frac{3}{\left(x^{2}+3 x+2\right)}
+$$
+
+Factor the second denominator to determine the LCD.
+
+$$
+x^{2}+3 x+2=(x+1)(x+2)
+$$
+
+The LCD is $(x+1)^{2}(x+2)$. Rewrite each of the original expressions using $(x+$ 1) $^{2}(x+2)$ as the denominator.
+
+The second denominator is missing a factor of $x+1$.
+
+$$
+\begin{aligned}
+&\frac{4 x+5}{(x+1)^{2}(x+2)}-\frac{3}{(x+1)(x+2)} \\
+&=\frac{4 x+5}{(x+1)^{2}(x+2)}-\frac{3 \cdot(x+1)}{(x+1)(x+2) \cdot(x+1)}
+\end{aligned}
+$$
+
+
+
+$$
+\begin{aligned}
+&=\frac{4 x+5-3(x+1)}{(x+1)^{2}(x+2)} \\
+&=\frac{4 x+5-3 x-3}{(x+1)^{2}(x+2)} \\
+&=\frac{x+2}{(x+1)^{2}(x+2)} \\
+&=\frac{x+2}{(x+1)^{2}(x+2)} \\
+&=\frac{1}{(x+1)^{2}}, \quad x \neq-1,-2
+\end{aligned}
+$$
+
+\section{Try These 8}
+
+1. Perform the addition. $\frac{1}{x-5}+\frac{4}{x+2}$
+
+2. Perform the addition.
+
+$$
+\frac{x}{x-6}+\frac{1}{x+1}-\frac{5 x-2}{x^{2}-5 x-6}
+$$
+
+3. Perform the subtraction.
+
+$$
+\frac{4 x+-7}{(x+5)(x-4)^{2}}-\frac{3}{x^{2}+x-20}
+$$
+
+\section{Combining a Rational Expression and a Whole Number}
+
+Example $10 \quad$ Perform the addition.
+
+$\frac{x+4}{x+6}+3$
+
+Rewrite the whole number 3 as a fraction.
+
+$3=\frac{3}{1}$
+
+The LCD is $1 \cdot(x+6)=x+6$. Rewrite each of the original expressions using $x+6$ as the denominator.
+
+$$
+\begin{aligned}
+\frac{x+4}{x+6}+3 &=\frac{x+4}{x+6}+\frac{3}{1} \\
+&=\frac{x+4}{x+6}+\frac{3 \cdot(x+6)}{1 \cdot(x+6)} \\
+&=\frac{x+4}{x+6}+\frac{3 x+18}{x+6} \\
+&=\frac{x+4+3 x+18}{x+6} \\
+&=\frac{4 x+22}{x+6} \\
+&=\frac{2(2 x+11)}{x+6}, \quad x \neq-6
+\end{aligned}
+$$
+
+\section{Try These 9}
+
+1. Perform the addition. $\frac{x-4}{x+5}+6$
+
+2. Perform the subtraction. $\frac{5 x-10}{x-2}-4$
+
+\section{Exercises 4}
+
+1. Find the domain of the expression $\frac{x-4}{(x+2)(x-6)}$
+
+2. Find the domain of the expression $\frac{x^{2}+10 x+16}{x^{2}+5 x-24}$
+
+3. Find the domain of the expression $\frac{x-5}{x^{2}+5}$
+
+4. Reduce, if possible. $\frac{(x+4)(x-7)}{(x+4)(x-8)}$
+
+5. Reduce, if possible. $\frac{x^{2}+8 x+12}{x^{2}+3 x-18}$
+
+6. Reduce, if possible. $\frac{x^{2}+6 x+9}{x^{2}-9}$
+
+7. Multiply. $\frac{x+2}{x+5} \cdot \frac{x+3}{x+2}$
+
+8. Multiply. $\frac{x^{2}+10 x+24}{x^{2}+7 x+6} \cdot \frac{x^{2}+5 x+6}{x^{2}+6 x+8}$ 9. Multiply. $\frac{x^{2}+10 x+25}{x^{2}-25} \cdot \frac{x^{2}-13 x+40}{x^{2}-16 x+64}$
+
+10. Multiply. $\frac{8 x^{2}+18 x+9}{16 x^{2}-9} \cdot \frac{16 x^{2}+8 x-15}{8 x^{2}+22 x+15}$
+
+11. Multiply. $\frac{x^{2}+11 x+28}{x^{2}+7 x+12} \cdot \frac{x^{2}+9 x+18}{x^{2}+5 x-6}$
+
+12. Multiply. $\frac{15 x^{2}-11 x-12}{6 x^{2}-17 x+12} \cdot \frac{14 x^{2}+17 x-6}{10 x^{2}+21 x+9}$
+
+13. Divide. $\frac{x^{2}+8 x+12}{x^{2}+5 x-6} \div \frac{x^{2}+7 x+12}{x^{2}+2 x-3}$
+
+14. Divide. $\frac{x^{2}+8 x+16}{x^{2}-36} \div \frac{x^{2}-16}{x^{2}+2 x-24}$
+
+15. Divide. $\frac{(x+3)^{4}}{(x-2)^{3}} \div \frac{(x+3)^{5}}{x-2}$
+
+16. Divide. $\frac{8 x^{2}+2 x-21}{10 x^{2}-3 x-18} \div \frac{4 x^{2}+11 x+7}{10 x^{2}+17 x+7}$
+
+17. Add. $\frac{3 x-6}{4 x+5}+\frac{2 x+4}{4 x+5}$
+
+18. Add. $\frac{2 x+8}{x^{2}+10 x+24}+\frac{x+4}{x^{2}+10 x+24}$
+
+19. Subtract. $\frac{4 x+6}{x+1}-\frac{3 x-2}{x+1}$
+
+20. Subtract. $\frac{x+2}{x^{2}-9}-\frac{6 x+2}{x^{2}-9}$
+
+21. Add. $\frac{4}{x^{2}+11 x+24}+\frac{2}{x^{2}+x-6}$
+
+22. Add. $\frac{x-1}{x^{2}-49}+\frac{x-1}{x^{2}+2 x-35}$
+
+23. Add. $\frac{x+2}{x+4}+\frac{x+5}{x-6}-\frac{x^{2}+4 x+14}{x^{2}-2 x-24}$
+
+24. Add. $\frac{x+2}{x-3}+\frac{x+3}{x-4}-\frac{x^{2}-2 x-14}{x^{2}-7 x+12}$
+
+25. Subtract. $\frac{x+3}{x^{2}-2 x-24}-\frac{x-4}{x^{2}-4 x-12}$
+
+26. Subtract. $\frac{x+2}{x^{2}-25}-\frac{x+1}{x^{2}+10 x+25}$
+
+27. Add. $\frac{2 x-23}{x+3}+8$
+
+28. Add. $\frac{15 x}{x+4}+5$ 29. Subtract. $\frac{x+2}{x+1}-1$
+
+30. Subtract. $x+3-\frac{x^{2}-3 x-10}{x-5}$
+
+\section{Answers to Try These 1}
+
+1. Set the denominator equal to zero and solve for $x$. $x+7=0 .$ Subtracting 7 from both sides gives $y=-7 .$ Then, since $-7$ produces 0 in the denominator, it must be excluded. So, the domain of this expression is the set of all numbers $x$ except $-7$.
+
+2. Set the denominator equal to zero and solve for $x$.
+
+The domain is the set of all values of $x$ except $2 / 5$. The number $2 / 5$ makes the denominator 0 , and hence, the expression undefined.
+
+3. Set the denominator equal to zero and solve for $x$. The domain is the set of all values of $a$ except $-6$ and 11 .
+
+4. Set the denominator equal to zero and solve for $x$.
+
+The domain of this expression is the set of all numbers $x$ except $-3$ and 8 .
+
+\section{Answers to Try These 2}
+
+1. $\frac{x-5}{x+3}, \quad x \neq-3,2$
+
+2. $\frac{x-4}{x-2}, \quad x \neq-9,2$
+
+3. $\frac{2 x-3}{x+1}, \quad x \neq-3 / 7,-1$
+
+\section{Answers to Try These 3}
+
+1. $\frac{x+3}{x-8}, \quad x \neq-10,8$
+
+2. $\frac{x+1}{x+5}, \quad x \neq-2,-5,-7,-4$
+
+3. $\frac{x^{2}-3 x-4}{(x-5)(x+3)}, \quad x \neq-5,5,-4,-3$
+
+4. $1, \quad x \neq-8,-3,-2,-1$
+
+5. $\frac{2 x-7}{5 x-2}, \quad x \neq-4 / 3,-6,2 / 5,-8$ Answers to Try These 4
+
+1. $\frac{x-6}{x-8}, \quad x \neq-7,3,-4,8,6$
+
+2. $1, \quad x \neq-3 / 4,-4 / 3,-5 / 2,5 / 2$
+
+Answers to Try These 5
+
+1. $\frac{9 x+5}{x+5}, \quad x \neq-5$
+
+2. $\frac{x-8}{x+6}, \quad x \neq-3,-6$
+
+Answers to Try These 6
+
+1. $\frac{2(3 x-1)}{x+6}, \quad x \neq-6$
+
+2. $\frac{x+1}{x+3}, \quad x \neq-3,9$
+
+Answers to Try These 7
+
+1. The LCD is $(x+5)(x-6)(x-3)$
+
+2. The LCD is $(x-4)^{2}(x+1)^{3}$
+
+Answers to Try These 8
+
+1. $\frac{5 x-18}{(x-5)(x+2)}, \quad x \neq 5,-2$
+
+2. $\frac{x-4}{x-6}, \quad x \neq-1,6$
+
+3. $\frac{1}{(x-4)^{2}}, \quad x \neq-5,4 .$ Be sure to reduce.
+
+Answers to Try These 9
+
+1. $\frac{7 x+26}{x+5}, \quad x \neq-5$
+
+2. $1, \quad x \neq 2$. Be sure to reduce.
+
+\section{Chapter 5}
+
+\section{Reviewing Methods for Solving Linear, Quadratic and Rational Equations}
+
+In this chapter you review techniques for solving linear equations, quadratic equations, and rational (fractional) equations that involve one variable. You also review a method for solving linear inequalities in one variable.
+
+1. Solving Linear Equations
+
+2. Solving Quadratic Equations by Factoring
+
+3. Solving Quadratic Equations by the Square Root Method
+
+4. Solving Quadratic Equations Using the
+
+Quadratic Formula
+
+5. Solving Rational Equations
+
+\subsection{Linear Equations}
+
+Linear equations are equations that involve only first degree polynomials. For example, the following four equations are linear equations.
+
+1. $5 x+8=-7$,
+
+2. $3(3 x-5)+7=5(x-4)$,
+
+$3.3 x+4 y=-12$, and
+
+4. $\frac{3 x+8}{2}=13$
+
+Equation number 4 is linear because the expression $\frac{3 x+8}{2}$ is linear. (There is no variable in the denominator.)
+
+The equation $4 x^{2}+3 c-7=5$ is not a linear equation because the polynomial is not linear, but rather quadratic (2nd degree). The equation $\frac{2 a-6}{3 a+5}=2 a-4$ is not linear because the expression expression $\frac{2 a-6}{3 a+5}$ is not a linear polynomial. It is a rational expression.
+
+\section{$5.2$ Solving Linear Equations}
+
+The method for solving a linear equation is based on the following properties of equality.
+
+1. The addition - subtraction property of equality states that the same real number can be added to or subtracted from both sides of an equation without changing the solution of the equation.
+
+2. The multiplication - division property of equality states that both sides of an equation can be multiplied or divided by the same nonzero real number without changing the solution of the equation.
+
+When applied to a linear equation, these properties, along with the properties of real numbers (addition, subtraction, multiplication, division, and the distributive properties) produce a new equation that is equivalent to the original equation in the sense that the new equation has exactly the same solution as the original equation.
+
+\subsubsection{Solving a Linear Equation}
+
+To solve a linear equation, apply the properties of equality along with the properties of real numbers one or more times to isolate the variable for which you wish to solve on one side of the $=\operatorname{sign}$ and all other numbers and variables on the other. Apply the properties of equality in the reverse order as the order of operations. That is, apply additions and subtractions first, then multiplications and divisions.
+
+Example 1 Solve the following linear equations
+
+1. $5 x+8=-7$
+
+To isolate $x$, you need to eliminate the 8 and the $5 .$ Since 8 is associated with $x$ by addition, subtract it from both sides.
+
+$$
+\begin{aligned}
+5 x+8-8 &=-7-8 \\
+5 x &=-15
+\end{aligned}
+$$
+
+Since the 5 is associated with the $x$ by multiplication, divide both sides by 5 .
+
+$$
+\begin{aligned}
+\frac{5 x}{5} &=\frac{-15}{5} \\
+x &=-3
+\end{aligned}
+$$
+
+and the equation is solved. 2. $3(3 x-5)+7=5(x-4)$
+
+Begin by using the distributive property to remove the parentheses.
+
+$$
+9 x-15+7=5 x-20
+$$
+
+$A d d$ the $-15$ and 7 together.
+
+$$
+9 x-8=5 x-20
+$$
+
+The variable $x$ appears on both sides of the $=\operatorname{sign}$. Choose a side on which to isolate it and then eliminate it from the other side. Since there are more $x$ 's on the left side than the right side, you might choose to isolate $x$ on the left side. To do so, $s$ ubtract $5 x$ from both sides.
+
+$$
+\begin{aligned}
+9 x-8-5 x &=5 x-20-5 x \\
+4 x-8 &=-20
+\end{aligned}
+$$
+
+$A d d 8$ to each side to eliminate the 8 .
+
+$$
+4 x=-12
+$$
+
+Divide each side by 4 to eliminate the 4 .
+
+$$
+x=-3
+$$
+
+and the equation is solved.
+
+3. $4(x-3)-7 x=x+6(x+4)-16$
+
+This example shows all the steps but without the explanations.
+
+$$
+\begin{aligned}
+4(x-3)-7 x &=x+6(x+4)-16 \\
+4 x-12-7 x &=x+6 x+24-16 \\
+-3 x-12 &=7 x+8 \\
+-10 x-12 &=8 \\
+-10 x &=20 \\
+x &=-2
+\end{aligned}
+$$
+
+4. $5(4 x-1)+3 x(2 x-4)=6 x^{2}-2(3 x+5)+19$
+
+Begin by using the distributive property to remove the parentheses.
+
+$$
+20 x-5+6 x^{2}-12 x=6 x^{2}-6 x-10+19
+$$
+
+Combine like terms.
+
+$$
+6 x^{2}+8 x-5=6 x^{2}-6 x+9
+$$
+
+The term $6 x^{2}$ appears on both sides of the $=$ sign. Subtract it from both sides of the equation.
+
+$$
+\begin{aligned}
+6 x^{2}+8 x-5-6 x^{2} &=6 x^{2}-6 x+9-6 x^{2} \\
+8 x-5 &=-6 x+9
+\end{aligned}
+$$
+
+$A d d 6 x$ to each side to eliminate the $-6 x$.
+
+$$
+14 x-5=9
+$$
+
+$A d d 5$ to each side to eliminate the $-5$.
+
+$$
+14 x=14
+$$
+
+Divide each side by 14 to eliminate the 14 .
+
+$x=1$ and the equation is solved.
+
+5. $\frac{3 x}{2}+4=13$
+
+When your equation involves a rational expression like this, it is a good idea to eliminate the denominator right away. Since the denominator 2 is associated with the variable $x$ by division, multiply both sides by 2 .
+
+$$
+\begin{aligned}
+2 \cdot\left(\frac{3 x}{2}+4\right) &=2 \cdot 13 \\
+2 \cdot \frac{3 x}{2}+2 \cdot 4 &=2 \cdot 13 \\
+3 x+8 &=26
+\end{aligned}
+$$
+
+Now, subtract 8 then divide by 3 .
+
+$$
+\begin{aligned}
+3 x &=18 \\
+x &=6
+\end{aligned}
+$$
+
+Try These 1 Solve each equation.
+
+1. $2 y-7=-19$
+
+2. $7(2 x+6)-4=3(4 x-1)+6 x+9$
+
+3. $6(3 x+7)+2 x(x-4)=2 x^{2}-5(x-2)+2$
+
+4. $\frac{7 x}{3}-5 x=-16$
+
+\subsection{Solving Quadratic Equations}
+
+We will review two methods commonly used to solve quadratic equations, the factoring method and the quadratic formula.
+
+A quadratic equation in the variable $x$ is an equation that can be written in the standard form
+
+$$
+a x^{2}+b x+c=0
+$$
+
+where $a, b$, and $c$ are any real numbers and where $a \neq 0$.
+
+\subsubsection{Solving Quadratic Equations Using Factoring}
+
+The factoring method uses the zero-factor property of real numbers, which states that if
+
+$$
+(a x+b)(c x+d)=0
+$$
+
+then either
+
+$$
+a x+b=0 \quad \text { or } \quad c x+d=0
+$$
+
+The factoring method reduces a quadratic equation down to one or two linear equations, which we already know how to solve. To use the factoring method,
+
+1. Write the quadratic equation in standard form, $a x^{2}+b x+c=0$
+
+2. Factor the quadratic expression into one or two linear factors
+
+3. Set each linear factor equal to 0 and solve for the variable.
+
+4. The solutions of the linear equations are solutions of the quadratic equation.
+
+The factoring method is efficient if the quadratic expression factors. If it does not factor. then a different method such as the quadratic formula method must be used.
+
+Example 2 Solve each quadratic equation using the factoring method.
+
+1. $x^{2}=36-5 x$
+
+Write the quadratic equation in standard form, $a x^{2}+b x+c=0$.
+
+$$
+x^{2}+5 x-36=0
+$$
+
+Factor the quadratic expression into one or two linear factors.
+
+$$
+(x+9)(x-4)=0
+$$
+
+Set each linear factor equal to 0 and solve for the variable $x$.
+
+$$
+\begin{array}{ccccc}
+x+9 & =0 & \text { or } & x-4 & =0 \\
+x & =-9 & x & =4
+\end{array}
+$$
+
+So, the solutions to the quadratic equation $x^{2}=36-5 x$ are $x=9$ and $x=-4 .$ We often signify this by writing
+
+$$
+x=-9,4
+$$
+
+2. $12 x^{2}-28 x=0$
+
+Factor the quadratic expression into two linear factors.
+
+$$
+4 x(3 x-7)=0
+$$
+
+Set each linear factor equal to 0 and solve for the variable $x$.
+
+$$
+\begin{array}{ccccc}
+4 x & =0 & & 3 x-7 & =0 \\
+x & =0 & & \text { and } & 3 x & =7 \\
+& x & =7 / 3
+\end{array}
+$$
+
+So, the solutions to the quadratic equation $12 x^{2}-28 x=0$ are $x=0,7 / 3$.
+
+3. $(y-8)(y+5)=-30$
+
+Be careful with this one. Although the expression on the left side of the $=$ sign is factored, the right side is not 0, meaning you cannot immediately use the zero-factor property. Get this equation into standard form
+
+$$
+a y^{2}+b y+c=0
+$$
+
+by multiplying the left-side factors together, then adding 30 to each side.
+
+$$
+\begin{aligned}
+(y-8)(y+5) &=-30 \\
+y^{2}-3 y-40 &=-30 \\
+y^{2}-3 y-40+30 &=-30+30 \\
+y^{2}-3 y-10 &=0 \\
+(y-5)(y+2) &=0
+\end{aligned}
+$$
+
+Now, set each linear factor equal to 0 and solve for the variable $y$.
+
+$$
+\begin{array}{cc}
+y-5 & =0 \\
+y & =5
+\end{array} \quad \text { and } \quad \begin{array}{cc}
+y+2 & =0 \\
+y & =-2
+\end{array}
+$$
+
+So, the solutions to the quadratic equation $(y-8)(y+5)=-30$ are $y=5,-2$
+
+4. $x^{2}+36=12 x$
+
+Write the quadratic equation in standard form,
+
+$$
+a x^{2}+b x+c=0 .
+$$
+
+then factor.
+
+$$
+\begin{aligned}
+x^{2}-12 x+36 &=0 \\
+(x-6)(x-6) &=0 \\
+(x-6)^{2} &=0
+\end{aligned}
+$$
+
+There is only one (repeated) factor. Setting it equal to 0 gives the solution $x=6$
+
+Try These 2 Solve each quadratic equation using the factoring method.
+
+1. $x^{2}=12 x-32$
+
+2. $4 x^{2}+18 x=0$
+
+3. $(y+4)(y-1)=50$
+
+4. $x^{2}+49=14 x$
+
+\subsubsection{Solving Quadratic Equations Using the Square Root Method}
+
+The square root method works well for quadratic equations of the form $a x^{2}+c=0$. Notice there is no linear term, $b x$. To use the square root method,
+
+1. Separate the two terms by writing them on opposite sides of the $=\operatorname{sign}$.
+
+$$
+a x^{2}=c
+$$
+
+2. Take the square root of each side.
+
+$$
+\sqrt{a x^{2}}=\sqrt{c}
+$$
+
+3. Keep in mind that if nothing is known about the value of $x, \sqrt{x}=|x|$.
+
+$$
+\begin{aligned}
+\sqrt{a x^{2}} &=\sqrt{c} \\
+\sqrt{a} \sqrt{x^{2}} &=\sqrt{c} \\
+\sqrt{a}|x| &=\sqrt{c}
+\end{aligned}
+$$
+
+4. Solve the remaining equation keeping in mind that $|x|=\pm x$.
+
+$$
+\begin{aligned}
+\sqrt{a}|x| &=\sqrt{c} \\
+|x| &=\frac{\sqrt{c}}{\sqrt{a}} \\
+x &=\pm \frac{\sqrt{c}}{\sqrt{a}}
+\end{aligned}
+$$
+
+Example $3 \quad$ Solve $x^{2}-81=0$
+
+Notice there is no linear term bx so the square root method is a good solution choice. Add 81 to each side to separate the terms.
+
+$$
+\begin{aligned}
+x^{2}-81 &=0 \\
+x^{2}-81+81 &=0+81 \\
+x^{2} &=81
+\end{aligned}
+$$
+
+Take the square root of each side. Keep in mind that $\sqrt{x^{2}}=|x| .$
+
+$$
+\begin{aligned}
+\sqrt{x^{2}} &=\sqrt{81} \\
+|x| &=9
+\end{aligned}
+$$
+
+Remove the absolute value bars using $|x|=\pm x$.
+
+$$
+x=\pm 9
+$$
+
+So, the solutions to the equation $x^{2}=81$ are $\pm 9 .$ More specifically, the solutions are
+
+$$
+x=9 \quad \text { and } \quad x=-9
+$$
+
+Example $4 \quad$ Solve $25 x^{2}-49=0$
+
+Notice there is no linear term $b x$ so the square root method is a good choice.
+
+Add 49 to each side to separate the terms.
+
+$$
+\begin{array}{rll}
+25 x^{2}-49 & = & 0 \\
+25 x^{2}-49+49 & = & 0+49 \\
+25 x^{2}= & 49 &
+\end{array}
+$$
+
+Take the square root of each side. Keep in mind that $\sqrt{x^{2}}=|x|$.
+
+$$
+\begin{aligned}
+\sqrt{25 x^{2}} &=\sqrt{49} \\
+\sqrt{25} \sqrt{x^{2}} &=\sqrt{49} \\
+5 \cdot|x| &=7
+\end{aligned}
+$$
+
+Divide by 5 .
+
+$$
+\begin{aligned}
+\frac{5 \cdot|x|}{5} &=\frac{7}{5} \\
+|x| &=\frac{7}{5}
+\end{aligned}
+$$
+
+Remove the absolute value bars using $|x|=\pm x$.
+
+$$
+x=\pm \frac{7}{5}
+$$
+
+So, the solutions to the equation $25 x^{2}=49$ are $\pm 7 / 5 .$ More specically, the solutions are
+
+$$
+x=7 / 5 \quad \text { and } \quad x=-7 / 5
+$$
+
+Example $5 \quad$ Solve $30 x^{2}-10=0$.
+
+Notice there is no linear term $b x$ so the square root method is a good solution choice. Add 10 to each side to separate the terms.
+
+$$
+\begin{aligned}
+30 x^{2}-10 &=0 \\
+30 x^{2}-10+10 &=0+10 \\
+30 x^{2} &=10
+\end{aligned}
+$$
+
+Take the square root of each side. Keep in mind that $\sqrt{x^{2}}=|x| .$
+
+$$
+\begin{aligned}
+\sqrt{30 x^{2}} &=\sqrt{10} \\
+\sqrt{30} \cdot|x| &=\sqrt{10}
+\end{aligned}
+$$
+
+Divide by $\sqrt{30}$.
+
+$$
+\begin{aligned}
+\frac{\sqrt{30} \cdot|x|}{\sqrt{30}} &=\frac{\sqrt{10}}{\sqrt{30}} \\
+|x| &=\frac{\sqrt{10}}{\sqrt{30}} \\
+|x| &=\sqrt{\frac{10}{30}} \\
+|x| &=\sqrt{\frac{1}{3}}
+\end{aligned}
+$$
+
+Remove the absolute value bars using $|x|=\pm x$.
+
+$$
+x=\pm \sqrt{\frac{1}{3}}
+$$
+
+So, the solutions to the equation $30 x^{2}=10$ are $\pm \sqrt{\frac{1}{3}} .$ More specically, the solutions are
+
+$$
+x=\sqrt{\frac{1}{3}} \text { and } x=-\sqrt{\frac{1}{3}}
+$$
+
+Example $6 \quad$ Solve $(y+3)^{2}-9=0$.
+
+Notice there is no linear term $(y+3)$ so the square root method is a good solution choice. Add 9 to each side to separate the terms.
+
+$$
+\begin{aligned}
+(y+3)^{2}-9 &=0 \\
+(y+3)^{2}-9+9 &=0+9 \\
+(y+3)^{2}=& 9
+\end{aligned}
+$$
+
+Take the square root of each side. Keep in mind that $\sqrt{x^{2}}=|x|$.
+
+$$
+\begin{aligned}
+\sqrt{(y+3)^{2}} &=\sqrt{9} \\
+|(y+3)| &=3
+\end{aligned}
+$$
+
+Remove the absolute value bars using $|x|=\pm x$.
+
+$$
+y+3=\pm 3
+$$
+
+Now subtract 3 from both sides to solve for $y$.
+
+$$
+\begin{aligned}
+y+3-3 &=\pm 3-3 \\
+y &=3-3,-3-3 \\
+y &=0,-6
+\end{aligned}
+$$
+
+The solutions to the equation $(y+3)^{2}-9=0$ are $y=0$ and $y=-6$.
+
+Try These 3 Solve each quadratic equation using the square root method.
+
+1. $x^{2}-36=0$
+
+2. $4 x^{2}-16=0$
+
+3. $64 x^{2}-25=0$
+
+4. $15 x^{2}-35=0$
+
+5. $(y-6)^{2}=121$
+
+\subsubsection{Solving Quadratic Equations Using the Quadratic Formula}
+
+The factoring method is the most efficient method for solving a quadratic equation but it doesn't work well when the quadratic expression cannot be factored using integers. When the quadratic expression does not readily factor, use the quadratic formula to solve the equation $a x^{2}+b x+c=0$.
+
+$$
+x=\frac{-b \pm \sqrt{b^{2}-4 a c}}{2 a}
+$$
+
+where
+
+$a$ is the coefficient of the squared term,
+
+$b$ is the coefficient of the linear term, and
+
+$c$ is the constant.
+
+1. Write the quadratic equation in standard form, $a x^{2}+b x+c=0$
+
+2. Identify the numbers $a, b$, and $c$
+
+3. Substitute $a, b$, and $c$ into the formula and compute
+
+4. The values obtained by computation are the solutions to the quadratic equation
+
+The factoring method is efficient if the quadratic expression factors. If it does not factor, then a different method such as the quadratic formula method must be used.
+
+Example 7 Solve each quadratic equation using the quadratic formula.
+
+1. $x^{2}=36-5 x$
+
+Write the quadratic equation in standard form $a x^{2}+b x+c=0$
+
+$$
+x^{2}+5 x-36=0
+$$
+
+Identify $a=1, b=5$, and $c=-36$
+
+Substitute these values into the quadratic formula and compute.
+
+$$
+\begin{aligned}
+x &=\frac{-b \pm \sqrt{b^{2}-4 a c}}{2 a} \\
+x &=\frac{-5 \pm \sqrt{5^{2}-4(1)(-36)}}{2(1)} \\
+x &=\frac{-5 \pm \sqrt{25+144}}{2} \\
+x &=\frac{-5 \pm \sqrt{169}}{2} \\
+x &=\frac{-5 \pm 13}{2}
+\end{aligned}
+$$
+
+Now you are close to getting the solutions. Since there are no radicals, you can combine terms.
+
+$$
+\begin{aligned}
+&x=\frac{-5+13}{2} \\
+&x=8 / 2
+\end{aligned} \quad \text { or } \quad x=\frac{-5-13}{2}
+$$
+
+So the solutions to $x^{2}=36-5 x$ are
+
+$$
+x=-9,4
+$$
+
+2. $2 x^{2}-8 x=0$
+
+The equation is already expressed in standard form
+
+$$
+a x^{2}+b x+c=0 \quad \text { with } \quad a=2, \quad b=-8, \quad c=0
+$$
+
+It can sometimes be that $b=0$ or $c=0$ (as in this case), but it can never be that $a=0$ (as that would reduce the expression to a linear expression).
+
+Substitute these values into the quadratic formula and compute.
+
+$$
+\begin{aligned}
+x &=\frac{-b \pm \sqrt{b^{2}-4 a c}}{2 a} \\
+x &=\frac{-(-8) \pm \sqrt{(-8)^{2}-4(2)(0)}}{2(2)} \\
+x &=\frac{8 \pm \sqrt{64+0}}{4} \\
+x &=\frac{8 \pm \sqrt{64}}{4} \\
+x &=\frac{8 \pm 8}{4}
+\end{aligned}
+$$
+
+Now you are close to getting the solutions. Since there are no radicals, you can combine terms.
+
+$$
+\begin{aligned}
+&x=\frac{8+8}{4} \\
+&x=16 / 4 \\
+&x=4
+\end{aligned} \quad \text { or } \quad x=\frac{8-8}{x}=0 / 4
+$$
+
+So the solutions to $2 x^{2}-8 x=0$ are
+
+$$
+x=0,4
+$$
+
+3. $3 x^{2}=5 x+4$
+
+Write the quadratic equation in standard form $a x^{2}+b x+c=0$
+
+$$
+3 x^{2}-5 x-4=0
+$$
+
+Identify $a=3, b=-5$, and $c=-4$ Substitute these values into the quadratic formula and compute.
+
+$$
+\begin{aligned}
+x &=\frac{-b \pm \sqrt{b^{2}-4 a c}}{2 a} \\
+x &=\frac{-(-5) \pm \sqrt{(-5)^{2}-4(3)(-4)}}{2(3)} \\
+x &=\frac{5 \pm \sqrt{25+48}}{6} \\
+x &=\frac{5 \pm \sqrt{73}}{6}
+\end{aligned}
+$$
+
+Since there is a radical involved, you must try to simplify it. But since $\sqrt{73}$ cannot be simplified, you may leave it as it is and conclude that the solutions to
+
+$$
+3 x^{2}=5 x+4 \quad \text { are } \quad x=\frac{5 \pm \sqrt{73}}{6}
+$$
+
+Try These 4 Solve each quadratic equation using the quadratic formula.
+
+1. $x^{2}=12 x-32$
+
+2. $4 x^{2}+18 x=0$
+
+3. $(y+4)(y-1)=50$
+
+4. $5 x^{2}=4-2 x$
+
+\subsection{Solving Equations Involving Rational Expressions}
+
+Rational equations are equations that involve rational expressions (fractions). The equation
+
+$$
+\frac{5}{x+4}+\frac{3}{x-7}=\frac{9}{x^{2}-3 x-28}
+$$
+
+is a rational equation. To solve a rational equation,
+
+1. Find the least common denominator (LCD).
+
+- To find the LCD, write the given denominators in factored form.
+
+- The LCD is the product of all different factors of the original denominators.
+
+2. List the excluded values. These are values of the variable that make each factor in the LCD zero. You want no zeros in denominators.
+
+3. Eliminate all the fractions by multiplying both sides of the equation by the LCD. This amounts to multiplying each of the original terms by the LCD. Each original denominator will cancel (divide out) and no fractions will be left.
+
+4. Solve the resulting linear or quadratic equation.
+
+5. Reject as solutions any values that you listed as excluded. If you exclude all the potential solutions, then the equation has no solution.
+
+Example $8 \quad$ Solve the equation
+
+$$
+\frac{5}{x+4}+\frac{3}{x-7}=\frac{9}{x^{2}-3 x-28}
+$$
+
+Rewrite this equation with the denominators in factored form.
+
+$$
+\begin{aligned}
+&\frac{5}{x+4}+\frac{3}{x-7}=\frac{9}{x^{2}-3 x-28} \\
+&\frac{5}{x+4}+\frac{3}{x-7}=\frac{9}{(x+4)(x-7)}
+\end{aligned}
+$$
+
+Identify the LCD. The different factors that appear are $x+4$ and $x-7$ so the LCD is the product of these factors: $(x+4)(x-7)$.
+
+Identify excluded values. $x+4$ will be 0 when $x=-4$ and $x-7$ will be 0 when $x=7$. Both $-4$ and 7 must be excluded.
+
+Multiply each side of the equation by the LCD.
+
+$$
+\begin{array}{r}
+(x+4)(x-7) \cdot\left(\frac{5}{x+4}+\frac{3}{x-7}\right) \\
+=(x+4)(x-7) \cdot \frac{9}{(x+4)(x-7)}
+\end{array}
+$$
+
+Use the distributive property to eliminate the parentheses. Notice that you are actually multiplying each of the original terms by the $L C D$.
+
+$$
+\begin{gathered}
+(x+4)(x-7) \cdot \frac{5}{x+4}+(x+4)(x-7) \cdot \frac{3}{x-7} \\
+=(x+4)(x-7) \cdot \frac{9}{(x+4)(x-7)}
+\end{gathered}
+$$
+
+Divide out (cancel) the original denominators.
+
+$$
+\begin{gathered}
+(x+4)(x-7) \cdot \frac{5}{x+4}+(x+4)(x-7) \cdot \frac{3}{x-7} \\
+=(x+4)(x-7) \cdot \frac{9}{(x+4)(x-7)}
+\end{gathered}
+$$
+
+No fractions remain. Solve this linear equation.
+
+$$
+\begin{aligned}
+5(x-7)+3(x+4) &=9 \\
+5 x-35+3 x+12 &=9 \\
+8 x-23 &=9 \\
+8 x-23+23 &=9+23 \\
+8 x &=32 \\
+x &=4
+\end{aligned}
+$$
+
+Check to see if 4 is an excluded value. It is not.
+
+So, the solution to the rational equation
+
+$$
+\frac{5}{x+4}+\frac{3}{x-7}=\frac{9}{x^{2}-3 x-28} \quad \text { is } \quad x=4
+$$
+
+Try These 5 Solve each rational equation.
+
+1. $\frac{2}{x+6}+\frac{7}{x+3}=\frac{3}{x^{2}+9 x+18}$
+
+2. $\frac{5}{x-1}-\frac{18}{x^{2}-5 x+4}=\frac{8}{x-4}$
+
+3. $\frac{x}{x+5}-\frac{4}{x-8}=\frac{x^{2}+5 x-7}{x^{2}-3 x-40}$
+
+\section{Example 9}
+
+Solve the equation $\frac{6}{y+2}+\frac{42}{y^{2}-3 y-10}=0$.
+
+Rewrite this equation with the denominators in factored form.
+
+$$
+\frac{6}{y+2}+\frac{42}{(y+2)(y-5)}=0
+$$
+
+Identify the LCD. The different factors that appear are $y+2$ and $y-5$ so the LCD is the product of these factors: $(y+2)(y-5)$.
+
+Identify excluded values. $y+2$ will be 0 when $y=-2$ and $y-5$ will be 0 when $y=5$. Both $-2$ and 5 must be excluded.
+
+Multiply each side of the equation by the LCD.
+
+$(y+2)(y-5) \cdot\left(\frac{6}{y+2}+\frac{42}{(y+2)(y-5)}\right)=(y+2)(y-5) \cdot 0$
+
+Use the distributive property to eliminate the parentheses. Notice that you are actually multiplying each of the original terms by the LCD.
+
+$$
+(y+2)(y-5) \cdot \frac{6}{y+2}+(y+2)(y-5) \cdot \frac{42}{y^{2}-3 y-10}=(y+2)(y-5) \cdot 0
+$$
+
+Divide out (cancel) the original denominators.
+
+$$
+\begin{aligned}
+(y+2)(y-5) \cdot \frac{6}{y+2}+(y+2)(y-5) \cdot \frac{42}{(y+2)(y-5)} &=(y+2)(y-5) \cdot 0 \\
+6(y-5)+42 &=0 \\
+6 y-30+42 &=0 \\
+6 y+12 &=0
+\end{aligned}
+$$
+
+Now solve this linear equation.
+
+$$
+\begin{aligned}
+6 y+12-12 &=0-12 \\
+6 y &=-12 \\
+y &=-2
+\end{aligned}
+$$
+
+Check to see if $-2$ is an excluded value. It is! Reject it. There are no other potential solutions.
+
+So, the rational equation
+
+$$
+\frac{6}{y+2}+\frac{42}{y^{2}-3 y-10}=0
+$$
+
+has no solution.
+
+Try These 6 Solve each rational equation.
+
+1. $\frac{6}{y^{2}-2 y-8}+\frac{5}{y+2}=\frac{1}{y-4}$
+
+2. $\frac{x+4}{x-1}+\frac{x+2}{x-4}=\frac{2 x^{2}+2 x-22}{x^{2}-5 x+4}$
+
+Exercises 5 Solve each equation, if possible.
+
+1. $6 x-10=14$
+
+2. $8(2 x-3)=2(x-4)-2$
+
+3. $4(5 x+4)+3 x(x-7)=x(x+2)+2 x^{2}-2$
+
+4. $\frac{6 y}{5}-8 y=\frac{y}{5}$
+
+5. $y^{2}+13 y+36=0$
+
+6. $a^{2}-3 a-40=0$
+
+7. $7 x^{2}+28 x=0$
+
+8. $5 x^{2}-10 x=0$
+
+9. $(3 y-4)(4 y+5)=0$
+
+10. $a^{2}-64=0$
+
+11. $36 y^{2}=25$
+
+12. $(y+2)^{2}=25$
+
+13. $(x+6)^{2}-7=0$
+
+14. $y^{2}+4 y=9$
+
+15. $y^{2}=8-3 y$
+
+16. $(y+5)(y+1)=3$
+
+17. $\frac{5}{x-1}-\frac{3}{x+1}=0$
+
+18. $\frac{8}{x+7}-\frac{4}{x+2}=\frac{-12}{x^{2}+9 x+14}$
+
+19. $\frac{2}{x-5}+\frac{5}{x+5}=\frac{20}{x^{2}-25}$
+
+20. $\frac{x+4}{x+6}+\frac{x+2}{x+1}=\frac{2 x^{2}+29}{x^{2}+7 x+6}$
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-078.jpg?height=910&width=286&top_left_y=228&top_left_x=148)
+
+Answers to Try These 6 Neither of these equations have a solution.
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-079.jpg)
+
+
+
+\section{Chapter 6}
+
+\section{Reviewing Equations and Graphs of Straight Lines}
+
+Constructing graphs and developing equations are methods used for describing relationships between two things. In this chapter you review the meaning of and information contained in the graphs and equations of straight lines. Specifically, you will review
+
+1. The formula that produces the slope of a line
+
+2. The information provided by the slope of a line
+
+3. The slope-intercept form of a line
+
+4. The point-slope form of a line
+
+5. The slope-intercept method for graphing a line
+
+6. The intercept method for graphing a line
+
+7. The equations of horizontal and vertical lines
+
+\subsection{Graphs and Equations}
+
+Suppose two things, Thing 1 and Thing 2 are related somehow. For example, suppose each value of the second thing is always 3 less than twice the value of a corresponding first thing. If we let $x$ represent values of the first thing, and call it the input value, and $y$ represent values of the second thing, and call it the output value, then the relationship between $x$ and $y$ can be described by both a graph and an algebraic equation. The equation describing the relationship is
+
+$$
+y=2 x-3
+$$
+
+and the graph that describes the relationship is pictured in the figure below. In this section you see how to construct both the equation of a line and the graph of a line from particular information about the relationship between the variables.
+
+When you look at the graph of a line, two important features are readily apparent. They are
+
+1. Its steepness, and Figure 6.1: A graph of the relationship
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-081.jpg?height=184&width=234&top_left_y=265&top_left_x=512)
+
+2. The point at which the line intercepts the vertical axis
+
+Both features provide important information about the relationship being described.
+
+\section{$6.2$ The Slope of a Line}
+
+The slope of a line is a measure of the line's steepness and it is determined by comparing the vertical change in the line to its horizontal change.
+
+$$
+\text { slope }=\frac{\text { vertical change }}{\text { horizontal change }}
+$$
+
+For a given horizontal change, the larger the vertical change, the steeper the line and the higher the slope.
+
+Figure 6.2: Slope measures change
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-081.jpg?height=183&width=350&top_left_y=929&top_left_x=449)
+
+The picture shows that for the same horizontal change, the line with the larger vertical change is the steeper line. In this case, line 1 is the steeper line and it has slope 3 whereas line 2 has slope $1 .$
+
+$$
+\text { slope of line } 1=\frac{\text { vertical change }}{\text { horizontal change }} } \\
+{=3 / 1} \\
+{=3}
+\end{array}
+$$
+
+
+
+$$
+\begin{aligned}
+\text { slope of line } 2 &=\frac{\text { vertical change }}{\text { horizontal change }} \\
+&=1 / 1 \\
+&=1
+\end{aligned}
+$$
+
+\subsection{The Slope Formula}
+
+The formula for computing the slope of a line is derived by selecting any two points on the line, calling one the first point and one the second point.
+
+Label the coordinates of the first point $\left(x_{1}, y_{1}\right)$,
+
+where $x_{1}$ represents the 1 st $x$-value and $y_{1}$ the 1 st $y$-value
+
+Label the coordinates of the second point $\left(x_{2}, y_{2}\right)$,
+
+where $x_{2}$ represents the 2 nd $x$-value and $y_{2}$ the 2 nd $y$-value.
+
+The horizontal change from the first point to the second point is $x_{2}-x_{1}$.
+
+The vertical change from the first point to the second point is $y_{2}-y_{1}$.
+
+Figure 6.3: Slope in terms of changes
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-082.jpg?height=195&width=182&top_left_y=825&top_left_x=460)
+
+The slope of a line is commonly represented with the lowercase letter $m$.
+
+$$
+\begin{aligned}
+\text { slope } &=\frac{\text { vertical change }}{\text { horizontal change }} \\
+m &=\frac{y_{2}-y_{1}}{x_{2}-x_{1}}
+\end{aligned}
+$$
+
+Notice that the denominator specifies the horizontal change. There must be a change in the horizontal for the slope to exist. If there is no change in the horizontal, the denominator would be 0 and the line would be vertical.
+
+You can view the slope formula as a set of computing instructions that tell you how to operate on the $x_{1}, y_{1}, x_{2}$ and $y_{2}$ values. Compute the fraction (the second $y$-value) minus (the first $y$-value
+
+(the second $x$-value) minus (the first $x$-value)
+
+\section{Example 1}
+
+1. Find the slope of the line that passes through the points $(5,2)$ and $(8,4)$.
+
+Start by writing the slope formula, the instructions for computing the slope.
+
+$$
+m=\frac{y_{2}-y_{1}}{x_{2}-x_{1}}
+$$
+
+The formula requires that we have
+
+(a) A first $x$-value. As we read the problem, the first $x$-value we see is $5 .$ Choose $x_{1}=5$.
+
+(b) A first $y$-value. As we read the problem, the first $y$-value we see is 2 . Choose $y_{1}=2$.
+
+(c) A second $x$-value. As we read the problem, the second $x$-value we see is 8 . Choose $x_{2}=8$.
+
+(d) A second $y$-value. As we read the problem, the second $y$-value we see is $4 .$ Choose $y_{2}=4$.
+
+Then,
+
+$$
+\begin{aligned}
+m &=\frac{y_{2}-y_{1}}{x_{2}-x_{1}} \\
+m &=\frac{4-2}{8-5} \\
+m &=\frac{2}{3}
+\end{aligned}
+$$
+
+The slope of the line that passes through the points $(5,2)$ and $(8,4)$ is $2 / 3$.
+
+The slope is the vertical change over the horizontal change.
+
+The number in the numerator specifies the vertical change.
+
+The number in the denominator specifies the horizontal change.
+
+A slope of $2 / 3$ tells us that as we move horizontally 3 units from the point $(5,2)$, we must move vertically 2 units upward to get back to the line. This line rises as we look at it from left-to-right.
+
+2. Find the slope of the line that passes through the points $(-1,-6)$ and $(-4,5)$.
+
+Identify $x_{1}=-1, y_{1}=-6, x_{2}=-4$, and $y_{2}=5$. Then
+
+$$
+\begin{aligned}
+m &=\frac{y_{2}-y_{1}}{x_{2}-x_{1}} \\
+m &=\frac{5-(-6)}{-4-(-1)}
+\end{aligned}
+$$
+
+
+
+$$
+\begin{aligned}
+m &=\frac{5+6}{-4+1} \\
+m &=\frac{11}{-3} \\
+m &=\frac{-11}{3}
+\end{aligned}
+$$
+
+The slope of this line is $-11 / 3$.
+
+As we look from left to right at the graph of this line, we see it falls. In fact for every 3 units we move horizontally to the right away from a point on the line, we must move down 11 units to get back to the line.
+
+3. Find the slope of the line that passes through the points $(3,1)$ and $(3,7)$.
+
+Identify $x_{1}=3, y_{1}=1, x_{2}=3$, and $y_{2}=7 .$ Then
+
+$$
+\begin{aligned}
+m &=\frac{y_{2}-y_{1}}{x_{2}-x_{1}} \\
+m &=\frac{7-1}{3-3} \\
+m &=\frac{6}{0}
+\end{aligned}
+$$
+
+This slope is undefined. This is a vertical line. Vertical lines have undefined slopes. 4. Find the slope of the line that passes through the points $(3,4)$ and $(7,4)$.
+
+Identify $x_{1}=3, y_{1}=4, x_{2}=7$, and $y_{2}=4 .$ Then
+
+$$
+\begin{aligned}
+m &=\frac{y_{2}-y_{1}}{x_{2}-x_{1}} \\
+m &=\frac{4-4}{7-3} \\
+m &=\frac{0}{4} \\
+m &=0
+\end{aligned}
+$$
+
+This slope is $0 .$ Slope measures the steepness of a line. What type of line should have 0 steepness? A horizontal line. Horizontal lines have 0 slope.
+
+Try These 1 Find the slope of the line passing through each pair of points.
+
+1. $(5,2)$ and $(8,4)$
+
+2. $(-6,-2)$ and $(-1,0)$
+
+3. $(-5,8)$ and $(4,1)$
+
+4. $(3,-4)$ and $(3,5)$
+
+5. $(1,-2)$ and $(4,-2)$
+
+\subsection{Equations of Lines}
+
+A template is something that serves as a master or pattern from which other similar things can be constructed. To use a template, you place things into available slots or fields. Given certain geometric information or certain information about a relationship, we can construct the equation of a line by putting that information into equation templates. There are two commonly used templates for straight lines.
+
+1. $y=m x+b$ This is the slope-intercept form of a line.
+
+This form (template) is most efficiently used when the information provided consists of
+
+- The slope, $m$, of the line, and
+
+- The $y$-intercept of the line. The $y$-intercept is the $y$-value at which the line intercepts the $y$-axis. The $y$-intercept is denoted with the lowercase letter $b$.
+
+- Use the template by placing the value of the slope into the $m$ field of the template and the $y$-intercept into the $b$ field.
+
+2. $y-y_{1}=m\left(x-x_{1}\right)$ This is the point-slope form of a line.
+
+This form (template) is most efficiently used when the information provided consists of
+
+- The slope, $m$, of the line, and
+
+- Any point, $\left(x_{1}, y_{1}\right)$, on the line. Subscripting is a method of naming. You can think of
+
+$x_{1}$ as a name for the 1 st $x$-value you see.
+
+$y_{1}$ as a name for the lst $y$-value you see.
+
+$x_{2}$ as a name for the 2 nd $x$-value you see.
+
+$y_{2}$ as a name for the 2 nd $y$-value you see.
+
+- Use the template by placing the value of the slope into the $m$ field of the template, the first $y$-value you see into the $y_{1}$ field, and the first $x$-value you see into the $x_{1}$ field.
+
+- If you are not given the slope but are given two points $\left(x_{1}, y_{1}\right)$ and $\left(x_{2}, y_{2}\right)$, you can still use this template. You just have to use the slope formula to compute the slope, then choose either one of the points as your $\left(x_{1}, y_{1}\right) .$ You can choose either point.
+
+When you are asked to find the equation of a line, a good approach is to write down each template and ask yourself which one can you use most efficiently. Once you make your choice, just substitute the given values into the appropriate fields.
+
+\section{Example 2}
+
+1. Find the equation of the line having slope 5 and passing through the $y$-axis at 2 .
+
+Write the two templates and ask which one you can use most efficiently. $y=m x+b$
+
+$y-y_{1}=m\left(x-x_{1}\right)$
+
+- Ask: Can I use $y=m x+b$ efficiently? To use it, I need the slope $m$ and the $y$-intercept, $b$. Do I have them?
+
+- Answer: Yes. $m=5$ and $b=2$.
+
+- Substitute 5 into the $m$ field of the template and 2 into the $b$ field to get the equation of the line.
+
+$$
+y=5 x+2
+$$
+
+The equation of the line is $y=5 x+2$.
+
+2. Find the equation of the line having slope $-6$ and passing through the point $(4,3)$
+
+Write the two templates and ask which one you can use most efficiently.
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-086.jpg?height=52&width=184&top_left_y=551&top_left_x=187)
+
+- Ask: Can I use $y=m x+b$ efficiently? To use it, I need the slope $m$ and the $y$-intercept, $b$. Do I have them?
+
+- Answer: No. I have $m=-6$ but I don't have the $y$-intercept. The point $(4,3)$ is not on the $y$-axis, it lies 4 units to the right of the $y$-axis.
+
+- Use $y-y_{1}=m\left(x-x_{1}\right)$ with $m=-6, x_{1}=4$ and $y_{1}=3$
+
+- Substitute $-6$ into the $m$ field of the template, 4 into the $x_{1}$ field and 3 into the $y_{1}$ field to get the equation of the line. Solve for $y$.
+
+$$
+\begin{aligned}
+y-3 &=-6(x-4) \\
+y-3 &=-6 x+24 \\
+y &=-6 x+27
+\end{aligned}
+$$
+
+The equation of the line is $y=-6 x+27$.
+
+You can see that this line not only has slope $-6$ and passes through the point $(4,3)$, but also crosses the $y$-axis at 27 .
+
+3. Find the equation of the line passing through the points $(1,6)$ and $(4,-9)$.
+
+Write the two templates and ask which one you can use most efficiently.
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-086.jpg?height=65&width=184&top_left_y=1098&top_left_x=187)
+
+- Ask: Can I use $y=m x+b$ efficiently? To use it, I need the slope $m$ and the $y$-intercept, $b$. Do I have them?
+
+- Answer: No, I don't have either one. Neither point is the $y$-intercept.
+
+- To use $y-y_{1}=m\left(x-x_{1}\right)$ we must have the slope and one point. We have two points and we can choose either one as $\left(x_{1}, y_{1}\right) .$ We don't have the slope, but we can get it using our two points and the slope formula.
+
+- The formula requires that we have (a) A first $x$-value. As we read the problem, the first $x$-value we see is $1 .$ Choose $x_{1}=1$.
+
+(b) A first $y$-value. As we read the problem, the first $y$-value we see is 6 . Choose $y_{1}=6$
+
+(c) A second $x$-value. As we read the problem, the second $x$-value we see is $4 .$ Choose $x_{2}=4$.
+
+(d) A second $y$-value. As we read the problem, the second $y$-value we see is $-9$. Choose $y_{2}=-9$. Then,
+
+$$
+\begin{aligned}
+m &=\frac{y_{2}-y_{1}}{x_{2}-x_{1}} \\
+m &=\frac{-9-6}{4-1} \\
+m &=\frac{-15}{3} \\
+m &=-5
+\end{aligned}
+$$
+
+- Substitute $-5$ into the $m$ field of the template, 1 into the $x_{1}$ field and 6 into the $y_{1}$ field to get the equation of the line. Solve for $y$.
+
+$$
+\begin{aligned}
+y-6 &=-5(x-1) \\
+y-6 &=-5 x+5 \\
+y &=-5 x+11
+\end{aligned}
+$$
+
+The equation of the line is $y=-5 x+11$.
+
+You can see that this line not only has slope $-5$ and passes through the points $(1,6)$ and $(4,-9)$, but also crosses the $y$-axis at $11 .$
+
+\section{Try These 2}
+
+1. Find the equation of the line having slope 4 and passing through the $y$-axis at 7 .
+
+2. Find the equation of the line having slope $-7$ and passing through the point $(2,9)$.
+
+3. Find the equation of the line having slope $-8$ and passing through the point $(-2,-2)$.
+
+4. Find the equation of the line passing through the points $(1,4)$ and $(5,12)$.
+
+5. Find the equation of the line passing through the points $(2,2)$ and $(6,6)$.
+
+\subsection{Graphing Lines}
+
+Equations of lines commonly appear in two forms.
+
+$y=m x+b$, the slope-intercept form, and
+
+$a x+b y=c$, the general form.
+
+Graphs can be constructed from either form.
+
+\subsubsection{Graphing lines using the slope-intercept form $y=m x+b$}
+
+The slope-intercept form displays both the line's $y$-intercept and slope. To construct the graph
+
+1. Draw a point on the $y$-axis at the point's $y$-intercept.
+
+2. Use the slope to get a second point. Remember that the slope is a fraction, the denominator of which stipulates the amount of horizontal change and the numerator of which stipulates the vertical change.
+
+3. With your pencil, start at the $y$-intercept.
+
+- Move horizontally the amount prescribed by the denominator of the slope. Move to the right if the denominator is positive (which it most likely will always be) and to the left if it is negative.
+
+If the slope is an integer, think of it as a fraction with denominator $1 .$
+
+- Move vertically the amount prescribed by the numerator of the slope. Move upward if the numerator is positive and downward if it is negative.
+
+4. Draw a point at this location.
+
+5. You now have two points that are on the line. Draw a line through these two points and you have the graph.
+
+Figure 6.4: Constructing a graph from the slope-intercept form
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-088.jpg?height=182&width=169&top_left_y=800&top_left_x=462)
+
+\section{Example 3}
+
+1. Construct the graph of $y=\frac{2}{5} x+1$.
+
+- This line is in slope-intercept form. The slope is $\frac{2}{5}$ and the $y$-intercept is $1 .$
+
+- Draw a point at 1 on the $y$-axis.
+
+- From this point, move 5 units to the right.
+
+- Now move upward 2 units and draw a point at this location. This point is on the line.
+
+- Draw a line through these two points. Figure 6.5: Graphing $y=\frac{2}{5} x+1$
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-089.jpg?height=169&width=223&top_left_y=278&top_left_x=395)
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-089.jpg?height=141&width=221&top_left_y=475&top_left_x=397)
+
+Now move upward
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-089.jpg?height=182&width=222&top_left_y=267&top_left_x=642)
+
+-
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-089.jpg?height=169&width=222&top_left_y=486&top_left_x=642)
+
+2. Construct the graph of $y=\frac{-4}{3} x+5$.
+
+- This line is in slope-intercept form. The slope is $\frac{-4}{3}$ and the $y$-intercept is $5 .$
+
+- Draw a point at 5 on the $y$-axis.
+
+- From this point, move 3 units to the right.
+
+- Now, because the numerator is negative, move downward 4 units and draw a point at this location. This point is on the line.
+
+- Draw a line through these two points. Figure 6.6: Graphing $y=\frac{-4}{3} x+5$
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-090.jpg?height=169&width=234&top_left_y=278&top_left_x=317)
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-090.jpg?height=195&width=232&top_left_y=462&top_left_x=319)
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-090.jpg?height=378&width=220&top_left_y=278&top_left_x=564)
+
+\section{Try These 3}
+
+1. Construct the graph of $y=\frac{1}{4} x+2$.
+
+2. Construct the graph of $y=\frac{2}{5} x-3$.
+
+3. Construct the graph of $y=\frac{-2}{3} x+6$
+
+4. Construct the graph of $y=2 x-3$.
+
+\subsubsection{Graphing lines using the} standard form $a x+b y=c$
+
+Lines that appear in standard form, $a x+b y=c$ can be graphed using the intercept method. To use the intercept method, you need to plot only two points, the $x$-intercept and the $y$-intercept.
+
+The $y$-intercept The $x$-coordinate of any point on the $y$-axis is 0 . Therefore to find the $y$-intercept, set $x=0$ in the equation and solve it for $y$.
+
+The $x$-intercept The $y$-coordinate of any point on the $x$-axis is 0 . Therefore to find the $x$-intercept, set $y=0$ in the equation and solve it for $x$. Figure 6.7: The $x$ - and $y$-intercepts
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-091.jpg?height=169&width=223&top_left_y=265&top_left_x=512)
+
+\section{Example $4 \quad$ Construct the graph of}
+
+$3 x+4 y=12 .$
+
+To find the intercepts, choose $x=0$ to get $y$, and choose $y=0$ to get $x$.
+
+Summarize this information in a table. We put an asterisk $(*)$ next to the 0 we chose
+
+$$
+\begin{array}{cccc}
+3 \cdot 0+4 y & =12 & & \\
+0+4 y & =12 & 3 x+4 \cdot 0 & =12 \\
+4 y & =12 & 3 x+0 & =12 \\
+y & =3 & 3 x & =12 \\
+& & x & =4
+\end{array}
+$$
+
+Figure 6.8: Graphing $3 x+4 y=12$
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-091.jpg?height=183&width=223&top_left_y=890&top_left_x=512)
+
+\section{Try These 4}
+
+1. Construct the graph of $5 x+2 y=10$.
+
+2. Construct the graph of $2 x-5 y=-10$.
+
+3. Construct the graph of $6 x-8 y=24$.
+
+4. Construct the graph of $x-y=5$.
+
+\subsection{Equations of Horizontal and Vertical Lines}
+
+Equations in which both variables appear have graphs that are slanted lines. Equations in which only one variable appears graph as either horizontal or vertical lines. Equations of horizontal and vertical lines involve only one variable.
+
+Example 5 Construct the graph of the horizontal line passing through 5 on the $y$-axis and the vertical line passing through 3 on the $x$-axis.
+
+Figure 6.9: Graphs of Horizontal and Vertical Lines
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-092.jpg?height=184&width=468&top_left_y=564&top_left_x=317)
+
+1. Notice that at every point on a horizontal line, the $y$-value is the same as the value of the $y$-intercept. Regardless of the value of $x, y$ is always the same. In this line, the $y$-value is always 5 . No matter what value $x$ is, $y=5$. This is the equation of the horizontal line passing through 5 on the $y$-axis.
+
+2. Notice that at every point on a vertical line, the $x$-value is the same as the value of the $x$-intercept. Regardless of the value of $y, x$ is always the same. In this line, the $x$-value is always 3 . No matter what value $y$ is, $x=3$. This is the equation of the horizontal line passing through 3 on the $x$-axis.
+
+\section{Try These 5}
+
+1. Construct the graph of $y=4$.
+
+2. Construct the graph of $x=7$.
+
+3. Construct the graph of $x=-5$.
+
+4. Construct the graph of $y=0$. Exercises 6 Find the slope of the line passing through the given two points.
+
+1. $(4,2)$ and $(7,1)$
+
+2. $(-3,5)$ and $(2,6)$
+
+3. $(-8,-2)$ and $(-2,-4)$
+
+4. $(-2,6)$ and $(5,13)$
+
+5. $(4,1)$ and $(4,5)$
+
+6. $(2,-5)$ and $(8,-5)$
+
+Find the equation of each line having the given characteristics.
+
+7. Slope is 4 and passes through the $y$-axis at 5
+
+8. Slope is $-7$ and $y$-intercept is $-1$
+
+9. Slope is 2 and passes through the point $(1,4)$
+
+10. Slope is $-1$ and passes the point $(-3,-6)$
+
+11. Slope is 1 and passes the point $(5,5)$
+
+12. Slope is 1 and passes the point $(0,0)$
+
+13. Slope is $-1$ and passes the point $(-3,3)$
+
+14. Slope is 0 and passes the point $(2,6)$
+
+15. Slope is undefined and passes the point $(2,6)$
+
+16. Passes through the points $(1,3)$ and $(4,12)$
+
+17. Passes through the points $(-2,-4)$ and $(4,-10)$
+
+18. The line is horizontal and passes through the $y$-axis at 5
+
+19. The line is vertical and passes through the $x$-axis at 5
+
+20. Passes through the points $(5,1)$ and $(5,6)$
+
+21. Passes through the points $(-4,2)$ and $(1,2)$
+
+Construct the graph of each line having the given characteristics.
+
+22. Slope is $-1 / 3$ and passes through the $y$-axis at 2
+
+23. Slope is $3 / 5$ and passes through the $y$-axis at $-3$
+
+24. Slope is $-2 / 5$ and passes through the $y$-axis at 2 25. Slope is 2 and has $y$-intercept $1 .$
+
+26. $y=\frac{1}{2} x-4$
+
+27. $3 x+5 y=15$
+
+28. $4 x-2 y=-12$
+
+29. $y=-3$
+
+30. $x=4$
+
+Answers to Try These 1
+
+1. $m=2 / 3$
+
+2. $m=2 / 5$
+
+3. $m=-7 / 9$
+
+4. $m$ is undefined
+
+5. $m=0$
+
+Answers to Try These 2
+
+1. $y=4 x+7$
+
+2. $y=-7 x+23$
+
+3. $y=-8 x-18$
+
+4. $y=2 x+2$
+
+5. $y=x$
+
+Answers to Try These 3 See graphs 1, 2, 3, and 4 .
+
+Answers to Try These 4 See graphs 5, 6, 7, and 8.
+
+Answers to Try These 5 See graphs $9,10,11$, and 12. Notice that the graph of $y=0$ is precisely the $x$-axis. The graphs of $y=0$ and $x=0$ can be difficult to see. Figure $6.10$ : The Try These Graphs
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-095.jpg?height=286&width=299&top_left_y=278&top_left_x=475)
+
+Figure 6.11: The Try These Graphs
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-095.jpg?height=288&width=312&top_left_y=668&top_left_x=473)
+
+Figure 6.12: The Try These Graphs
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-095.jpg?height=286&width=339&top_left_y=1059&top_left_x=460)
+
+
+
+\section{Chapter 7}
+
+\section{Reviewing Radical Expressions and Equations}
+
+In this chapter you review the standard rules of radicals and a method of solving equations involving square roots.
+
+\subsection{Roots and Radicals}
+
+\subsubsection{Squares}
+
+Squaring a number means to multiply it by itself. For example,
+
+$$
+\begin{aligned}
+&\text { 1. } 2^{2}=2 \cdot 2=4 \quad \text { and } \\
+&(-2)^{2}=(-2) \cdot(-2)=4 \\
+&\text { 2. } 3^{2}=3 \cdot 3=9 \quad \text { and } \\
+&(-3)^{2}=(-3) \cdot(-3)=9 \\
+&\text { 3. } 4^{2}=4 \cdot 4=16 \quad \text { and } \\
+&(-4)^{2}=(-4) \cdot(-4)=16 \\
+&\text { 4. } 0^{2}=0 \cdot 0=0
+\end{aligned}
+$$
+
+Squaring a number always produces 0 or a positive number, never a negative number
+
+$$
+\begin{aligned}
+&(+)^{2}=(+) \cdot(+)=(+) \\
+&(-)^{2}=(-) \cdot(-)=(+)
+\end{aligned}
+$$
+
+Each positive number can be produced by squaring both a positive and a negative number. For example, the positive number 25 can be produced by squaring both 5 and $-5 .$ Figure 7.1: Squaring 5 and $-5$ to produce 25
+
+![](https://cdn.mathpix.com/cropped/2022_01_17_2abf374d17b8cd9b1edfg-097.jpg?height=180&width=223&top_left_y=254&top_left_x=512)
+
+\subsubsection{Square Roots}
+
+The opposite of squaring a number is square-rooting a number. Square-rooting a number brings you back to the two numbers from which the square stems. The two numbers that are squared to produce a square are called the square roots of that number. Every positive number has two square roots, one positive and one negative.
+
+To indicate the positive square root of a number, use the symbol $\sqrt{ } .$
+
+To indicate the negative square root of a number, use the symbol $-\sqrt{4}$.
+
+\section{Example 1}
+
+1. $\sqrt{16}=4$ and $-\sqrt{16}=-4$
+
+2. $\sqrt{9}=3$ and $-\sqrt{9}=-3$
+
+3. $\sqrt{4}=2$ and $-\sqrt{4}=-2$
+
+4. $\sqrt{-25}$ does not represent a real number. No real number squared produces a negative number.
+
+The number represented by $a^{2}$ is either 0 or positive. We use this fact to define a square root.
+
+Definition 1 If $a$ and $b$ represent the number 0 or any positive real numbers, then the statement
+
+$$
+\sqrt{a}=b \quad \text { means } \quad b^{2}=a
+$$
+
+This means that the number $b$ is the square root of the number $a$ and that $b^{2}=a$.
+
+\section{Example 2}
+
+1. $\sqrt{25}=5$ since $5^{2}=25$
+
+5 is the square root of 25 since $5^{2}=25$
+
+2. $\sqrt{36}=6$ since $6^{2}=36$
+
+6 is the square root of 36 since $6^{2}=36$
+
+3. $\sqrt{49}=7$ since $7^{2}=49$
+
+7 is the square root of 49 since $7^{2}=49$
+
+4. $-\sqrt{49}=-7 .-\sqrt{49}$ represents the negative square root of $49 .$ Since $\sqrt{49}=7$, $-\sqrt{49}=-7$
+
+\subsection{Higher Degree Roots}
+
+1. Squaring a number means raising the number to the second power.
+
+The square root of a number $a$ is a number that when squared produces the number a. $\sqrt{a}=b$ if $b^{2}=a \cdot \sqrt{81}=9$ since $9^{2}=81$.
+
+2. Cubing a number means raising the number to the third power.
+
+The cube root of a number $a$ is a number that when cubed produces the number $a$.
+
+$$
+\begin{aligned}
+&\sqrt[3]{a}=b \text { if } b^{3}=a . \\
+&\sqrt[3]{64}=4 \text { since } 4^{3}=64 .
+\end{aligned}
+$$
+
+3. Raising the number $a$ to the fourth power is represented by $a^{4}$.
+
+The fourth root of a number $a$ is a number that when raised to the fourth power produces the number $a$.
+
+$$
+\sqrt[4]{a}=b \text { if } b^{4}=a
+$$
+
+$$
+\sqrt[4]{16}=2 \text { since } 2^{4}=16 .
+$$
+
+4. Raising the number $a$ to the $n^{\text {th }}$ power is represented by $a^{n}$.
+
+The $n^{\text {th }}$ root of a number $a$ is a number that when raised to the $n^{\text {th }}$ power produces the number $a$.
+
+$$
+\sqrt[n]{a}=b \text { if } b^{n}=a .
+$$
+
+$$
+\sqrt[n]{16}=b \text { means that } b^{n}=16
+$$
+
+The number in the corner of the radical sign is called the index of the radical and it signifies which root is being taken.
+
+1. $\sqrt{a}=\sqrt[2]{a}$ signifies the square root of the number $a$. The index is 2 .
+
+2. $\sqrt[5]{a}$ signifies the fifth root of the number $a$. The index is 5 .
+
+3. $\sqrt[6]{a}$ signifies the sixth root of the number $a$. The index is 6 .
+
+Just like with square roots, even roots of negative numbers do not represent real numbers. $\sqrt[4]{-16}$ does not represent a real number.
+
+$$
+\begin{aligned}
+&(+)^{4}=(+)(+)(+)(+)=(+) \\
+&(-)^{4}=(-)(-)(-)(-)=(+)
+\end{aligned}
+$$
+
+The product of an even number of positive numbers or an even number of negative numbers is always positive, never negative.
+
+Odd roots of negative numbers do exist and they are negative numbers.
+
+$$
+\sqrt[3]{-8}=-2 \quad \text { since } \quad(-2)^{3}=-8
+$$
+
+Try These 1 Find each root, if it exists. If it does not exist, state "not a real number."
+
+1. $\sqrt[4]{16}$
+
+2. $\sqrt[3]{27}$
+
+3. $\sqrt[5]{32}$
+
+4. $\sqrt[3]{-64}$
+
+5. $\sqrt{100}$
+
+6. $\sqrt{-81}$
+
+7. $\sqrt[6]{-25}$
+
+8. $-\sqrt{36}$
+
+9. $-\sqrt[4]{16}$
+
+\subsection{Rational Exponents and Radical Expressions}
+
+In the expression $x^{n}$, the exponent $n$ records the number of times the base $x$ appears in a multiplication.
+
+$$
+x^{3}=x \cdot x \cdot x \quad x^{4}=x \cdot x \cdot x \cdot x \quad x^{5}=x \cdot x \cdot x \cdot x \cdot x
+$$
+
+Although rational (fractional) exponents can represent real numbers, they do not record the number of times the base appears in a multiplication. Rational exponents are defined so that their properties are the same as the properties for integer exponents.
+
+Definition 2 Rational Exponents with Numerator 1
+
+If $\sqrt[n]{a}$, where the index $n$ is an integer greater than or equal to 2, then
+
+$$
+a^{1 / n}=\sqrt[n]{a}
+$$
+
+The denominator of the exponent is the index of the radical.
+
+Example 3 Convert each rational exponent form to its corresponding radical form. Find the root, if it exists. If it does not exist, state "not a real number."
+
+1. $a^{1 / 3}=\sqrt[3]{a}$
+
+2. $a^{1 / 4}=\sqrt[4]{a}$
+
+3. $8^{1 / 3}=\sqrt[3]{8}=2$
+
+4. $81^{1 / 4}=\sqrt[4]{81}=3$
+
+5. $(-125)^{1 / 3}=\sqrt[3]{-125}=-5$
+
+6. $(-64)^{1 / 2}=\sqrt[2]{-64}$ and is not a real number
+
+Try These 2 Convert each rational exponent form to its corresponding radical form Find the root, if it exists. If it does not exist, state "not a real number."
+
+1. $a^{1 / 5}$
+
+2. $x^{1 / 6}$
+
+3. $25^{1 / 2}$
+
+4. $49^{1 / 2}$
+
+5. $(-8)^{1 / 3}$
+
+6. $(-100)^{1 / 2}$ The definition above was restricted to a rational exponent having a numerator of $1 .$ They can be defined more generally with any integer as the numerator.
+
+\section{Definition 3 Rational Exponents}
+
+If $m / n$ is a positive rational number that is reduced to lowest terms then
+
+$$
+a^{m / n}=(\sqrt[n]{a})^{m} \quad \text { or } \quad a^{m / n}=\sqrt[n]{(a)^{m}}
+$$
+
+The denominator of the exponent is the index of the radical and the numerator is the power to which the radical or base is raised.
+
+The expression $(\sqrt[n]{a})^{m}$ directs us to find the $n^{\text {th }}$ root first, then raise that number to the $m^{\text {th }}$ power.
+
+$$
+\begin{aligned}
+16^{3 / 2} &=(\sqrt[2]{16})^{3} \\
+&=4^{3} \\
+&=64
+\end{aligned}
+$$
+
+The expression $\sqrt[n]{(a)^{m}}$ directs us to first raise $a$ to the $m^{\text {th }}$ power and then to find the $n^{\text {th }}$ root of that number.
+
+$$
+\begin{aligned}
+16^{3 / 2} &=\sqrt[2]{(16)^{3}} \\
+&=\sqrt[2]{4096} \\
+&=64
+\end{aligned}
+$$
+
+When working with numbers, the $a^{m / n}=(\sqrt[n]{a})^{m}$ form is more readily computable. When working with variables, the $a^{m / n}=\sqrt[n]{(a)^{m}}$ form is efficient.
+
+Example 4 Convert each rational exponent form to its corresponding radical form. Find the root, if it exists. If it does not exist, state "not a real number."
+
+1. $a^{5 / 3}=\sqrt[3]{a^{5}}$
+
+2. $a^{3 / 4}=\sqrt[4]{a^{3}}$
+
+3. $8^{5 / 3}=(\sqrt[3]{8})^{5}=2^{5}=32$
+
+4. $81^{3 / 4}=(\sqrt[4]{81})^{3}=3^{3}=27$
+
+5. $(-125)^{2 / 3}=(\sqrt[3]{-125})^{2}=(-5)^{2}=25$
+
+6. $(-64)^{5 / 2}=(\sqrt[2]{-64})^{5}$ is not a real number Try These 3 Convert each rational exponent form to its corresponding radical form. Find the root, if it exists. If it does not exist, state "not a real number."
+
+1. $a^{2 / 5}$
+
+2. $x^{5 / 6}$
+
+3. $25^{3 / 2}$
+
+4. $27^{4 / 3}$
+
+5. $(-8)^{2 / 3}$
+
+6. $(-16)^{5 / 2}$
+
+\subsection{Solving Radical Equations}
+
+A radical equation is an equation that involves a variable under at least one radical. You have some experience solving equations.
+
+You know that
+
+1. Addition and subtraction are opposite operations and one undoes the effect of the other.
+
+2. Multiplication and division are opposite operations and one undoes the effect of the other.
+
+In a similar way, roots and powers are opposite operations and one undoes the effect of the other.
+
+\section{Example 5}
+
+1. Start with some number, say $16 .$ Add 5 to it. Now "undo" that addition by subtracting 5 . You are back to 16 .
+
+$$
+\begin{gathered}
+16 \\
+16+5 \\
+16+5-5
+\end{gathered}
+$$
+
+$$
+16
+$$
+
+2. Start with some number, say 16 . Multiply it by 5 . Now "undo" that multiplication by dividing by $5 .$ You are back to 16 .
+
+$$
+16 \cdot 5
+$$
+
+$$
+5 \cdot 16 / 5
+$$
+
+$$
+16
+$$
+
+3. Start with some number, say 16. Take its square root. Now "undo" that square root by squaring it. You are back to $16 .$
+
+$$
+\begin{gathered}
+16 \\
+\sqrt{16} \\
+(\sqrt{16})^{2} \\
+(4)^{2} \\
+16
+\end{gathered}
+$$
+
+\subsubsection{Extraneous solutions}
+
+We solve a radical equation that involves square roots by squaring both sides of the equation. Squaring undoes the square root and provides a simplified version of the original equation. But when we raise both sides of an equation to an even power (like 2 , 4,6 , etc), we run the chance of introducing extraneous solutions. Extraneous solutions are solutions to a simplified version of an original equation but not to the equation itself.
+
+Example 6 Start with the equation
+
+$$
+x=5
+$$
+
+This equation has exactly one solution, 5. Now square both sides.
+
+$$
+\begin{aligned}
+x &=5 \\
+x^{2} &=5^{2} \\
+x^{2} &=25
+\end{aligned}
+$$
+
+Now solve this equation by, say, factoring.
+
+$$
+\begin{aligned}
+x^{2} &=25 \\
+x^{2}-25 &=0 \\
+(x+5)(x-5) &=0
+\end{aligned}
+$$
+
+There are two solutions to this equation, $-5$ and $5 .$ But $-5$ is an extraneous solution, it is not a solution to the original equation $x=5$.
+
+When solving an equation that involves a square root radical, it is a must to check for extraneous solutions. Do so by substituting each potential solution into the original square root equation and checking for a true or false statement.
+
+\subsubsection{Solving an equation involving square roots}
+
+To solve an equation that involves a square root radical,
+
+1. Isolate the square root radical on one side of the equation
+
+2. Undo the square root by squaring both sides of the equation
+
+3. Solve the remaining linear or quadratic equation
+
+4. Check the solution to the linear or quadratic equation in the original radical equation (a must)
+
+\section{Example 7}
+
+1. Solve $\sqrt{5 x-1}-5=-2$.
+
+Begin by isolating the radical. Add 5 to both sides.
+
+$$
+\begin{aligned}
+\sqrt{5 x-1}-5 &=-2 \\
+\sqrt{5 x-1}-5+5 &=-2+5 \\
+\sqrt{5 x-1} &=3
+\end{aligned}
+$$
+
+Undo the square root by squaring both sides.
+
+$$
+\begin{aligned}
+(\sqrt{5 x-1})^{2} &=3^{2} \\
+5 x-1 &=9
+\end{aligned}
+$$
+
+Solve this linear equation.
+
+$$
+\begin{aligned}
+5 x-1+1 &=9+1 \\
+5 x+0 &=10 \\
+5 x &=10 \\
+\frac{5 x}{5} &=\frac{10}{5} \\
+x &=2
+\end{aligned}
+$$
+
+Check this potential solution in the original radical equation.
+
+$$
+\begin{array}{rll}
+\sqrt{5 x-1}-5 & = & -2 \\
+\sqrt{5 \cdot 2-1}-5 & \stackrel{?}{=} & -2 \\
+\sqrt{10-1}-5 & \stackrel{?}{=} & -2 \\
+\sqrt{9}-5 & \stackrel{?}{=} & 3 \\
+3-5 & \stackrel{?}{=} & -2 \\
+-2 & \stackrel{ }{=} & -2
+\end{array}
+$$
+
+The solution checks so we conclude that the solution to the original radical equation is 2 .
+
+2. Solve $\sqrt{5 y+3}-\sqrt{6 y+2}=0$.
+
+Begin by isolating the radical. Add $\sqrt{6 y+2}$ to both sides.
+
+$$
+\begin{aligned}
+\sqrt{5 y+3}-\sqrt{6 y+2} &=0 \\
+\sqrt{5 y+3}-\sqrt{6 y+2}+\sqrt{6 y+2} &=0+\sqrt{6 y+2} \\
+\sqrt{5 y+3} &=\sqrt{6 y+2}
+\end{aligned}
+$$
+
+Undo the square root by squaring both sides.
+
+$$
+\begin{aligned}
+(\sqrt{5 y+3})^{2} &=(\sqrt{6 y+2})^{2} \\
+5 y+3 &=6 y+2
+\end{aligned}
+$$
+
+Solve this linear equation.
+
+$$
+\begin{aligned}
+5 y+3 &=6 y+2 \\
+3 &=y+2 \\
+1 &=y
+\end{aligned}
+$$
+
+Check this potential solution in the original radical equation.
+
+If $y=1$,
+
+$$
+\begin{array}{r}
+\sqrt{5 y+3}-\sqrt{6 y+2}=0 \\
+\sqrt{5 \cdot 1+3}-\sqrt{6 \cdot 1+2} \stackrel{?}{=} 0 \\
+\sqrt{8}-\sqrt{8} \stackrel{?}{=} 0 \\
+0 \stackrel{=}{0}
+\end{array}
+$$
+
+The solution checks so we conclude that the solution to the original radical equation is 1 .
+
+\section{Try These 4}
+
+1. Solve $\sqrt{3 x-10}-x=0$
+
+2. Solve $\sqrt{4 x+5}-\sqrt{7 x-10}=0$
+
+3. Solve $\sqrt{4 x+2}+7=0$
+
+\subsubsection{Radical equations involving binomials}
+
+Solving a radical equation can involve squaring a binomial. Remember the process for doing this.
+
+You know that a binomial is composed of two terms. To square a binomial, that is, to raise a binomial to a second power,
+
+square the first term
+
+multiply the two terms together and double the result
+
+square the last term
+
+add these three terms together.
+
+Example $8 \quad$ Expand $(x-7)^{2}$
+
+The first term is $x$
+
+The second term is $-7$
+
+Square the first term: $x^{2}$
+
+Multiply the two terms together: $-7 \cdot x=-7 x$.
+
+Double this result: $2 \cdot(-7 x)=-14 x$
+
+Square the last term: $(-7)^{2}=49$.
+
+So, $(x-7)^{2}=x^{2}-14 x+49$
+
+Example $9 \quad$ Solve $\sqrt{x-1}=x-7$
+
+The radical is already isolated. Undo the square root by squaring both sides.
+
+$$
+\begin{aligned}
+(\sqrt{x-1})^{2} &=(x-7)^{2} \\
+x-1 &=x^{2}-2 \cdot 7 x+7^{2} \\
+x-1 &=x^{2}-14 x+49
+\end{aligned}
+$$
+
+Solve this quadratic equation.
+
+$$
+\begin{aligned}
+x-1 &=x^{2}-14 x+49 \\
+0 &=x^{2}-15 x+50 \\
+0 &=(x-5)(x-10) \\
+x &=5,10
+\end{aligned}
+$$
+
+Check these two potential solutions in the original radical equation.
+
+$\begin{array}{cccc}\text { If } x & =5, & \text { and } & \text { If } x & =10 \\ \sqrt{x-1} & =x-7 & \sqrt{x-1} & =x-7 \\ \sqrt{5-1} & \stackrel{?}{=} 5-7 & \sqrt{10-1} & \stackrel{?}{=} 10-7 \\ \sqrt{4} & \stackrel{?}{=}-2 & \sqrt{9} & \stackrel{?}{=} 3 \\ 2 & \neq-2 & 3 \text { =3 } & \end{array}$
+
+Now, $x=10$ checks and is a solution, but $x=5$ does not check so is not a solution. The solution to this equation is 10 .
+
+\section{Try These 5}
+
+1. Solve $\sqrt{2 x+15}=x+6$
+
+\subsubsection{Radical equations involving two square roots}
+
+Solving a radical equation can involve squaring twice.
+
+\section{Example $10 \quad$ Solve $\sqrt{2 x-5}-\sqrt{x+1}=1$}
+
+Begin by isolating the radical. Add $\sqrt{x+1}$ to both sides
+
+$$
+\begin{aligned}
+\sqrt{2 x-5}-\sqrt{x+1} &=1 \\
+\sqrt{2 x-5}-\sqrt{x+1}+\sqrt{x+1} &=1+\sqrt{x+1} \\
+\sqrt{2 x-5} &=1+\sqrt{x+1}
+\end{aligned}
+$$
+
+Undo the square root by squaring both sides.
+
+$$
+\begin{aligned}
+(\sqrt{2 x-5})^{2} &=(1+\sqrt{x+1})^{2} \\
+2 x-5 &=1^{2}+2 \cdot 1 \cdot(\sqrt{x+1})^{2} \\
+2 x-5 &=1+2 \sqrt{x+1}+x+1
+\end{aligned}
+$$
+
+Simplify the right side.
+
+$$
+2 x-5=x+2+2 \sqrt{x+1}
+$$
+
+The equation still involves a radical. We'll have to isolate it and square again. Subtract $x$ and subtract 2 from both sides to isolate the square root.
+
+$$
+x-7=2 \sqrt{x+1}
+$$
+
+Undo the square root by squaring both sides.
+
+$$
+\begin{aligned}
+(x-7)^{2} &=(2 \sqrt{x+1})^{2} \\
+x^{2}-14 x+49 &=4(x+1) \\
+x^{2}-14 x+49 &=4 x+4
+\end{aligned}
+$$
+
+Solve this quadratic equation.
+
+$$
+\begin{array}{rc}
+x^{2}-18 x+45 & = & 0 \\
+(x-3)(x-15) & = & 0 \\
+x= & 3,15
+\end{array}
+$$
+
+Check these two potential solutions in the original radical equation.
+
+$$
+\begin{array}{rl}
+\text { If } x=3, & \\
+\sqrt{2 \cdot 3-5}-\sqrt{3+1} & \stackrel{?}{=} \\
+\sqrt{6-5}-\sqrt{4} & \stackrel{?}{=} \\
+\sqrt{1}-\sqrt{4} & \stackrel{?}{=} \\
+1-2 & \stackrel{?}{=} \\
+-1 & 1 \\
+\text { If } x=1 & 1 \\
+\sqrt{2 \cdot 15-5}-\sqrt{15+1} & \stackrel{?}{=} & 1 \\
+\sqrt{30-5}-\sqrt{16} & \stackrel{?}{=} & 1 \\
+\sqrt{25}-\sqrt{16} & \stackrel{?}{=} & 1 \\
+5-4 & \stackrel{?}{=} & 1 \\
+1 & \stackrel{?}{=} & 1 \\
+\stackrel{ }{=} 1 & &
+\end{array}
+$$
+
+Now, $x=15$ checks and is a solution, but $x=3$ does not check so is not a solution. The solution to this equation is 15 .
+
+\section{Try These 6}
+
+1. Solve $\sqrt{2 x+2}-\sqrt{x-3}=2$
+
+\section{Exercises 7}
+
+1. True or False: $\sqrt{36}=6,-6$
+
+2. True or False: Radicals with an even numbered index do not represent real numbers.
+
+3. True or False: Every positive real number has two square roots, one positive and one negative.
+
+4. Simplify, if possible $\sqrt[3]{64}$
+
+5. Simplify, if possible $\sqrt[5]{32}$
+
+6. Simplify, if possible $\sqrt[3]{-64}$
+
+7. Simplify, if possible $\sqrt[4]{-16}$
+
+8. Write $\sqrt[3]{x}$ using rational exponents
+
+9. Write $\sqrt[5]{x^{3}}$ using rational exponents
+
+10. Write $x^{2 / 5}$ in radical form
+
+11. Write $10^{3 / 4}$ in radical form
+
+12. Find the value of $27^{2 / 3}$
+
+13. Find the value of $64^{3 / 2}$
+
+14. Find the value of $(-16)^{1 / 4}$
+
+15. Find the value of $(-32)^{2 / 5}$
+
+Solve each equation.
+
+16. $\sqrt{2 x+3}=3$
+
+17. $\sqrt{6 x+7}-x=0$
+
+18. $\sqrt{6 x-11}-\sqrt{3 x+7}=0$
+
+19. $\sqrt{4 x+3}+5=0$
+
+20. $\sqrt{4 x+13}=x+4$
+
+21. $\sqrt{x^{2}+5}-x=5$ 22. $3 x+5=\sqrt{3 x+7}$
+
+23. $\sqrt{x+2}=\sqrt{x-6}+2$
+
+24. $\sqrt{4-7 x}-8=x$
+
+25. $\sqrt{x+\sqrt{x+3}}=3$
+
+\subsection{Answers to the Try These Exercises}
+
+Answers to Try These 1 Find each root, if it exists. If it does not exist, state "not a real number."
+
+1. $\sqrt[4]{16}=2$ since $2^{4}=16$
+
+2. $\sqrt[3]{27}=3$ since $3^{3}=27$
+
+3. $\sqrt[5]{32}=2$ since $2^{5}=32$
+
+4. $\sqrt[3]{-64}=-4$ since $(-4)^{3}=-64$
+
+5. $\sqrt{100}=10$ since $10^{2}=100$
+
+6. $\sqrt{-81}$ is not a real number
+
+7. $\sqrt[6]{-25}$ is not a real number
+
+8. $-\sqrt{36}=-6$
+
+9. $-\sqrt[4]{16}=-2$
+
+Answers to Try These 2 Convert each rational exponent form to its corresponding radical from. Find the root, if it exists. If it does not exist, state "not a real number."
+
+1. $a^{1 / 5}=\sqrt[5]{a}$
+
+2. $x^{1 / 6}=\sqrt[6]{x}$
+
+3. $25^{1 / 2}=\sqrt[2]{25}=5$
+
+4. $49^{1 / 2}=\sqrt[2]{49}=7$
+
+5. $(-8)^{1 / 3}=\sqrt[3]{-8}=-2$
+
+6. $(-100)^{1 / 2}=\sqrt{-100}$ which is not a real number Answers to Try These 3
+
+1. $a^{2 / 5}=\sqrt[5]{a^{2}}$
+
+2. $x^{5 / 6}=\sqrt[6]{x^{5}}$
+
+3. $25^{3 / 2}=(\sqrt[2]{25})^{3}=5^{3}=125$
+
+4. $27^{4 / 3}=(\sqrt[3]{27})^{4}=3^{4}=81$
+
+5. $(-8)^{2 / 3}=(\sqrt[3]{-8})^{2}=(-2)^{2}=4$
+
+6. $(-16)^{5 / 2}=(\sqrt[2]{-16})^{5}$ is not a real number
+
+Answers to Try These 4
+
+1. No solution
+
+2. $x=5$
+
+3. No solution
+
+Answers to Try These $5 \quad x=-3 .-7$ is extraneous.
+
+Answers to Try These $6 \quad x=7$.
+\end{document} 
